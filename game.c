@@ -21,7 +21,25 @@
 
 extern const char * data_path;
 
-char * retort_name[RT_NUM]={"Alchemy","Warlord","Channeler","Archmage","Artificier","Conjurer","Sage Master","Myrran","Divine Power","Infernal Power","Famous","Runemaster","Charismatic","Chaos Mastery","Nature Mastery","Sorcery Mastery","Mana Focusing","Node Mastery"};
+char * retort_name[RT_NUM]={
+			"Alchemy",
+			"Warlord",
+			"Channeler",
+			"Archmage",
+			"Artificier",
+			"Conjurer",
+			"Sage Master",
+			"Myrran",
+			"Divine Power",
+			"Infernal Power",
+			"Famous",
+			"Runemaster",
+			"Charismatic",
+			"Chaos Mastery",
+			"Nature Mastery",
+			"Sorcery Mastery",
+			"Mana Focusing",
+			"Node Mastery"};
 
 wizard_t default_wizard[WIZARD_NUM]={
 	{"Merlin",{5,0,5,0,0},SET_RT(RT_SAGE_MASTER),0},
