@@ -1,6 +1,6 @@
 /*
    Open MoM is a free implementation of classical game Mater of Magic.
-   Copyright (C) 2013 bobz38@free.fr
+   Copyright (C) 2013 carabobz@gmail.com
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
