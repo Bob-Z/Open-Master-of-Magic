@@ -1,0 +1,497 @@
+	Modifying Master of Magic
+		    Kenneth M. Dale	Rev. C	1/21/99
+
+1.  Introduction
+
+The computer files of Master of Magic (MOM) contain a vast amount of data on
+the various units, races and spells in the game.  This document lists the
+addresses of the unit and race data and enchantment upkeep costs in the
+WIZARDS.EXE file for MOM version 1.3.1.  Earlier MOM versions have the same
+or similar data, but at different addresses.  It is possible to change the
+attributes of units and races, and costs of units and spells in the game by
+changing certain bytes in the file.
+
+In order to make the changes, you will need an editor program for binary
+files.  These programs are often called "hex editors" because the data bytes
+and addresses are listed as hexadecimal (base 16) numbers.  If you are not
+familiar with hex editors, try getting help from an experienced programmer.
+Also, be sure to make a backup of WIZARDS.EXE before modifying it.  You can
+copy WIZARDS.EXE to any file name for backup, but beware of using WIZARDS.BAK
+as the name.  Some editors will automatically overwrite WIZARDS.BAK every
+time you save.  To check your work you can use the DOS or Windows FC program
+to do a binary comparison of your backup file and your edited file.  The
+command FC /B WIZARDS.131 WIZARDS.EXE >WIZCHNG.TXT or similar should list
+your changes to a text file.
+
+As an example of what to do, let's say that we think Minotaurs would look
+more impressive with 4 figures instead of 2, but we had better reduce some of
+their stats for game balance.  Looking at the Beastmen normal units, we find
+that the data for Minotaurs start at 029E1C.  We will change the + to hit
+(byte 6) to zero, the hit points per figure (byte 12) to 6 and the number of
+figures (byte 15) to 4.  Using hexadecimal addition to find the addresses, we
+change byte 029E22 from 02 to 00, byte 029E2E from 0C to 06, and byte 029E31
+from 02 to 04.  When we save the file and restart MOM, we find that Minotaur
+units (including those in previously saved games) now have 4 figures.
+
+*****************************************************************************
+
+2.  Copyright Information and Disclaimer
+
+Master of Magic is copyright 1994 by Microprose.  The information in this
+document is completely unofficial, and is intended for non-commercial use
+only.  Microprose has consented to the publication of this information, but
+this consent should not in any way be construed as an endorsement of this
+document.
+
+The author makes no warranty, either express or implied, as to the accuracy,
+effectiveness or completeness of the material in this document; nor does the
+author assume liability for damages, either incidental or consequential,
+that may result from using the information in this document.
+
+*****************************************************************************
+
+3.  Unit Data Locations - Heroes
+
+Hero type	Data start	Hero type	Data start
+
+Dwarf		 02963C		Witch		 0298C4
+Barbarian	 029660		Golden One	 0298E8
+Sage		 029684		Ninja		 02990C
+Dervish		 0296A8		Rogue		 029930
+Beastmaster	 0296CC		Amazon		 029954
+Bard		 0296F0		Warlock		 029978
+Orc Warrior	 029714		Unknown		 02999C
+Healer		 029738		Illusionist	 0299C0
+Huntress	 02975C		Swordsman	 0299E4
+Thief		 029780		Priestess	 029A08
+Druid		 0297A4		Paladin		 029A2C
+War Monk	 0297C8		Black Knight	 029A50
+Warrior Mage	 0297EC		Elven Archer	 029A74
+Magician	 029810		Knight		 029A98
+Assassin	 029834		Necromancer	 029ABC
+Wind Mage	 029858		Chaos Warrior	 029AE0
+Ranger		 02987C		Chosen		 029B04
+Draconian	 0298A0
+
+*****************************************************************************
+
+4.  Unit Data Locations - Normal Units
+
+Generic unit	Data start	High Elf unit	Data start
+
+Trireme		 029B28		Spearmen	 02A398
+Galley		 029B4C		Swordsmen	 02A3BC
+Catapult	 029B70		Halberdiers	 02A3E0
+Warship		 029B94		Cavalry		 02A404
+				Magicians	 02A428
+Barbarian unit	Data start	Settlers	 02A44C
+				Longbowmen	 02A470
+Spearmen	 029BB8		Elven Lords	 02A494
+Swordsmen	 029BDC		Pegasai		 02A4B8
+Bowmen		 029C00
+Cavalry		 029C24		High Men unit	Data start
+Shaman		 029C48
+Settlers	 029C6C		Spearmen	 02A4DC
+Berserkers	 029C90		Swordsmen	 02A500
+				Bowmen		 02A524
+Beastmen unit	Data start	Cavalry		 02A548
+				Priests		 02A56C
+Spearmen	 029CB4		Magicians	 02A590
+Swordsmen	 029CD8		Engineers	 02A5B4
+Halberdiers	 029CFC		Settlers	 02A5D8
+Bowmen		 029D20		Pikemen		 02A5FC
+Priests		 029D44		Paladins	 02A620
+Magicians	 029D68
+Engineers	 029D8C		Klackon unit	Data start
+Settlers	 029DB0
+Centaurs	 029DD4		Spearmen	 02A644
+Manticores	 029DF8		Swordsmen	 02A668
+Minotaurs	 029E1C		Halberdiers	 02A68C
+				Engineers	 02A6B0
+Dark Elf unit	Data start	Settlers	 02A6D4
+				Stag Beetle	 02A6F8
+Spearmen	 029E40
+Swordsmen	 029E64		Lizardman unit	Data start
+Halberdiers	 029E88
+Cavalry		 029EAC		Spearmen	 02A71C
+Priests		 029ED0		Swordsmen	 02A740
+Settlers	 029EF4		Halberdiers	 02A764
+Nightblades	 029F18		Javelineers	 02A788
+Warlocks	 029F3C		Shaman		 02A7AC
+Nightmares	 029F60		Settlers	 02A7D0
+				Dragon Turtle	 02A7F4
+Draconian unit	Data start
+				Nomad unit	Data start
+Spearmen	 029F84
+Swordsmen	 029FA8		Spearmen	 02A818
+Halberdiers	 029FCC		Swordsmen	 02A83C
+Bowmen		 029FF0		Bowmen		 02A860
+Shaman		 02A014		Priests		 02A884
+Magicians	 02A038		Magicians	 02A8A8
+Engineers	 02A05C		Settlers	 02A8CC
+Settlers	 02A080		Horsebowmen	 02A8F0
+Doom Drakes	 02A0A4		Pikemen		 02A914
+Air Ship	 02A0C8		Rangers		 02A938
+				Griffins	 02A95C
+Dwarven unit	Data start
+				Orc unit	Data start
+Swordsmen	 02A0EC
+Halberdiers	 02A110		Spearmen	 02A980
+Engineers	 02A134		Swordsmen	 02A9A4
+Hammerhands	 02A158		Halberdiers	 02A9C8
+Steam Cannon	 02A17C		Bowmen		 02A9EC
+Golem		 02A1A0		Cavalry		 02AA10
+Settlers	 02A1C4		Shaman		 02AA34
+				Magicians	 02AA58
+Gnoll unit	Data start	Engineers	 02AA7C
+				Settlers	 02AAA0
+Spearmen	 02A1E8		Wyvern Riders	 02AAC4
+Swordsmen	 02A20C
+Halberdiers	 02A230		Troll unit	Data start
+Bowmen		 02A254
+Settlers	 02A278		Spearmen	 02AAE8
+Wolf Riders	 02A29C		Swordsmen	 02AB0C
+				Halberdiers	 02AB30
+Halfling unit	Data start	Shaman		 02AB54
+				Settlers	 02AB78
+Spearmen	 02A2C0		War Trolls	 02AB9C
+Swordsmen	 02A2E4		War Mammoths	 02ABC0
+Bowmen		 02A308
+Shaman		 02A32C
+Settlers	 02A350
+Slingers	 02A374
+
+*****************************************************************************
+
+5.  Unit Data Locations - Summoned Units
+
+Magic Spirit	 02ABE4		Unicorns	 02AED8
+				Guardian Spirit	 02AEFC
+Hell Hounds	 02AC08		Angel		 02AF20
+Gargoyles	 02AC2C		Arch Angel	 02AF44
+Fire Giant	 02AC50
+Fire Elemental	 02AC74		War Bears	 02AF68
+Chaos Spawn	 02AC98		Sprites		 02AF8C
+Chimera		 02ACBC		Cockatrices	 02AFB0
+Doom Bat	 02ACE0		Basilisk	 02AFD4
+Efreet		 02AD04		Giant Spiders	 02AFF8
+Hydra		 02AD28		Stone Giant	 02B01C
+Great Drake	 02AD4C		Colossus	 02B040
+				Gorgons		 02B064
+Skeletons	 02AD70		Earth Elemental	 02B088
+Ghouls		 02AD94		Behemoth	 02B0AC
+Night Stalker	 02ADB8		Great Wyrm	 02B0D0
+Werewolves	 02ADDC
+Demon		 02AE00		Floating Island	 02B0F4
+Wraiths		 02AE24		Phantom Beast	 02B118
+Shadow Demons	 02AE48		Phantom Warriors 02B13C
+Death Knights	 02AE6C		Storm Giant	 02B160
+Demon Lord	 02AE90		Air Elemental	 02B184
+Zombies		 02AEB4		Djinn		 02B1A8
+				Sky Drake	 02B1CC
+				Nagas		 02B1F0
+
+*****************************************************************************
+
+6.  Unit Structure Byte Descriptions
+
+0,1	Pointer to name of unit type (note 1)
+  2	Melee attack strength
+  3	Ranged attack strength
+  4	Ranged attack type (table 1)
+  5	Ranged attack number of shots
+  6	Plus to hit
+  7	Defense
+  8	Resistance
+  9	Movement rate (in units of 1/2 MP)
+A,B	Heroes: cost to hire (note 2)  Normal units: cost to build  Summoned
+	units: cost to place in lair, node or rampaging force (note 3)
+  C	Summoned units: upkeep cost  Others: not used (note 4)
+  D	Race code (table 2)
+E,F	Normal units: buildings required (table 3)  Others: note 5
+ 10	Heroes: type code?  Others: ???
+ 11	00
+ 12	Hit points (hearts) per figure
+ 13	Scouting range
+ 14	Transport capacity (number of units carried)
+ 15	Number of figures in the unit
+ 16	Construction capacity (road building)
+ 17	Special attack or bonus strength
+ 18	Movement flags (table 4)
+ 19	00
+ 1A	Immunity flags (table 5)
+ 1B	Attribute flags (table 6)
+ 1C	Attribute flags (table 7)
+ 1D	00
+ 1E	Attribute flags (table 8)
+ 1F	Attribute flags (table 9)
+ 20	Special attack flags (table 10)
+ 21	Special attack flags (table 11)
+ 22	00
+ 23	00
+
+Note 1: To find the string constant address from the pointer, form a 4 hex
+	digit number from byte 1 followed by byte 0 and add 294A0.  For
+	example, bytes 0 and 1 for Brax are D3 21.  Adding 21D3 and 294A0
+	produces 2B673, the address of the string "Dwarf".
+
+Note 2: The cost to hire a hero also determines the fame needed.  The fame
+	level is (hire_cost - 100.) / 10. rounded down.
+
+Note 3:	The cost in the unit table is not used for units summoned by a wizard.
+	The mana cost to cast each spell (including summoning spells) is in
+	the file SPELLDAT.LBX at bytes 1A and 1B after the start of each
+	spell name.  For example, the string "Demon Lord" starts at 1E44.
+	Bytes 1E5E and 1E5F are E8 03.  03E8 hex is 1000 decimal, which is
+	the cost to summon a Demon Lord.  Editing SPELLDAT.LBX will change
+	the spells in the game.  Editing the costs in the unit tables should
+	change the average number of creatures in lairs.
+
+Note 4: The upkeep cost for heroes is ceil(hire_cost / 50.) unless the hero
+	has the Noble attribute.  The upkeep cost for normal units is
+	ceil(build_cost / 50.), except that the first type for each race has
+	zero cost.
+
+Note 5:	Bytes E and F are 06 00 for summoned units.  For heroes byte E is
+	unique to each hero.  Byte F is used to initialize the artifact slot
+	type (00 sword/shield/ring, 01 bow/shield/ring, 02 mixed/shield/ring,
+	03 wand/ring/ring).  Once the hero has been acquired, the artifact
+	slots are stored in the game save file and can be changed there.
+
+
+Table 1:  Ranged attack types (byte 04)
+
+FF	None
+0A	Rock
+14	Arrow
+15	Bullet		  Slingers
+1E	Chaos Magic	  Warlock, Chaos Warrior, Storm Giant
+1F	Chaos Magic	  Warrior Mage, Magician, Witch, Golden One,
+			  Unknown, Magicians, Warlocks
+20	Sorcery Magic	  Sage, Illusionist
+21	Chaos Magic	  Necromancer, Shadow Demons, Demon Lord
+22	Nature Magic	  Wind Mage
+23	Nature Magic	  Healer, Priestess, Shamans, Priests
+24	Chaos Magic	  Dark Elves (Spearmen, Swordsmen, Halberdiers,
+			  Cavalry, Nightmares)
+25	Nature Magic	  Sprites
+26	Nature Magic	  Druid
+64	Thrown Weapons
+65	Fire Breath
+66	Lightning Breath  Sky Drake
+67	Stoning Gaze	  Basilisk, Gorgons (resistance modifier in byte 17)
+68	Multiple Gaze	  Chaos Spawn
+69	Death Gaze	  Night Stalker (resistance modifier in byte 17)
+
+
+Table 2:  Race codes (byte 0D)
+
+00  Barbarian		07  High Elf		0E  Generic (ship or catapult)
+01  Beastmen		08  High Men		0F  Arcane (magic spirit)
+02  Dark Elf		09  Klackon		10  Nature
+03  Draconian		0A  Lizardman		11  Sorcery
+04  Dwarven		0B  Nomad		12  Chaos
+05  Gnoll		0C  Orc			13  Life
+06  Halfling		0D  Troll		14  Death
+
+
+Table 3:  Building codes (bytes 0E and 0F) (note 6)
+
+03  Barracks		0E  Maritime Guild	19  Cathedral
+04  Armory		0F  Sawmill		1A  Marketplace
+05  Fighters Guild	10  Library		1B  Bank
+06  Armorers Guild	11  Sages Guild		1C  Merchants Guild
+07  War College		12  Oracle		1D  Granary
+08  Smithy		13  Alchemists Guild	1E  Farmers Market
+09  Stables		14  University		1F  Foresters Guild
+0A  Animists Guild	15  Wizards Guild	20  Builders Hall
+0B  Fantastic Stable	16  Shrine		21  Mechanicians Guild
+0C  Shipwrights Guild	17  Temple		22  Miners Guild
+0D  Ship Yard		18  Parthenon		23  City Walls
+
+
+Table 4:  Movement flags (byte 18)
+
+80  Merging		08  Flying
+40  Mountaineer		04  Swimming
+20  Forester		02  Sailing
+10  Teleporting		01  Cavalry (note 7)
+
+
+Table 5:  Immunity flags (byte 1A)
+
+80  Poison		08  Illusions
+40  Death		04  Missiles
+20  Magic		02  Stoning
+10  Cold		01  Fire
+
+
+Table 6:  Attribute flags (byte 1B)
+
+80  Standard (note 8)	08  Summon Demons 1
+40  Caster 40 MP	04  Lucky
+20  Caster 20 MP	02  No effect (note 9)
+10  Summon Demons 2	01  Weapon Immunity
+
+
+Table 7:  Attribute flags (byte 1C)
+
+80  Holy Bonus		08  Immolation
+40  Resistance to All	04  Doombolt Spell
+20  Cause Fear Spell	02  Fire Ball Spell
+10  Web Spell		01  Healing Spell
+
+
+Table 8:  Attribute flags (byte 1E)
+
+80  Create Undead	08  Wall Crusher
+40  Invisibility	04  Plane Shift
+20  Create Outpost	02  Large Shield
+10  Healer		01  Summoned unit (note 10)
+
+
+Table 9:  Attribute flags (byte 1F)
+
+80  Negate First Strike	08  Non Corporeal
+40  Purify		04  Meld With Node
+20  Regeneration	02  Land Corruption (note 11)
+10  Wind Walking	01  Long Range
+
+
+Table 10:  Special attack flags (byte 20)
+
+80  Stoning Touch	08  Life Stealing
+40  Illusionary attack	04  Poison attack
+20  Destruction		02  First Strike
+10  Automatic Damage	01  Armor Piercing
+
+
+Table 11:  Special attack flags (byte 21)
+
+80  No effect		08  Dispel Evil
+40  No effect		04  Power Drain
+20  No effect		02  Death Touch
+10  No effect		01  No effect
+
+
+Note 6: This is the order the buildings are listed in BUILDDAT.LBX, and
+	corresponds to the unit table codes for those buildings which are
+	required for normal units.
+
+Note 7: This bit is set for all cavalry type units.  Its effect is unknown.
+
+Note 8: This bit is set for standard units (spearmen, swordsmen, etc).  It
+	causes the race name to be listed before the unit name on the unit
+	display window.  It may be set for any normal or summoned unit to
+	list the race or magic realm name.  It has no effect on heroes.
+
+Note 9: This bit is set for all flying units, but clearing it has no apparent
+	effect on the unit.
+
+Note 10:This bit is set for all summoned units.  It controls a) whether upkeep
+	is in mana or gold+food, but does not change how upkeep is calculated
+	(byte C in the unit structure for summoned units, note 4 for normal
+	units), b) whether certain spells can be cast on the unit (clearing
+	this bit for a summoned unit allows you to cast Heroism, Holy Weapon
+	etc. on the unit), and c) whether the unit can gain experience.  This
+	bit may have other effects as well (such as "ignore weapon immunity").
+
+Note 11:Setting this bit puts "Land Corruption" on the unit's display.  There
+	is a help window for land corruption, but the ability does not work
+	as stated in the window.  Probably the program code for the land
+	corruption ability has been removed.
+
+*****************************************************************************
+
+7.  Race data locations
+
+Barbarians	2B226		High Elves	2B2CE
+Beastmen	2B23E		High Men	2B2E6
+Dark Elves	2B256		Klackons	2B2FE
+Draconians	2B26E		Lizardmen	2B316
+Dwarves		2B286		Nomads		2B32E
+Gnolls		2B29E		Orcs		2B346
+Halflings	2B2B6		Trolls		2B35E
+
+*****************************************************************************
+
+8.  Race structure byte descriptions
+
+Bytes 2 through 17 form two byte signed integers with the low order byte first
+so that 7 is stored as 07 00.  Negative numbers are represented by the two's
+complement so that -1 is stored as FF FF and -2 as FE FF.  Prohibiting a
+building makes all buildings that depend on it inaccessible, so they do not
+need to be in the prohibited list.
+
+0,1	Pointer to name of race (note 1)
+2,3	Number of prohibited buildings (0 to 7)
+4,5	First prohibited building (table 3) (ignored if number is 0)
+6,7	Second prohibited building (table 3) (ignored if number is 0 or 1)
+8,9	Third prohibited building (table 3) (ignored if number is 0 to 2)
+A,B	Fourth prohibited building (table 3) (ignored if number is 0 to 3)
+C,D	Fifth prohibited building (table 3) (ignored if number is 0 to 4)
+E,F	Sixth prohibited building (table 3) (ignored if number is 0 to 5)
+10,11	Seventh prohibited building (table 3) (ignored if number is 0 to 6)
+12,13	Outpost growth probability (percent chance to grow in each turn)
+14,15	City population growth modifier (in units of 10 people per turn)
+16,17	Housing picture (0 wood frame house, 1 tree house, 2 mud hut)
+
+*****************************************************************************
+
+9.  Upkeep costs of enchantments
+
+These are stored as two byte positive integers, but only the first byte
+(the low order byte) is nonzero since none of the values exceeds 255.
+
+Unit Enchantment	Address		Unit Enchantment	Address
+
+Immolation		2B3B8		Wind Walking		2B3D8
+Guardian Wind		2B3BA		Flight			2B3DA
+Berserk (note 12)	2B3BC		Resist Magic		2B3DC
+Cloak of Fear		2B3BE		Magic Immunity		2B3DE
+Black Channels		2B3C0		Flame Blade		2B3E0
+Wraithform		2B3C2		Eldritch Weapon		2B3E2
+Regeneration		2B3C4		True Sight		2B3E4
+Pathfinding		2B3C6		Holy Weapon		2B3E6
+Water Walking		2B3C8		Heroism			2B3E8
+Resist Elements		2B3CA		Bless			2B3EA
+Elemental Armor		2B3CC		Lion Heart		2B3EC
+Stone Skin		2B3CE		Giant Strength		2B3EE
+Iron Skin		2B3D0		Planar Travel		2B3F0
+Endurance		2B3D2		Holy Armor		2B3F2
+Spell Lock		2B3D4		Righteousness		2B3F4
+Invisibility		2B3D6		Invulnerability		2B3F6
+
+City Enchantment	Address		City Enchantment	Address
+
+Wall of Fire		2B3F8		Death Ward		2B412
+Chaos Rift		2B3FA		Nature's Eye		2B414
+Dark Rituals		2B3FC		Earth Gate		2B416
+Evil Presence		2B3FE		Stream of Life		2B418
+Cursed Lands		2B400		Gaia's Blessing		2B41A
+Pestilence		2B402		Inspirations		2B41C
+Cloud of Shadow		2B404		Prosperity		2B41E
+Famine			2B406		Astral Gate		2B420
+Flying Fortress		2B408		Heavenly Light		2B422
+Nature Ward		2B40A		Consecration		2B424
+Sorcery Ward		2B40C		Wall of Darkness	2B426
+Chaos Ward		2B40E		Altar of Battle		2B428
+Life Ward		2B410		Nightshade		2B42A
+
+Global Enchantment	Address		Global Enchantment	Address
+
+Eternal Night		2B42C		Great Wasting		2B444
+Evil Omens		2B42E		Meteor Storm		2B446
+Zombie Mastery		2B430		Armageddon		2B448
+Aura of Majesty		2B432		Tranquility		2B44A
+Wind Mastery		2B434		Life Force		2B44C
+Suppress Magic		2B436		Crusade			2B44E
+Time Stop		2B438		Just Cause		2B450
+Nature Awareness	2B43A		Holy Arms		2B452
+Nature's Wrath		2B43C		Planar Seal		2B454
+Herb Mastery		2B43E		Charm of Life		2B456
+Chaos Surge		2B440		Detect Magic		2B458
+Doom Mastery		2B442		Awareness		2B45A
+
+Note 12:In MOM 1.3.1 Berserk is a combat spell only, so its upkeep value will
+	not be used unless overland casting is added for this spell.

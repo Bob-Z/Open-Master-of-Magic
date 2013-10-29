@@ -1,0 +1,35 @@
+I've figured out almost everything concerning the LBX package, palette and image formats. I will give a brief summary of my findings so far in the hope that someone else can fill the holes.
+
+The LBX archive format itself is really simple. It has a header:
+2 bytes = number of files in archive
+4 bytes = verification code (should always be 65197)
+2 bytes = unknown (version? file type? i am not convinced by either)
+then follows the offsets of all the files in the archive at 4 bytes each, pluss the offset of the end of the file, which should be identical to the file size.
+
+The palette format seems quite simple, 4 bytes for each value of 256 colours as follows:
+1 byte is always the value 1
+1 byte for red, 1 for green, and 1 for blue
+However, the values are 6bits, and to use them you need to multiply them by 4 to get meaningful values. Strange. There seems to be a lot of junk data after this - if it means anything I cannot make head and tails out of it.
+
+The image format is complicated and not very bright. There is a header:
+2 bytes = width
+2 bytes = height
+2 bytes = unknown (always zero, I think)
+2 bytes = number of offsets
+2 bytes = number of frames, always(?) one less than above
+2 bytes = unknown
+4 bytes = offset to beginning of image data
+then follows a list of 4 byte offsets to each frame, relative to the beginning of the archived file (not the LBX file!), and the last one points to the end of the archived file.
+
+If there now is space between our current position and the image data, there is palette override information here. This has the following format:
+1 byte = index into palette; or zero if you should just increase your palette counter by one, to point to the next palette entry (yes, there is no good reason for doing it this way)
+1 byte red, 1 byte green, 1 byte red; as above, multiply values by four.
+
+Next follows the image data. Read each 'line' as follows: The first 2 bytes indicates data format. If it is zero _or_ if it is the first byte, in which case it is always one, read it like this:
+2 bytes = increase y counter (start at zero) by this amount; if this number is 1000, immediately abort; this is an EOF marker, and beyond this may be junk data. Jump to next frame offset when you find an EOF.
+2 bytes = number of pixels in pixel array
+2 bytes = x position in image where you should start laying pixels
+then follows 1 byte for each pixel.
+If the first 2 bytes are more than zero, then this number is the number of 1-byte pixels following. I believe they should be added at the current (x,y) position, but they are special in some way I do not yet understand. I get some artifacts in some of the images that use this.
+
+Some images need additional palettes to be shown properly. The ships, for instance, have palette override information in a 2x1 image that is in every 49th ships.lbx image. This image contains illegal junk data, and should not be processed. This probably also applies to other 2x1 or 1x1 images. If you use palette 12 in fonts.lbx with one of these override palettes, you get the correct palette for the given player.

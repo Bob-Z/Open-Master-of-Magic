@@ -1,0 +1,223 @@
+ARMYLIST.LBX
+BACKGRND.LBX
+BOOK.LBX
+BUILDDAT.LBX
+BUILDESC.LBX
+CHRIVER.LBX
+CITYNAME.LBX
+CITYSCAP.LBX
+CITYWALL.LBX
+CMBDESRC.LBX
+CMBDESRT.LBX
+CMBGRASC.LBX
+CMBGRASS.LBX
+CMBMAGIC.LBX
+CMBMOUNC.LBX
+CMBMOUNT.LBX
+CMBTCITY.LBX
+CMBTFX.LBX
+CMBTSND.LBX
+CMBTUNDC.LBX
+CMBTUNDR.LBX
+CMBTWALL.LBX
+COMBAT.LBX
+COMPIX.LBX
+CONFIG.MOM
+CONQUEST.LBX
+DESC.LBX
+DESERT.LBX
+DIPLOMAC.LBX
+DIPLOMSG.LBX
+EVENTMSG.LBX
+EVENTS.LBX
+FAT.AD
+FAT.CAT
+FAT-GEN.CAT
+FAT.MT
+FAT.OPL
+FAT-OPL3.BNK
+FATV10.BNK
+FIGURE10.LBX
+FIGURE11.LBX
+FIGURE12.LBX
+FIGURE13.LBX
+FIGURE14.LBX
+FIGURE15.LBX
+FIGURE16.LBX
+FIGURES1.LBX
+FIGURES2.LBX
+FIGURES3.LBX
+FIGURES4.LBX
+FIGURES5.LBX
+FIGURES6.LBX
+FIGURES7.LBX
+FIGURES8.LBX
+FIGURES9.LBX
+FILE_ID.DIZ
+
+FONTS.LBX
+=========
+
+2 - first 0x300 bytes are RGB palette (probably for "main" screen. Then there is some unknown garbage bytes (maybe uncompressed image ?).
+
+3 - first 0x300 bytes are RGB palette (probably for "load save" screen. Then there is some unknown garbage bytes (maybe uncompressed image ?).
+
+4 - first 0x300 bytes are RGB palette (probably for "magic castle" screen. Then there is some unknown garbage bytes (maybe uncompressed image ?).
+
+5 - first 0x300 bytes are RGB palette (probably for "conquest" screen. Then there is some unknown garbage bytes (maybe uncompressed image ?).
+
+6 - first 0x300 bytes are RGB palette (probably for "spell mastery" screen. Then there is some unknown garbage bytes (maybe uncompressed image ?).
+
+7 - first 0x300 bytes are RGB palette (probably for "win" screen. Then there is some unknown garbage bytes (maybe uncompressed image ?).
+
+8 - first 0x300 bytes are RGB palette (probably for "lose" screen. Then there is some unknown garbage bytes followed by numerous 0 then it seems there is more palette info at the end of the file.
+
+HALOFAM.LBX
+HELP.LBX
+HERODATA.LBX
+HIRE.LBX
+HLPENTRY.LBX
+INSTALL.DAT
+INSTALL.EXE
+INSTALL.GIF
+INSTALL.PIF
+INTRO.LBX
+=========
+13 animations making the whole intro film.
+
+INTROSFX.LBX
+INTROSND.LBX
+ITEMDATA.LBX
+ITEMISC.LBX
+ITEMMAKE.EXE
+ITEMPOW.LBX
+ITEMS.LBX
+LILWIZ.LBX
+LISTDAT.LBX
+LOAD.LBX
+LOSE.LBX
+MAGIC.EXE
+MAGIC.LBX
+==========
+Resources for magic managment (more mana, more spell...)
+
+MAGIC.SET
+MAIN.LBX
+=========
+Resources for main game screen.
+
+MAINSCRN.LBX
+=============
+0: Upper part of the start screen (animated)
+1: Text "Continue" (first frame normal, second frame clicked)
+2: Text "Load" (first frame normal, second frame clicked)
+3: Text "New" (first frame normal, second frame clicked)
+4: Text "Quit" (first frame normal, second frame clicked)
+5: Lower part of the start screen (static image)
+
+MAPBACK.LBX
+MESSAGE.LBX
+MONSTER.LBX
+============
+Images of summoned monster in the laboratory
+
+MOODWIZ.LBX
+MPSCOPY.EXE
+MUSIC.LBX
+NAMES.LBX
+NEWGAME.LBX
+============
+Resources for game setup
+0: background for game options
+1: "Game Options" right panel layout
+2: "OK" button (frame 0 not clicked, frame 1 clicked) 
+3: Grayed "Cancel" button (frame 0 not clicked, frame 1 clicked ???) 
+4: "Difficulty" button background
+5: "Opponents" button background
+6: "Land Size" button background
+7: "Magic" button background
+8: "Select Wizard" right panel layout with "Custom" button
+9: "Merlin" button background
+10: "Raven" button background
+11: "Sharee" button background
+12: "Lo Pan" button background
+13: "Jafar" button background
+14: "Oberic" button background
+15: "Rjak" button background
+16: "Sss'ra" button background
+17: "Tauron" button background
+18: "Freya" button background
+19: "Horus" button background
+20: "Ariel" button background
+21: "Tlaloc" button background
+22 "Kali" button background
+23 "Custom" button background
+24 "Life" book (greater)
+25 "Life" book (little)
+26 "Life" book (normal)
+27 "Sorcery" book (greater)
+28 "Sorcery" book (little)
+29 "Sorcery" book (normal)
+30 "Nature" book (greater)
+31 "Nature" book (little)
+32 "Nature" book (normal)
+33 "Death" book (greater)
+34 "Death" book (little)
+35 "Death" book (normal)
+36 "Chaos" book (greater)
+37 "Chaos" book (little)
+38 "Chaos" book (normal)
+39: "Select Wizard" right panel layout without "Custom" button (Intro difficulty)
+40: "Wizard's Name" right panel layout
+41: Custom wizard background
+42: custom wizard OK button (not clicked)
+43: custom wizard OK button (clicked)
+44: red background ??
+45: bottom of above red background ??
+46: flags for color choice
+47: a bar ???
+48: a stone background ???
+49: another stone background ???
+50: another stone background ???
+51: a background (for buttons ??)
+52: a check mark
+53: "Building world" pop up
+54: a bar (see 47) ??
+55: stone background
+
+NEWSOUND.LBX
+PKUNZJR.COM
+PORTRAIT.LBX
+README.TXT
+RELOAD.LBX
+RESOURCE.LBX
+SCROLL.LBX
+SNDDRV.LBX
+SOUNDFX.LBX
+SPECFX.LBX
+SPECIAL2.LBX
+SPECIAL.LBX
+SPELLDAT.LBX
+SPELLOSE.LBX
+SPELLSCR.LBX
+SPELLS.LBX
+SPLMASTR.LBX
+TERRAIN.LBX
+============
+Terrain tiles ressource.
+0: uncompressed 20x18 tile graphic
+1: index of first image of a tile (allow animation for certain tiles)
+2: unknown. Its 1524 bytes long so there one byte per tile but I do not know what it means - maybe the color of the corresponding pixel in the minimap
+
+TERRSTAT.LBX
+TERRTYPE.LBX
+TUNDRA.LBX
+UNITS1.LBX
+UNITS2.LBX
+UNITVIEW.LBX
+VORTEX.LBX
+WALLRISE.LBX
+WIN.LBX
+WIZARDS.EXE
+WIZARDS.LBX
+WIZLAB.LBX

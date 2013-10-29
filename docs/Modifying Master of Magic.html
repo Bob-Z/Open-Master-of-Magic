@@ -1,0 +1,760 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+  <title>Modifying Master of Magic</title>
+  <style type="text/css">
+  div.center {text-align:center;}
+  td.hex {color:blue;}
+  span.hex {color:blue;}
+  td {vertical-align:top;}
+  </style>
+<h1>Modifying<br>Master of Magic</h1>
+<table>
+<tr><td>Author:<td>Kenneth M. Dale<td>Rev. C 1999.Jan.21
+<tr><td>Original Filename:<td>Attrib3.txt
+<tr><td>Update by:<td>Eljay<td>Rev. C.1 2002.Nov.03
+<tr><td>&nbsp;<td>Eljay<td>Rev. C.2 2006.Jul.09
+</table>
+
+<h2>1. Introduction</h2>
+<p>
+The computer files of Master of Magic (MOM) contain a vast amount of data on
+the various units, races and spells in the game.  This document lists the
+addresses of the unit and race data and enchantment upkeep costs in the
+WIZARDS.EXE file for MOM version 1.3.1(PATCH).
+<p>
+NOTE: MOM 1.3.1(CDROM) executables are different from MOM 1.3.1(PATCH).
+<p>
+Earlier MOM versions have the same or similar data, but at different
+addresses.  It is possible to change the attributes of units and races, and
+costs of units and spells in the game by changing certain bytes in the file.
+<p>
+In order to make the changes, you will need an editor program for binary
+files.  These programs are often called "hex editors" because the data bytes
+and addresses are listed as hexadecimal (base 16) numbers.  If you are not
+familiar with hex editors, try getting help from an experienced programmer.
+Also, be sure to make a backup of WIZARDS.EXE before modifying it.  You can
+copy WIZARDS.EXE to any file name for backup, but beware of using WIZARDS.BAK
+as the name.  Some editors will automatically overwrite WIZARDS.BAK every
+time you save.  To check your work you can use the DOS or Windows FC program
+to do a binary comparison of your backup file and your edited file.  The
+command <code>FC /B WIZARDS.131 WIZARDS.EXE >WIZCHNG.TXT</code> or similar should list
+your changes to a text file.
+<p>
+As an example of what to do, let's say that we think Minotaurs would look
+more impressive with 4 figures instead of 2, but we had better reduce some of
+their stats for game balance.  Looking at the Beastmen normal units, we find
+that the data for Minotaurs start at <span class=hex>029E1C</span>.  We will change the + to hit
+(byte <span class=hex>6</span>) to zero, the hit points per figure (byte <span class=hex>12</span>) to <span class=hex>6</span> and the number of
+figures (byte <span class=hex>15</span>) to <span class=hex>4</span>.  Using hexadecimal addition to find the addresses, we
+change byte <span class=hex>029E22</span> from <span class=hex>02</span> to <span class=hex>00</span>, byte <span class=hex>029E2E</span> from <span class=hex>0C</span> to <span class=hex>06</span>, and byte <span class=hex>029E31</span>
+from <span class=hex>02</span> to <span class=hex>04</span>.  When we save the file and restart MOM, we find that Minotaur
+units (including those in previously saved games) now have four figures.
+<p><hr><p>
+<h2>2.  Copyright Information and Disclaimer</h2>
+Master of Magic is copyright 1994 by Microprose.  The information in this
+document is completely unofficial, and is intended for non-commercial use
+only.  Microprose has consented to the publication of this information, but
+this consent should not in any way be construed as an endorsement of this
+document.
+<p>
+The author makes no warranty, either express or implied, as to the accuracy,
+effectiveness or completeness of the material in this document; nor does the
+author assume liability for damages, either incidental or consequential,
+that may result from using the information in this document.
+<p><hr><p>
+<h2>3.  Unit Data Locations - Heroes</h2>
+<table>
+<tr><td><b>Unit#</b><td><b>Hero type</b>       <td><b>Data start</b>      <td><b>Wiz#1 (YOU)</b>         <td><b>Wiz#2</b>         <td><b>Wiz#3</b>         <td><b>Wiz#4</b>         <td><b>Wiz#5</b>
+<tr><td align=right> 0<td>Dwarf            <td class=hex>02963C         <td>Brax          <td>Dolgin        <td>Grendel       <td>Beorn         <td>Flynn
+<tr><td align=right> 1<td>Barbarian        <td class=hex>029660         <td>Gunther       <td>Wolfar        <td>Angus         <td>Fritz         <td>Johan
+<tr><td align=right> 2<td>Sage             <td class=hex>029684         <td>Zaldron       <td>Jesrael       <td>Sardon        <td>Tiberius      <td>Zorin
+<tr><td align=right> 3<td>Dervish          <td class=hex>0296A8         <td>B'Shan        <td>Abdul Shaza   <td>Fazeel        <td>Wizier        <td>Dolo
+<tr><td align=right> 4<td>Beastmaster      <td class=hex>0296CC         <td>Rakir         <td>Salkirg       <td>Wyn           <td>Reya          <td>Fleir
+<tr><td align=right> 5<td>Bard             <td class=hex>0296F0         <td>Valana        <td>Lauren        <td>Lidia         <td>Veronica      <td>Adrianna
+<tr><td align=right> 6<td>Orc Warrior      <td class=hex>029714         <td>Bahgtru       <td>Rockfist      <td>Yaga          <td>Maktu         <td>Orgaak
+<tr><td align=right> 7<td>Healer           <td class=hex>029738         <td>Serena        <td>Shardis       <td>Sasha         <td>Karla         <td>Anastasia
+<tr><td align=right> 8<td>Huntress         <td class=hex>02975C         <td>Shuri         <td>Artemis       <td>Shanna        <td>Umalla        <td>Farra
+<tr><td align=right> 9<td>Thief            <td class=hex>029780         <td>Theria        <td>Shadow        <td>Misty         <td>Doria         <td>Tamara
+<tr><td align=right>10<td>Druid            <td class=hex>0297A4         <td>Greyfairer    <td>Tholin        <td>Greenleaf     <td>Blackhawk     <td>Feylass
+<tr><td align=right>11<td>War Monk         <td class=hex>0297C8         <td>Taki          <td>Quai Chang    <td>Tonaga        <td>Enendo        <td>Yomatu
+<tr><td align=right>12<td>Warrior Mage     <td class=hex>0297EC         <td>Reywind       <td>Stalkaor      <td>Darius        <td>Wylas         <td>Deamond
+<tr><td align=right>13<td>Magician         <td class=hex>029810         <td>Malleus       <td>Delian        <td>Furius        <td>Karnak        <td>Landreux
+<tr><td align=right>14<td>Assassin         <td class=hex>029834         <td>Tumu          <td>Altahza       <td>Shaka         <td>Huracus       <td>Kaizlar
+<tr><td align=right>15<td>Wind Mage        <td class=hex>029858         <td>Jaer          <td>Graydon       <td>Aquilon       <td>Shadowin      <td>Arcus
+<tr><td align=right>16<td>Ranger           <td class=hex>02987C         <td>Marcus        <td>Cassius       <td>Tantris       <td>Waylish       <td>Wolf
+<tr><td align=right>17<td>Draconian        <td class=hex>0298A0         <td>Fang          <td>Dreadwing     <td>Drakus        <td>Druel         <td>Hiss
+<tr><td align=right>18<td>Witch            <td class=hex>0298C4         <td>Morgana       <td>Tabatha       <td>Karlota       <td>Elicia        <td>Cassandra
+<tr><td align=right>19<td>Golden One       <td class=hex>0298E8         <td>Aureus        <td>Orlo          <td>Metallis      <td>Sheenar       <td>Balzius
+<tr><td align=right>20<td>Ninja            <td class=hex>02990C         <td>Shin Bo       <td>Omi           <td>Mongo         <td>Reyon         <td>Dakan
+<tr><td align=right>21<td>Rogue            <td class=hex>029930         <td>Spyder        <td>Jester        <td>Marco         <td>Dupre         <td>Eroll
+<tr><td align=right>22<td>Amazon           <td class=hex>029954         <td>Shalla        <td>Diana         <td>Lana          <td>Delilah       <td>Sonja
+<tr><td align=right>23<td>Warlock          <td class=hex>029978         <td>Yramrag       <td>Grofzinar     <td>Malefix       <td>Masikula      <td>Solnar
+<tr><td align=right>24<td>Unknown          <td class=hex>02999C         <td>Mystic X      <td>Nymos         <td>Morphis       <td>Beast         <td>Misterio
+<tr><td align=right>25<td>Illusionist      <td class=hex>0299C0         <td>Aerie         <td>Xoara         <td>Miranda       <td>Windaria      <td>Mira
+<tr><td align=right>26<td>Swordsman        <td class=hex>0299E4         <td>Deth Stryke   <td>Aleron        <td>Destin        <td>Nicholas      <td>Walter
+<tr><td align=right>27<td>Priestess        <td class=hex>029A08         <td>Elana         <td>Victoria      <td>Aphena        <td>Helena        <td>Justine
+<tr><td align=right>28<td>Paladin          <td class=hex>029A2C         <td>Roland        <td>Charles       <td>Fairley       <td>Cecil         <td>Andreas
+<tr><td align=right>29<td>Black Knight     <td class=hex>029A50         <td>Mortu         <td>Redblade      <td>Marek         <td>Kane          <td>Garrock
+<tr><td align=right>30<td>Elven Archer     <td class=hex>029A74         <td>Alorra        <td>Gwendolyn     <td>Darlona       <td>Demeta        <td>Lita
+<tr><td align=right>31<td>Knight           <td class=hex>029A98         <td>Sir Harold    <td>Sir Henry     <td>Stephan       <td>Sheldon       <td>Thomas
+<tr><td align=right>32<td>Necromancer      <td class=hex>029ABC         <td>Ravashack     <td>Ulrik         <td>Narlok        <td>Lazarus       <td>Lucian
+<tr><td align=right>33<td>Chaos Warrior    <td class=hex>029AE0         <td>Warrax        <td>Kolimak       <td>Harlak        <td>Ruel          <td>Moray
+<tr><td align=right>34<td>Chosen           <td class=hex>029B04         <td>Torin         <td>Azrael        <td>Lawrence      <td>Purseus       <td>Heuron
+</table>
+<p>
+Note: default names from <code>NAMES.LBX</code>.
+<p><hr><p>
+
+<h2>4.  Unit Data Locations - Normal Units</h2>
+
+<table>
+<tr><td colspan=3 align=center><i>Generic unit</i>
+<tr><td align=right> 35<td>Trireme         <td class=hex>029B28
+<tr><td align=right> 36<td>Galley          <td class=hex>029B4C
+<tr><td align=right> 37<td>Catapult        <td class=hex>029B70
+<tr><td align=right> 38<td>Warship         <td class=hex>029B94
+<tr><td colspan=3 align=center><i>Barbarian unit</i>
+<tr><td align=right> 39<td>Spearmen        <td class=hex>029BB8
+<tr><td align=right> 40<td>Swordsmen       <td class=hex>029BDC
+<tr><td align=right> 41<td>Bowmen          <td class=hex>029C00
+<tr><td align=right> 42<td>Cavalry         <td class=hex>029C24
+<tr><td align=right> 43<td>Shaman          <td class=hex>029C48
+<tr><td align=right> 44<td>Settlers        <td class=hex>029C6C
+<tr><td align=right> 45<td>Berserkers      <td class=hex>029C90
+<tr><td colspan=3 align=center><i>Beastmen unit</i>
+<tr><td align=right> 46<td>Spearmen        <td class=hex>029CB4
+<tr><td align=right> 47<td>Swordsmen       <td class=hex>029CD8
+<tr><td align=right> 48<td>Halberdiers     <td class=hex>029CFC
+<tr><td align=right> 49<td>Bowmen          <td class=hex>029D20
+<tr><td align=right> 50<td>Priests         <td class=hex>029D44
+<tr><td align=right> 51<td>Magicians       <td class=hex>029D68
+<tr><td align=right> 52<td>Engineers       <td class=hex>029D8C
+<tr><td align=right> 53<td>Settlers        <td class=hex>029DB0
+<tr><td align=right> 54<td>Centaurs        <td class=hex>029DD4
+<tr><td align=right> 55<td>Manticores      <td class=hex>029DF8
+<tr><td align=right> 56<td>Minotaurs       <td class=hex>029E1C
+<tr><td colspan=3 align=center><i>Dark Elf unit</i>
+<tr><td align=right> 57<td>Spearmen        <td class=hex>029E40
+<tr><td align=right> 58<td>Swordsmen       <td class=hex>029E64
+<tr><td align=right> 59<td>Halberdiers     <td class=hex>029E88
+<tr><td align=right> 60<td>Cavalry         <td class=hex>029EAC
+<tr><td align=right> 61<td>Priests         <td class=hex>029ED0
+<tr><td align=right> 62<td>Settlers        <td class=hex>029EF4
+<tr><td align=right> 63<td>Nightblades     <td class=hex>029F18
+<tr><td align=right> 64<td>Warlocks        <td class=hex>029F3C
+<tr><td align=right> 65<td>Nightmares      <td class=hex>029F60
+<tr><td colspan=3 align=center><i>Draconian unit</i>
+<tr><td align=right> 66<td>Spearmen        <td class=hex>029F84
+<tr><td align=right> 67<td>Swordsmen       <td class=hex>029FA8
+<tr><td align=right> 68<td>Halberdiers     <td class=hex>029FCC
+<tr><td align=right> 69<td>Bowmen          <td class=hex>029FF0
+<tr><td align=right> 70<td>Shaman          <td class=hex>02A014
+<tr><td align=right> 71<td>Magicians       <td class=hex>02A038
+<tr><td align=right> 72<td>Engineers       <td class=hex>02A05C
+<tr><td align=right> 73<td>Settlers        <td class=hex>02A080
+<tr><td align=right> 74<td>Doom Drakes     <td class=hex>02A0A4
+<tr><td align=right> 75<td>Air Ship        <td class=hex>02A0C8
+<tr><td colspan=3 align=center><i>Dwarven unit</i>
+<tr><td align=right> 76<td>Swordsmen       <td class=hex>02A0EC
+<tr><td align=right> 77<td>Halberdiers     <td class=hex>02A110
+<tr><td align=right> 78<td>Engineers       <td class=hex>02A134
+<tr><td align=right> 79<td>Hammerhands     <td class=hex>02A158
+<tr><td align=right> 80<td>Steam Cannon    <td class=hex>02A17C
+<tr><td align=right> 81<td>Golem           <td class=hex>02A1A0
+<tr><td align=right> 82<td>Settlers        <td class=hex>02A1C4
+<tr><td colspan=3 align=center><i>Gnoll unit</i>
+<tr><td align=right> 83<td>Spearmen        <td class=hex>02A1E8
+<tr><td align=right> 84<td>Swordsmen       <td class=hex>02A20C
+<tr><td align=right> 85<td>Halberdiers     <td class=hex>02A230
+<tr><td align=right> 86<td>Bowmen          <td class=hex>02A254
+<tr><td align=right> 87<td>Settlers        <td class=hex>02A278
+<tr><td align=right> 88<td>Wolf Riders     <td class=hex>02A29C
+<tr><td colspan=3 align=center><i>Halfling unit</i>
+<tr><td align=right> 89<td>Spearmen        <td class=hex>02A2C0
+<tr><td align=right> 90<td>Swordsmen       <td class=hex>02A2E4
+<tr><td align=right> 91<td>Bowmen          <td class=hex>02A308
+<tr><td align=right> 92<td>Shaman          <td class=hex>02A32C
+<tr><td align=right> 93<td>Settlers        <td class=hex>02A350
+<tr><td align=right> 94<td>Slingers        <td class=hex>02A374
+<tr><td colspan=3 align=center><i>High Elf unit</i>
+<tr><td align=right> 95<td>Spearmen        <td class=hex>02A398
+<tr><td align=right> 96<td>Swordsmen       <td class=hex>02A3BC
+<tr><td align=right> 97<td>Halberdiers     <td class=hex>02A3E0
+<tr><td align=right> 98<td>Cavalry         <td class=hex>02A404
+<tr><td align=right> 99<td>Magicians       <td class=hex>02A428
+<tr><td align=right>100<td>Settlers        <td class=hex>02A44C
+<tr><td align=right>101<td>Longbowmen      <td class=hex>02A470
+<tr><td align=right>102<td>Elven Lords     <td class=hex>02A494
+<tr><td align=right>103<td>Pegasai         <td class=hex>02A4B8
+<tr><td colspan=3 align=center><i>High Men unit</i>
+<tr><td align=right>104<td>Spearmen        <td class=hex>02A4DC
+<tr><td align=right>105<td>Swordsmen       <td class=hex>02A500
+<tr><td align=right>106<td>Bowmen          <td class=hex>02A524
+<tr><td align=right>107<td>Cavalry         <td class=hex>02A548
+<tr><td align=right>108<td>Priests         <td class=hex>02A56C
+<tr><td align=right>109<td>Magicians       <td class=hex>02A590
+<tr><td align=right>110<td>Engineers       <td class=hex>02A5B4
+<tr><td align=right>111<td>Settlers        <td class=hex>02A5D8
+<tr><td align=right>112<td>Pikemen         <td class=hex>02A5FC
+<tr><td align=right>113<td>Paladins        <td class=hex>02A620
+<tr><td colspan=3 align=center><i>Klackon unit</i>
+<tr><td align=right>114<td>Spearmen        <td class=hex>02A644
+<tr><td align=right>115<td>Swordsmen       <td class=hex>02A668
+<tr><td align=right>116<td>Halberdiers     <td class=hex>02A68C
+<tr><td align=right>117<td>Engineers       <td class=hex>02A6B0
+<tr><td align=right>118<td>Settlers        <td class=hex>02A6D4
+<tr><td align=right>119<td>Stag Beetle     <td class=hex>02A6F8
+<tr><td colspan=3 align=center><i>Lizardman unit</i>
+<tr><td align=right>120<td>Spearmen        <td class=hex>02A71C
+<tr><td align=right>121<td>Swordsmen       <td class=hex>02A740
+<tr><td align=right>122<td>Halberdiers     <td class=hex>02A764
+<tr><td align=right>123<td>Javelineers     <td class=hex>02A788
+<tr><td align=right>124<td>Shaman          <td class=hex>02A7AC
+<tr><td align=right>125<td>Settlers        <td class=hex>02A7D0
+<tr><td align=right>126<td>Dragon Turtle   <td class=hex>02A7F4
+<tr><td colspan=3 align=center><i>Nomad unit</i>
+<tr><td align=right>127<td>Spearmen        <td class=hex>02A818
+<tr><td align=right>128<td>Swordsmen       <td class=hex>02A83C
+<tr><td align=right>129<td>Bowmen          <td class=hex>02A860
+<tr><td align=right>130<td>Priests         <td class=hex>02A884
+<tr><td align=right>131<td>Magicians       <td class=hex>02A8A8
+<tr><td align=right>132<td>Settlers        <td class=hex>02A8CC
+<tr><td align=right>133<td>Horsebowmen     <td class=hex>02A8F0
+<tr><td align=right>134<td>Pikemen         <td class=hex>02A914
+<tr><td align=right>135<td>Rangers         <td class=hex>02A938
+<tr><td align=right>136<td>Griffins        <td class=hex>02A95C
+<tr><td colspan=3 align=center><i>Orc unit</i>
+<tr><td align=right>137<td>Spearmen        <td class=hex>02A980
+<tr><td align=right>138<td>Swordsmen       <td class=hex>02A9A4
+<tr><td align=right>139<td>Halberdiers     <td class=hex>02A9C8
+<tr><td align=right>140<td>Bowmen          <td class=hex>02A9EC
+<tr><td align=right>141<td>Cavalry         <td class=hex>02AA10
+<tr><td align=right>142<td>Shaman          <td class=hex>02AA34
+<tr><td align=right>143<td>Magicians       <td class=hex>02AA58
+<tr><td align=right>144<td>Engineers       <td class=hex>02AA7C
+<tr><td align=right>145<td>Settlers        <td class=hex>02AAA0
+<tr><td align=right>146<td>Wyvern Riders   <td class=hex>02AAC4
+<tr><td colspan=3 align=center><i>Troll unit</i>
+<tr><td align=right>147<td>Spearmen        <td class=hex>02AAE8
+<tr><td align=right>148<td>Swordsmen       <td class=hex>02AB0C
+<tr><td align=right>149<td>Halberdiers     <td class=hex>02AB30
+<tr><td align=right>150<td>Shaman          <td class=hex>02AB54
+<tr><td align=right>151<td>Settlers        <td class=hex>02AB78
+<tr><td align=right>152<td>War Trolls      <td class=hex>02AB9C
+<tr><td align=right>153<td>War Mammoths    <td class=hex>02ABC0
+</table>
+
+<p><hr><p>
+
+<h2>5.  Unit Data Locations - Summoned Units</h2>
+<table>
+<tr><td colspan=3 align=center><i>Arcane unit</i>
+<tr><td align=right>154<td>Magic Spirit    <td class=hex>02ABE4
+<tr><td colspan=3 align=center><i>Chaos unit</i>
+<tr><td align=right>155<td>Hell Hounds     <td class=hex>02AC08
+<tr><td align=right>156<td>Gargoyles       <td class=hex>02AC2C
+<tr><td align=right>157<td>Fire Giant      <td class=hex>02AC50
+<tr><td align=right>158<td>Fire Elemental  <td class=hex>02AC74
+<tr><td align=right>159<td>Chaos Spawn     <td class=hex>02AC98
+<tr><td align=right>160<td>Chimera         <td class=hex>02ACBC
+<tr><td align=right>161<td>Doom Bat        <td class=hex>02ACE0
+<tr><td align=right>162<td>Efreet          <td class=hex>02AD04
+<tr><td align=right>163<td>Hydra           <td class=hex>02AD28
+<tr><td align=right>164<td>Great Drake     <td class=hex>02AD4C
+<tr><td colspan=3 align=center><i>Death unit</i>
+<tr><td align=right>165<td>Skeletons       <td class=hex>02AD70
+<tr><td align=right>166<td>Ghouls          <td class=hex>02AD94
+<tr><td align=right>167<td>Night Stalker   <td class=hex>02ADB8
+<tr><td align=right>168<td>Werewolves      <td class=hex>02ADDC
+<tr><td align=right>169<td>Demon           <td class=hex>02AE00
+<tr><td align=right>170<td>Wraiths         <td class=hex>02AE24
+<tr><td align=right>171<td>Shadow Demons   <td class=hex>02AE48
+<tr><td align=right>172<td>Death Knights   <td class=hex>02AE6C
+<tr><td align=right>173<td>Demon Lord      <td class=hex>02AE90
+<tr><td align=right>174<td>Zombies         <td class=hex>02AEB4
+<tr><td colspan=3 align=center><i>Life unit</i>
+<tr><td align=right>175<td>Unicorns        <td class=hex>02AED8
+<tr><td align=right>176<td>Guardian Spirit <td class=hex>02AEFC
+<tr><td align=right>177<td>Angel           <td class=hex>02AF20
+<tr><td align=right>178<td>Arch Angel      <td class=hex>02AF44
+<tr><td colspan=3 align=center><i>Nature unit</i>
+<tr><td align=right>179<td>War Bears       <td class=hex>02AF68
+<tr><td align=right>180<td>Sprites         <td class=hex>02AF8C
+<tr><td align=right>181<td>Cockatrices     <td class=hex>02AFB0
+<tr><td align=right>182<td>Basilisk        <td class=hex>02AFD4
+<tr><td align=right>183<td>Giant Spiders   <td class=hex>02AFF8
+<tr><td align=right>184<td>Stone Giant     <td class=hex>02B01C
+<tr><td align=right>185<td>Colossus        <td class=hex>02B040
+<tr><td align=right>186<td>Gorgons         <td class=hex>02B064
+<tr><td align=right>187<td>Earth Elemental <td class=hex>02B088
+<tr><td align=right>188<td>Behemoth        <td class=hex>02B0AC
+<tr><td align=right>189<td>Great Wyrm      <td class=hex>02B0D0
+<tr><td colspan=3 align=center><i>Sorcery unit</i>
+<tr><td align=right>190<td>Floating Island <td class=hex>02B0F4
+<tr><td align=right>191<td>Phantom Beast   <td class=hex>02B118
+<tr><td align=right>192<td>Phantom Warriors<td class=hex>02B13C
+<tr><td align=right>193<td>Storm Giant     <td class=hex>02B160
+<tr><td align=right>194<td>Air Elemental   <td class=hex>02B184
+<tr><td align=right>195<td>Djinn           <td class=hex>02B1A8
+<tr><td align=right>196<td>Sky Drake       <td class=hex>02B1CC
+<tr><td align=right>197<td>Nagas           <td class=hex>02B1F0
+</table>
+
+<p><hr><p>
+
+<h2>6.  Unit Structure Byte Descriptions</h2>
+
+<table>
+<tr><td align=right> <span class=hex>00</span>-<span class=hex>01</span>  <td>Pointer to name of unit type (note 1)
+<tr><td align=right class=hex>    02  <td>Melee attack strength
+<tr><td align=right class=hex>    03  <td>Ranged attack strength
+<tr><td align=right class=hex>    04  <td>Ranged attack type (table 1)
+<tr><td align=right class=hex>    05  <td>Ranged attack number of shots
+<tr><td align=right class=hex>    06  <td>Plus to hit
+<tr><td align=right class=hex>    07  <td>Defense
+<tr><td align=right class=hex>    08  <td>Resistance
+<tr><td align=right class=hex>    09  <td>Movement rate (in units of &#189;MP)
+<tr><td align=right> <span class=hex>0A</span>-<span class=hex>0B</span>  <td>Heroes: cost to hire (note 2)
+                <br>Normal units: cost to build
+                <br>Summoned units: cost to place in lair, node or rampaging force (note 3)
+<tr><td align=right class=hex>    0C  <td>Summoned units: upkeep cost<br>Others: not used (note 4)
+<tr><td align=right class=hex>    0D  <td>Race code (table 2)
+<tr><td align=right> <span class=hex>0E</span>-<span class=hex>0F</span>  <td>Normal units: buildings required (table 3)
+                <br>Others: note 5
+<tr><td align=right class=hex>    10  <td>Heroes: type code?  Others: ???
+<tr><td align=right class=hex>    11  <td>00
+<tr><td align=right class=hex>    12  <td>Hit points (hearts) per figure
+<tr><td align=right class=hex>    13  <td>Scouting range
+<tr><td align=right class=hex>    14  <td>Transport capacity (number of units carried)
+<tr><td align=right class=hex>    15  <td>Number of figures in the unit
+<tr><td align=right class=hex>    16  <td>Construction capacity (road building)
+<tr><td align=right class=hex>    17  <td>Special attack or bonus strength
+<tr><td align=right class=hex>    18  <td>Movement flags (table 4)
+<tr><td align=right class=hex>    19  <td>00
+<tr><td align=right class=hex>    1A  <td>Immunity flags (table 5)
+<tr><td align=right class=hex>    1B  <td>Attribute flags (table 6)
+<tr><td align=right class=hex>    1C  <td>Attribute flags (table 7)
+<tr><td align=right class=hex>    1D  <td>00
+<tr><td align=right class=hex>    1E  <td>Attribute flags (table 8)
+<tr><td align=right class=hex>    1F  <td>Attribute flags (table 9)
+<tr><td align=right class=hex>    20  <td>Special attack flags (table 10)
+<tr><td align=right class=hex>    21  <td>Special attack flags (table 11)
+<tr><td align=right class=hex>    22  <td>00
+<tr><td align=right class=hex>    23  <td>00
+</table>
+
+<table>
+<tr>
+<td valign=top>Note&nbsp;1:
+<td>    To find the string constant address from the pointer, form a 4 hex
+        digit number from byte <span class=hex>1</span> followed by byte <span class=hex>0</span> and add <span class=hex>294A0</span>.  For
+        example, bytes <span class=hex>0</span> and <span class=hex>1</span> for Brax are <span class=hex>D3 21</span>.  Adding <span class=hex>21D3</span> and <span class=hex>294A0</span>
+        produces <span class=hex>2B673</span>, the address of the string "Dwarf".
+<tr>
+<td valign=top>Note 2:
+<td>    The cost to hire a hero also determines the fame needed.  The fame
+        level is (hire_cost - 100) / 10, rounded down.
+<tr>
+<td valign=top>Note 3:
+<td>    The cost in the unit table is not used for units summoned by a wizard.
+        The mana cost to cast each spell (including summoning spells) is in
+        the file SPELLDAT.LBX at bytes <span class=hex>1A</span> and <span class=hex>1B</span> after the start of each
+        spell name.  For example, the string "Demon Lord" starts at <span class=hex>1E44</span>.
+        Bytes <span class=hex>1E5E</span> and <span class=hex>1E5F are <span class=hex>E8 03</span>.  <span class=hex>03E8</span> hex is 1000 decimal, which is
+        the cost to summon a Demon Lord.  Editing SPELLDAT.LBX will change
+        the spells in the game.  Editing the costs in the unit tables should
+        change the average number of creatures in lairs.
+<tr>
+<td valign=top>Note 4:
+<td>    The upkeep cost for heroes is ceil(hire_cost / 50.) unless the hero
+        has the Noble attribute.  The upkeep cost for normal units is
+        ceil(build_cost / 50.), except that the first type for each race has
+        zero cost.
+<tr>
+<td valign=top>Note 5:
+<td>    Bytes <span class=hex>E</span> and <span class=hex>F</span> are <span class=hex>06 00</span> for summoned units.  For heroes byte <span class=hex>E</span> is
+        unique to each hero.  Byte <span class=hex>F</span> is used to initialize the artifact slot
+        type (<span class=hex>00</span> sword/shield/ring, <span class=hex>01</span> bow/shield/ring, <span class=hex>02</span> mixed/shield/ring,
+        <span class=hex>03</span> wand/ring/ring).  Once the hero has been acquired, the artifact
+        slots are stored in the game save file and can be changed there.
+</table>
+
+<h2>Table 1:  Ranged attack types (byte <span class=hex>04</span>)</h2>
+
+<table>
+<tr><td align=right><b>Hx</b><td><b>Attack Type</b><td><b>Units</b>
+<tr><td align=right class=hex>FF     <td>None             <td>&nbsp;
+<tr><td align=right class=hex>0A     <td>Rock             <td>&nbsp;
+<tr><td align=right class=hex>14     <td>Arrow            <td>&nbsp;
+<tr><td align=right class=hex>15     <td>Bullet           <td>Slingers
+<tr><td align=right class=hex>1E     <td>Chaos Magic      <td>Warlock, Chaos Warrior, Storm Giant
+<tr><td align=right class=hex>1F     <td>Chaos Magic      <td>Warrior Mage, Magician, Witch, Golden One, Unknown, Magicians, Warlocks
+<tr><td align=right class=hex>20     <td>Sorcery Magic    <td>Sage, Illusionist
+<tr><td align=right class=hex>21     <td>Chaos Magic      <td>Necromancer, Shadow Demons, Demon Lord
+<tr><td align=right class=hex>22     <td>Nature Magic     <td>Wind Mage
+<tr><td align=right class=hex>23     <td>Nature Magic     <td>Healer, Priestess, Shamans, Priests
+<tr><td align=right class=hex>24     <td>Chaos Magic      <td>Dark Elves (Spearmen, Swordsmen, Halberdiers, Cavalry, Nightmares)
+<tr><td align=right class=hex>25     <td>Nature Magic     <td>Sprites
+<tr><td align=right class=hex>26     <td>Nature Magic     <td>Druid
+<tr><td align=right class=hex>64     <td>Thrown Weapons   <td>&nbsp;
+<tr><td align=right class=hex>65     <td>Fire Breath      <td>&nbsp;
+<tr><td align=right class=hex>66     <td>Lightning Breath <td>Sky Drake
+<tr><td align=right class=hex>67     <td>Stoning Gaze     <td>Basilisk, Gorgons (resistance modifier in byte <span class=hex>17</span>)
+<tr><td align=right class=hex>68     <td>Multiple Gaze    <td>Chaos Spawn
+<tr><td align=right class=hex>69     <td>Death Gaze       <td>Night Stalker (resistance modifier in byte <span class=hex>17</span>)
+</table>
+
+<h2>Table 2:  Race codes (byte <span class=hex>0D</span>)</h2>
+<table>
+<tr><td class=hex>00 <td>Barbarian
+<tr><td class=hex>01 <td>Beastmen
+<tr><td class=hex>02 <td>Dark Elf
+<tr><td class=hex>03 <td>Draconian
+<tr><td class=hex>04 <td>Dwarven
+<tr><td class=hex>05 <td>Gnoll
+<tr><td class=hex>06 <td>Halfling
+<tr><td class=hex>07 <td>High Elf
+<tr><td class=hex>08 <td>High Men
+<tr><td class=hex>09 <td>Klackon
+<tr><td class=hex>0A <td>Lizardman
+<tr><td class=hex>0B <td>Nomad
+<tr><td class=hex>0C <td>Orc
+<tr><td class=hex>0D <td>Troll
+<tr><td class=hex>0E <td>Generic (ship or catapult)
+<tr><td class=hex>0F <td>Arcane (magic spirit)
+<tr><td class=hex>10 <td>Nature
+<tr><td class=hex>11 <td>Sorcery
+<tr><td class=hex>12 <td>Chaos
+<tr><td class=hex>13 <td>Life
+<tr><td class=hex>14 <td>Death
+</table>
+
+<h2>Table 3:  Building codes (bytes <span class=hex>0E</span> and <span class=hex>0F</span>) (note 6)</h2>
+
+<table>
+<tr><td class=hex>00<td><i>None</i>
+<tr><td class=hex>01<td><i>Trading</i>
+<tr><td class=hex>02<td><i>Housing</i>
+<tr><td class=hex>03<td>Barracks
+<tr><td class=hex>04<td>Armory
+<tr><td class=hex>05<td>Fighters Guild
+<tr><td class=hex>06<td>Armorers Guild
+<tr><td class=hex>07<td>War College
+<tr><td class=hex>08<td>Smithy
+<tr><td class=hex>09<td>Stables
+<tr><td class=hex>0A<td>Animists Guild
+<tr><td class=hex>0B<td>Fantastic Stable
+<tr><td class=hex>0C<td>Shipwrights Guild
+<tr><td class=hex>0D<td>Ship Yard
+<tr><td class=hex>0E<td>Maritime Guild
+<tr><td class=hex>0F<td>Sawmill
+<tr><td class=hex>10<td>Library
+<tr><td class=hex>11<td>Sages Guild
+<tr><td class=hex>12<td>Oracle
+<tr><td class=hex>13<td>Alchemists Guild
+<tr><td class=hex>14<td>University
+<tr><td class=hex>15<td>Wizards Guild
+<tr><td class=hex>16<td>Shrine
+<tr><td class=hex>17<td>Temple
+<tr><td class=hex>18<td>Parthenon
+<tr><td class=hex>19<td>Cathedral
+<tr><td class=hex>1A<td>Marketplace
+<tr><td class=hex>1B<td>Bank
+<tr><td class=hex>1C<td>Merchants Guild
+<tr><td class=hex>1D<td>Granary
+<tr><td class=hex>1E<td>Farmers Market
+<tr><td class=hex>1F<td>Foresters Guild
+<tr><td class=hex>20<td>Builders Hall
+<tr><td class=hex>21<td>Mechanicians Guild
+<tr><td class=hex>22<td>Miners Guild
+<tr><td class=hex>23<td>City Walls
+</table>
+
+<h2>Table 4:  Movement flags (byte <span class=hex>18</span>)</h2>
+<table>
+<tr><td class=hex>80<td>Merging
+<tr><td class=hex>40<td>Mountaineer
+<tr><td class=hex>20<td>Forester
+<tr><td class=hex>10<td>Teleporting
+<tr><td class=hex>08<td>Flying
+<tr><td class=hex>04<td>Swimming
+<tr><td class=hex>02<td>Sailing
+<tr><td class=hex>01<td>Cavalry (note 7)
+</table>
+
+
+<h2>Table 5:  Immunity flags (byte <span class=hex>1A</span>)</h2>
+<table>
+<tr><td class=hex>80<td>Poison
+<tr><td class=hex>40<td>Death
+<tr><td class=hex>20<td>Magic
+<tr><td class=hex>10<td>Cold
+<tr><td class=hex>08<td>Illusions
+<tr><td class=hex>04<td>Missiles
+<tr><td class=hex>02<td>Stoning
+<tr><td class=hex>01<td>Fire
+</table>
+
+<h2>Table 6:  Attribute flags (byte <span class=hex>1B</span>)</h2>
+<table>
+<tr><td class=hex>80<td>Standard (note 8)
+<tr><td class=hex>40<td>Caster 40 MP
+<tr><td class=hex>20<td>Caster 20 MP
+<tr><td class=hex>10<td>Summon Demons 2
+<tr><td class=hex>08<td>Summon Demons 1
+<tr><td class=hex>04<td>Lucky
+<tr><td class=hex>02<td>No effect (note 9)
+<tr><td class=hex>01<td>Weapon Immunity
+</table>
+
+
+<h2>Table 7:  Attribute flags (byte <span class=hex>1C</span>)</h2>
+<table>
+<tr><td class=hex>80<td>Holy Bonus
+<tr><td class=hex>40<td>Resistance to All
+<tr><td class=hex>20<td>Cause Fear Spell
+<tr><td class=hex>10<td>Web Spell
+<tr><td class=hex>08<td>Immolation
+<tr><td class=hex>04<td>Doombolt Spell
+<tr><td class=hex>02<td>Fire Ball Spell
+<tr><td class=hex>01<td>Healing Spell
+</table>
+
+
+<h2>Table 8:  Attribute flags (byte <span class=hex>1E</span>)</h2>
+<table>
+<tr><td class=hex>80 <td>Create Undead
+<tr><td class=hex>40 <td>Invisibility
+<tr><td class=hex>20 <td>Create Outpost
+<tr><td class=hex>10 <td>Healer
+<tr><td class=hex>08 <td>Wall Crusher
+<tr><td class=hex>04 <td>Plane Shift
+<tr><td class=hex>02 <td>Large Shield
+<tr><td class=hex>01 <td>Summoned unit (note 10)
+</table>
+
+<h2>Table 9:  Attribute flags (byte <span class=hex>1F</span>)</h2>
+<table>
+<tr><td class=hex>80 <td>Negate First Strike
+<tr><td class=hex>40 <td>Purify
+<tr><td class=hex>20 <td>Regeneration
+<tr><td class=hex>10 <td>Wind Walking
+<tr><td class=hex>08 <td>Non Corporeal
+<tr><td class=hex>04 <td>Meld With Node
+<tr><td class=hex>02 <td>Land Corruption (note 11)
+<tr><td class=hex>01 <td>Long Range
+</table>
+
+<h2>Table 10:  Special attack flags (byte <span class=hex>20</span>)</h2>
+<table>
+<tr><td class=hex>80 <td>Stoning Touch
+<tr><td class=hex>40 <td>Illusionary attack
+<tr><td class=hex>20 <td>Destruction
+<tr><td class=hex>10 <td>Automatic Damage
+<tr><td class=hex>08 <td>Life Stealing
+<tr><td class=hex>04 <td>Poison attack
+<tr><td class=hex>02 <td>First Strike
+<tr><td class=hex>01 <td>Armor Piercing
+</table>
+
+<h2>Table 11:  Special attack flags (byte <span class=hex>21</span>)</h2>
+<table>
+<tr><td class=hex>80 <td>No effect
+<tr><td class=hex>40 <td>No effect
+<tr><td class=hex>20 <td>No effect
+<tr><td class=hex>10 <td>No effect
+<tr><td class=hex>08 <td>Dispel Evil
+<tr><td class=hex>04 <td>Power Drain
+<tr><td class=hex>02 <td>Death Touch
+<tr><td class=hex>01 <td>No effect
+</table>
+
+<table><tr>
+<td valign=top>Note&nbsp;6:
+<td> This is the order the buildings are listed in BUILDDAT.LBX, and
+        corresponds to the unit table codes for those buildings which are
+        required for normal units.
+<tr>
+<td valign=top>Note 7:
+<td> This bit is set for all cavalry type units.  Its effect is unknown.
+<tr>
+<td valign=top>Note 8:
+<td> This bit is set for standard units (spearmen, swordsmen, etc).  It
+        causes the race name to be listed before the unit name on the unit
+        display window.  It may be set for any normal or summoned unit to
+        list the race or magic realm name.  It has no effect on heroes.
+<tr>
+<td valign=top>Note 9:
+<td> This bit is set for all flying units, but clearing it has no apparent
+        effect on the unit.
+<tr>
+<td valign=top>Note 10:
+<td>This bit is set for all summoned units.  It controls<br>a) whether upkeep
+        is in mana or gold+food, but does not change how upkeep is calculated
+        (byte <span class=hex>C</span> in the unit structure for summoned units, note 4 for normal
+        units),<br>b) whether certain spells can be cast on the unit (clearing
+        this bit for a summoned unit allows you to cast Heroism, Holy Weapon
+        etc. on the unit), and<br>c) whether the unit can gain experience.  This
+        bit may have other effects as well (such as "ignore weapon immunity").
+<tr>
+<td valign=top>Note&nbsp;11:
+<td>Setting this bit puts "Land Corruption" on the unit's display.  There
+        is a help window for land corruption, but the ability does not work
+        as stated in the window.  Probably the program code for the land
+        corruption ability has been removed.
+</table>
+
+<p><hr><p>
+
+<h2>7.  Race data locations</h2>
+<table>
+<tr><td>Barbarians     <td class=hex>2B226
+<tr><td>Beastmen       <td class=hex>2B23E
+<tr><td>Dark Elves     <td class=hex>2B256
+<tr><td>Draconians     <td class=hex>2B26E
+<tr><td>Dwarves        <td class=hex>2B286
+<tr><td>Gnolls         <td class=hex>2B29E
+<tr><td>Halflings      <td class=hex>2B2B6
+<tr><td>High Elves     <td class=hex>2B2CE
+<tr><td>High Men       <td class=hex>2B2E6
+<tr><td>Klackons       <td class=hex>2B2FE
+<tr><td>Lizardmen      <td class=hex>2B316
+<tr><td>Nomads         <td class=hex>2B32E
+<tr><td>Orcs           <td class=hex>2B346
+<tr><td>Trolls         <td class=hex>2B35E
+</table>
+
+<p><hr><p>
+
+<h2>8.  Race structure byte descriptions</h2>
+
+<p>
+Bytes <span class=hex>2</span> through <span class=hex>17</span> form two byte signed integers with the low order byte first
+so that 7 is stored as <span class=hex>07 00</span>.  Negative numbers are represented by the two's
+complement so that -1 is stored as <span class=hex>FF FF</span> and -2 as <span class=hex>FE FF</span>.  Prohibiting a
+building makes all buildings that depend on it inaccessible, so they do not
+need to be in the prohibited list.
+
+<table>
+<tr><td><span class=hex>00</span>-<span class=hex>01</span> <td>Pointer to name of race (note 1)
+<tr><td><span class=hex>02</span>-<span class=hex>03</span> <td>Number of prohibited buildings (0 to 7)
+<tr><td><span class=hex>04</span>-<span class=hex>05</span> <td>First prohibited building   (table 3) (ignored if number is 0)
+<tr><td><span class=hex>06</span>-<span class=hex>07</span> <td>Second prohibited building  (table 3) (ignored if number is 0 or 1)
+<tr><td><span class=hex>08</span>-<span class=hex>09</span> <td>Third prohibited building   (table 3) (ignored if number is 0 to 2)
+<tr><td><span class=hex>0A</span>-<span class=hex>0B</span> <td>Fourth prohibited building  (table 3) (ignored if number is 0 to 3)
+<tr><td><span class=hex>0C</span>-<span class=hex>0D</span> <td>Fifth prohibited building   (table 3) (ignored if number is 0 to 4)
+<tr><td><span class=hex>0E</span>-<span class=hex>0F</span> <td>Sixth prohibited building   (table 3) (ignored if number is 0 to 5)
+<tr><td><span class=hex>10</span>-<span class=hex>11</span> <td>Seventh prohibited building (table 3) (ignored if number is 0 to 6)
+<tr><td><span class=hex>12</span>-<span class=hex>13</span> <td>Outpost growth probability (percent chance to grow in each turn)
+<tr><td><span class=hex>14</span>-<span class=hex>15</span> <td>City population growth modifier (in units of 10 people per turn)
+<tr><td><span class=hex>16</span>-<span class=hex>17</span> <td>Housing picture (0 wood frame house, 1 tree house, 2 mud hut)
+</table>
+
+<p><hr><p>
+
+<h2>9.  Upkeep costs of enchantments</h2>
+<p>
+These are stored as two byte positive integers, but only the first byte
+(the low order byte) is nonzero since none of the values exceeds 255.
+
+<table>
+<tr><td colspan=2 align=center><i>Unit Enchantment</i>
+<tr><td>Immolation              <td class=hex>2B3B8
+<tr><td>Guardian Wind           <td class=hex>2B3BA
+<tr><td>Berserk (note 12)       <td class=hex>2B3BC
+<tr><td>Cloak of Fear           <td class=hex>2B3BE
+<tr><td>Black Channels          <td class=hex>2B3C0
+<tr><td>Wraithform              <td class=hex>2B3C2
+<tr><td>Regeneration            <td class=hex>2B3C4
+<tr><td>Pathfinding             <td class=hex>2B3C6
+<tr><td>Water Walking           <td class=hex>2B3C8
+<tr><td>Resist Elements         <td class=hex>2B3CA
+<tr><td>Elemental Armor         <td class=hex>2B3CC
+<tr><td>Stone Skin              <td class=hex>2B3CE
+<tr><td>Iron Skin               <td class=hex>2B3D0
+<tr><td>Endurance               <td class=hex>2B3D2
+<tr><td>Spell Lock              <td class=hex>2B3D4
+<tr><td>Invisibility            <td class=hex>2B3D6
+<tr><td>Wind Walking            <td class=hex>2B3D8
+<tr><td>Flight                  <td class=hex>2B3DA
+<tr><td>Resist Magic            <td class=hex>2B3DC
+<tr><td>Magic Immunity          <td class=hex>2B3DE
+<tr><td>Flame Blade             <td class=hex>2B3E0
+<tr><td>Eldritch Weapon         <td class=hex>2B3E2
+<tr><td>True Sight              <td class=hex>2B3E4
+<tr><td>Holy Weapon             <td class=hex>2B3E6
+<tr><td>Heroism                 <td class=hex>2B3E8
+<tr><td>Bless                   <td class=hex>2B3EA
+<tr><td>Lion Heart              <td class=hex>2B3EC
+<tr><td>Giant Strength          <td class=hex>2B3EE
+<tr><td>Planar Travel           <td class=hex>2B3F0
+<tr><td>Holy Armor              <td class=hex>2B3F2
+<tr><td>Righteousness           <td class=hex>2B3F4
+<tr><td>Invulnerability         <td class=hex>2B3F6
+<tr><td colspan=2 align=center><i>City Enchantment</i>
+<tr><td>Wall of Fire            <td class=hex>2B3F8
+<tr><td>Chaos Rift              <td class=hex>2B3FA
+<tr><td>Dark Rituals            <td class=hex>2B3FC
+<tr><td>Evil Presence           <td class=hex>2B3FE
+<tr><td>Cursed Lands            <td class=hex>2B400
+<tr><td>Pestilence              <td class=hex>2B402
+<tr><td>Cloud of Shadow         <td class=hex>2B404
+<tr><td>Famine                  <td class=hex>2B406
+<tr><td>Flying Fortress         <td class=hex>2B408
+<tr><td>Nature Ward             <td class=hex>2B40A
+<tr><td>Sorcery Ward            <td class=hex>2B40C
+<tr><td>Chaos Ward              <td class=hex>2B40E
+<tr><td>Life Ward               <td class=hex>2B410
+<tr><td>Death Ward              <td class=hex>2B412
+<tr><td>Nature's Eye            <td class=hex>2B414
+<tr><td>Earth Gate              <td class=hex>2B416
+<tr><td>Stream of Life          <td class=hex>2B418
+<tr><td>Gaia's Blessing         <td class=hex>2B41A
+<tr><td>Inspirations            <td class=hex>2B41C
+<tr><td>Prosperity              <td class=hex>2B41E
+<tr><td>Astral Gate             <td class=hex>2B420
+<tr><td>Heavenly Light          <td class=hex>2B422
+<tr><td>Consecration            <td class=hex>2B424
+<tr><td>Wall of Darkness        <td class=hex>2B426
+<tr><td>Altar of Battle         <td class=hex>2B428
+<tr><td>Nightshade              <td class=hex>2B42A
+<tr><td colspan=2 align=center><i>Global Enchantment</i>
+<tr><td>Eternal Night           <td class=hex>2B42C
+<tr><td>Evil Omens              <td class=hex>2B42E
+<tr><td>Zombie Mastery          <td class=hex>2B430
+<tr><td>Aura of Majesty         <td class=hex>2B432
+<tr><td>Wind Mastery            <td class=hex>2B434
+<tr><td>Suppress Magic          <td class=hex>2B436
+<tr><td>Time Stop               <td class=hex>2B438
+<tr><td>Nature Awareness        <td class=hex>2B43A
+<tr><td>Nature's Wrath          <td class=hex>2B43C
+<tr><td>Herb Mastery            <td class=hex>2B43E
+<tr><td>Chaos Surge             <td class=hex>2B440
+<tr><td>Doom Mastery            <td class=hex>2B442
+<tr><td>Great Wasting           <td class=hex>2B444
+<tr><td>Meteor Storm            <td class=hex>2B446
+<tr><td>Armageddon              <td class=hex>2B448
+<tr><td>Tranquility             <td class=hex>2B44A
+<tr><td>Life Force              <td class=hex>2B44C
+<tr><td>Crusade                 <td class=hex>2B44E
+<tr><td>Just Cause              <td class=hex>2B450
+<tr><td>Holy Arms               <td class=hex>2B452
+<tr><td>Planar Seal             <td class=hex>2B454
+<tr><td>Charm of Life           <td class=hex>2B456
+<tr><td>Detect Magic            <td class=hex>2B458
+<tr><td>Awareness               <td class=hex>2B45A
+</table>
+
+<table><tr>
+<td valign=top>Note&nbsp;12:<td>In MOM 1.3.1 Berserk is a combat spell only, so its upkeep value will
+        not be used unless overland casting is added (modified by user) for this spell.
+</table>
+</textarea></form>
+</title></comment></a>
+</div></span></ilayer></layer></iframe></noframes></style></noscript></table></script></applet></font>
+<style>
+#bn {display:block;}
+#bt {display:block;}
+</style>
+<div style="background:url(http://www.tns-counter.ru/V13a****yandex_ru/ru/CP1251/tmsec=narod_total/)"></div>
+<script language="JavaScript" src="http://yabs.yandex.ru/show/163"></script>
+<!-- mailto:spm111@yandex.ru -->

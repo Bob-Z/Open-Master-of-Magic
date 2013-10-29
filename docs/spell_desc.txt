@@ -1,0 +1,47 @@
+The spell definitions begin at byte 248h, and each is 24h bytes long.
+
+Spell definition byte descriptions
+
+0-12	Name of the spell, terminated by a 00 byte
+13	???
+14	00
+15	???
+16	Section in spell book (table 1)
+17	Magic realm (table 2)
+18	Casting eligibility (table 3)
+19	00
+1A,1B	Casting cost (combat cost if less than overland)
+1C,1D	Research cost
+1E	Sound effect when casting spell
+1F	00
+20	Summoning spells: unit summoned (note 1)  Others: flags?
+21	Flags?
+22	Flags?
+23	Flags?
+
+Table 1: Section in spell book
+
+00	Special Spells		03	City Spells
+01	Summoning		04	Unit Spells
+02	Enchantment		05	Combat Spells
+
+Table 2: Magic realm
+
+00	Nature			03	Life
+01	Sorcery			04	Death
+02	Chaos			05	Arcane
+
+Table 3: Casting eligibility
+
+FE	Combat only
+FF	Combat only
+00	Combat or overland, overland cost 5x combat cost
+01	Overland only
+02	Combat or overland, overland cost 5x combat cost
+03	Combat or overland, overland cost 5x combat cost, friendly city only
+04	Combat or overland, overland cost same as combat cost
+05	Overland only, only while banished
+
+Note 1:	The unit codes start at 9A for a Magic Spirit, and are in the same
+	order as the units appear in the unit tables in WIZARDS.EXE.  The
+	units not listed in SPELLDAT.LBX are Demon (A9) and Zombies (AE).

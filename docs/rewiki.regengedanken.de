@@ -1,0 +1,65 @@
+ Games
+
+.LBX files are used in Master of Magic, Master of Orion and Master of Orion 2 to store almost all game-relevant data.
+Structure
+
+Some of the many .LBX files found in the game's directory are simply renamed Smacker files, which contain intro and ingame video sequences. All other files are simple table-based resource containers which are indexed by an integer rather than by name.
+Global Header
+
+Each non-Smacker .LBX file starts with the following header:
+
+struct LBXHeader
+{
+  uint16 numEntries;
+  uint16 magic;
+  uint16 reserved;
+  uint16 fileType;
+  uint32 offsets[numFiles + 1];
+};
+
+The numEntries field simply contains the number of resources in this .LBX file. magic seems to be always 0xfead, probably to identify a valid .LBX file. The reserved field seems to be always 0, and the fileType field is 0 for Master of Orion 2 but can be different for the other games. Known values are 0, 1, 2, 3, 5. It is yet unclear what exactly they mean, probably some way to distinguish between various types of LBX files (Audio resources, images, ...) The offsets are the file-offsets of each resource. The last entry points to the end of the file (i.e. directly after the last resource). It looks as if the first resource always starts at file offset 0x0800 (for Master of Orion 2, for other games it's even before that), so there's probably an upper limit to the number of resources supported inside a single .LBX file, namely 198 (=0xc6).
+Resource Format
+
+The format of each resource varies, which makes analysis difficult. Each LBX file seems to contain only resources of the same type, however, there is no (obvious) way to tell which one. This is probably hardcoded in the game.
+
+There are at least 5 different types of resource which I have found so far:
+
+    Audio/music resources (only found in Master of Orion and Master of Magic), which start with the following header: 
+
+struct LBXSoundHeader {
+
+ uint16 magic;
+ uint16 type;
+ uint16 reserved[6];
+
+};
+
+    The magic field contains 0xdeaf, which can be used to identify this type of resource. The field type describes the type of sound data, known values are 1 for XMidi and 2 for VOC. 
+
+    WAVE resources (only found in Master of Orion 2), which simply start with the RIFF .WAV header.
+    Plain resources (for example RACESTUF.LBX): resources don't have length information, the length of a resource is either hardcoded in the game (RACESTUF.LBX for example has a fixed number of strings for the racial traits) or calculated from the offset table in the global header.
+    Array resources: each resource starts with an array header: 
+
+struct LBXArrayHeader {
+
+ uint16 numElements;
+ uint16 elementSize;
+
+};
+
+    To identify these types of resources, check if numElements*elementSize+4 == resource_length, where resource_length is the length deduced from the offsets in the global LBX header. 
+
+    Animation/Image resources: each of these starts with a header: 
+
+struct LBXAnimationHeader {
+
+ uint16 width;
+ uint16 height;
+ uint16 unknown1;  // always =0?
+ uint16 numFrames;
+ uint32 unknown2;   // flags?
+ uint32 offsets[numFrames + 1];
+
+};
+
+    Like in the global LBX header, there's one offset more than entries, because the last offset points to the end of the resource. All offsets are calculated against the start of the LBXAnimationHeader. The width and height fields should be self-explanatory. numFrames is 1 for still images and >1 for animations. The unknown2 field might also be seperate smaller fields, for example for flags or palette numbers, no idea yet. This type of resource can be detected by checking for reasonable values for width and height, and probably for the number of frames. The unknown1 field might also be helpful (should be 0, although I can't 100% confirm this at the moment) 
