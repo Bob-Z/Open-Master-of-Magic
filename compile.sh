@@ -1,5 +1,8 @@
 #!/bin/bash
 
+astyle -r --indent=force-tab  --style=1tbs "*.c"
+astyle -r --indent=force-tab  --style=1tbs "*.h"
+
 #sudo apt-get install libsdl-mixer1.2-dev
 
 CFLAGS=`pkg-config --cflags sdl`
