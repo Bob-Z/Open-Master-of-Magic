@@ -117,7 +117,7 @@ typedef struct unit_struct {
 	int anim_x;
 	int anim_y;
 	Uint32 anim_timer;
-	int orient; 
+	int orient;
 	int move; /* remaining movement point */
 
 	int hp; // current hp (max is in def)

@@ -43,7 +43,7 @@ static int end_screen;
 void screen_city(city_t * city)
 {
 	SDL_Event event;
-        int j;
+	int j;
 	//game_t * game = city->game;
 
 	end_screen = -1;
@@ -64,10 +64,8 @@ void screen_city(city_t * city)
 	j++;
 
 	/* Main loop */
-	while( end_screen == -1)
-	{
-		while (SDL_PollEvent(&event))
-		{
+	while( end_screen == -1) {
+		while (SDL_PollEvent(&event)) {
 			if(event.type==SDL_KEYDOWN && event.key.keysym.sym==SDLK_ESCAPE) {
 				return;
 			}

@@ -24,21 +24,21 @@
 #include "lbx.h"
 
 typedef struct {
-        SDL_Rect rect;
-        LBXAnimation_t * anim;
+	SDL_Rect rect;
+	LBXAnimation_t * anim;
 	int current_frame;
 	int anim_start;
 	int anim_end;
-        int frame_normal; // if -1 it's an animation
-        int frame_over;
-        int frame_click;
+	int frame_normal; // if -1 it's an animation
+	int frame_over;
+	int frame_click;
 	int clicked;
-        void (*click_left)(void * arg); //callback on left click on this item
-        void * click_left_arg;
-        void (*click_right)(void * arg); //callback on right click on this item
-        void * click_right_arg;
-        void (*over)(void * arg); //callback on mouse over this item
-        void * over_arg;
+	void (*click_left)(void * arg); //callback on left click on this item
+	void * click_left_arg;
+	void (*click_right)(void * arg); //callback on right click on this item
+	void * click_right_arg;
+	void (*over)(void * arg); //callback on mouse over this item
+	void * over_arg;
 	LBXAnimation_t * font;
 	const char * string;		// string centered on item
 } item_t;

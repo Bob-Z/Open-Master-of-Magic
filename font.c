@@ -40,7 +40,7 @@ int main(void)
 	int res_i;
 
 	fd = open("../data_1_3_1_patch/FONTS.LBX",O_RDONLY);
-	if(fd==-1){
+	if(fd==-1) {
 		printf("Error opening file\n");
 		exit(0);
 	}
@@ -50,7 +50,7 @@ int main(void)
 	offset = (uint16_t *)(buf+0x7ba);
 
 //	for(i=672;i<768;i++){
-	for(i=0;i<768;i++){
+	for(i=0; i<768; i++) {
 		not1 = 0;
 		res_i = 0;
 		num_line = size[i];
@@ -58,21 +58,20 @@ int main(void)
 
 		ptr = buf + 0x320 + offset[i];
 		printf("offset = %04x\n",offset[i]);
-	
+
 		while(num_line > 0) {
 			while(*ptr != 0x80) {
 				printf("%02X ",*ptr);
 				if( *ptr > 0x80 ) {
-					for(j=0;j<(*ptr&0x7f);j++) {
+					for(j=0; j<(*ptr&0x7f); j++) {
 						result[res_i]=' ';
 						res_i++;
 					}
-				}
-				else {
+				} else {
 					if((*ptr&0x0f) != 1) {
 						not1=1;
 					}
-					for(j=0;j<(*ptr>>4);j++) {
+					for(j=0; j<(*ptr>>4); j++) {
 //						result[res_i]='@';
 						result[res_i]='0' + (*ptr&0x0f);
 						res_i++;

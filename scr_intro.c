@@ -30,11 +30,11 @@ static LBXAnimation_t * anim = NULL;
 void screen_intro()
 {
 	int end_anim;
-        int current_anim = 0;
+	int current_anim = 0;
 	SDL_Event event;
 	SDL_Rect rect;
 
-	if(anim==NULL){
+	if(anim==NULL) {
 		anim = load_graphics("INTRO.LBX");
 		if(anim == NULL) {
 			exit(EXIT_FAILURE);
@@ -48,10 +48,8 @@ void screen_intro()
 
 	opengl_clear_fbo();
 
-	while( anim[current_anim].num_frame != 0 )
-	{
-		while (SDL_PollEvent(&event))
-		{
+	while( anim[current_anim].num_frame != 0 ) {
+		while (SDL_PollEvent(&event)) {
 			if(event.type==SDL_KEYDOWN && (event.key.keysym.sym==SDLK_ESCAPE || event.key.keysym.sym==SDLK_SPACE)) {
 				return;
 			}

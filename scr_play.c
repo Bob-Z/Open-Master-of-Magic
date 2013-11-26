@@ -89,8 +89,7 @@ static int get_tile_coord_x(int tile, game_t * game)
 
 	if( abs(wrap_left_relative_tile) < abs(wrap_right_relative_tile)) {
 		relative_tile = wrap_left_relative_tile;
-	}
-	else {
+	} else {
 		relative_tile = wrap_right_relative_tile;
 	}
 
@@ -102,7 +101,7 @@ static int get_tile_coord_y(int tile, game_t * game)
 	int relative_tile;
 
 	relative_tile = tile - cur_tile_y;
-	
+
 	return ( orig_y + (relative_tile*TILE_SIZE_H) );
 }
 static int draw_tile(game_t * game)
@@ -123,7 +122,7 @@ static int draw_tile(game_t * game)
 
 	index=0;
 	for( count_w = -num_tile_w/2; count_w < num_tile_w/2; count_w ++) {
-		for( count_h=(-num_tile_h/2);count_h<num_tile_h/2;count_h++){
+		for( count_h=(-num_tile_h/2); count_h<num_tile_h/2; count_h++) {
 			tile_y=cur_tile_y+count_h;
 			if(tile_y < 0 || tile_y >= game->map->height) {
 				continue;
@@ -168,7 +167,7 @@ static int draw_unit(game_t * game)
 	item_back = NULL;
 
 	num_item = 0;
-	for(i=0;i<game->opponent_num+1;i++) {
+	for(i=0; i<game->opponent_num+1; i++) {
 		grp_list = game->wiz[i].group;
 		while(grp_list!=NULL ) {
 			ulist = (unit_list_t *)grp_list->data;;
@@ -195,17 +194,16 @@ static int draw_unit(game_t * game)
 				}
 
 				item_set_frame(&item_back[num_item],x,y,
-						blink_state?&back[game->wiz[i].color + BACK_COLOR]:NULL);
+							   blink_state?&back[game->wiz[i].color + BACK_COLOR]:NULL);
 
 				item_set_frame(&item_unit[num_item],x,y+1,
-						blink_state?&unit[cur_unit->type]:NULL);
-			}
-			else {
+							   blink_state?&unit[cur_unit->type]:NULL);
+			} else {
 				item_set_frame(&item_back[num_item],x,y,
-					&back[game->wiz[i].color+BACK_COLOR]);
+							   &back[game->wiz[i].color+BACK_COLOR]);
 
 				item_set_frame(&item_unit[num_item],x,y+1,
-					&unit[cur_unit->type]);
+							   &unit[cur_unit->type]);
 
 			}
 			num_item++;
@@ -237,7 +235,7 @@ static int draw_city(game_t * game)
 	item_city = NULL;
 
 	num_item = 0;
-	for(i=0;i<game->opponent_num+1;i++) {
+	for(i=0; i<game->opponent_num+1; i++) {
 		cur_list = game->wiz[i].city;
 		while(cur_list!=NULL ) {
 			cur_city = (city_t*)cur_list->data;
@@ -263,7 +261,7 @@ static int draw_city(game_t * game)
 				size_pic = 5;
 			}
 			item_set_frame(&item_city[num_item],x,y+1,
-					&back[CITY_NOWALL]);
+						   &back[CITY_NOWALL]);
 			item_set_frame_normal(&item_city[num_item],size_pic);
 
 			item_set_click_right(&item_city[num_item],cb_city_screen,cur_city);
@@ -308,7 +306,7 @@ static int draw_encounter(game_t * game)
 		item_init(&item_encounter[num_item]);
 
 		item_set_frame(&item_encounter[num_item],x,y+1,
-				&back[cur_encounter->type]);
+					   &back[cur_encounter->type]);
 
 		num_item++;
 		cur_list = cur_list->next;
@@ -322,7 +320,7 @@ static void remove_dead_groups(game_t * game)
 {
 	int i;
 
-	for(i=0;i<game->opponent_num+1;i++) {
+	for(i=0; i<game->opponent_num+1; i++) {
 		game->wiz[i].group = del_llist(game->wiz[i].group,NULL);
 	}
 }
@@ -349,39 +347,39 @@ static void move_unit(game_t * game,int key)
 	side = unit->side;
 
 	switch( key ) {
-		case SDLK_ESCAPE:
-			return;
-		case SDLK_KP1:
-			new_x--;
-			new_y++;
-			break;
-		case SDLK_KP2:
-			new_y++;
-			break;
-		case SDLK_KP3:
-			new_x++;
-			new_y++;
-			break;
-		case SDLK_KP4:
-			new_x--;
-			break;
-		case SDLK_KP6:
-			new_x++;
-			break;
-		case SDLK_KP7:
-			new_x--;
-			new_y--;
-			break;
-		case SDLK_KP8:
-			new_y--;
-			break;
-		case SDLK_KP9:
-			new_x++;
-			new_y--;
-			break;
-		default:
-			return;
-			break;
+	case SDLK_ESCAPE:
+		return;
+	case SDLK_KP1:
+		new_x--;
+		new_y++;
+		break;
+	case SDLK_KP2:
+		new_y++;
+		break;
+	case SDLK_KP3:
+		new_x++;
+		new_y++;
+		break;
+	case SDLK_KP4:
+		new_x--;
+		break;
+	case SDLK_KP6:
+		new_x++;
+		break;
+	case SDLK_KP7:
+		new_x--;
+		new_y--;
+		break;
+	case SDLK_KP8:
+		new_y--;
+		break;
+	case SDLK_KP9:
+		new_x++;
+		new_y--;
+		break;
+	default:
+		return;
+		break;
 	}
 
 	if(new_x<0) {
@@ -413,8 +411,7 @@ static void move_unit(game_t * game,int key)
 				ulist=ulist->next;
 			}
 		}
-	}
-	else {
+	} else {
 		ulist = (unit_list_t *)selected_group->data;
 		while(ulist!= NULL) {
 			unit = (unit_t*)ulist->data;
@@ -458,10 +455,10 @@ void screen_play(game_t * game)
 	char gold_buf[128];
 	char mana_buf[128];
 	SDL_Event event;
-        int tile_num;
-        int unit_num;
-        int city_num;
-        int encounter_num;
+	int tile_num;
+	int unit_num;
+	int city_num;
+	int encounter_num;
 	int i;
 	int j;
 	int x;
@@ -513,7 +510,7 @@ void screen_play(game_t * game)
 	if(unit==NULL) {
 		j=0;
 		anim_ptr = unit1;
-		for(i=0;i<2;i++) {
+		for(i=0; i<2; i++) {
 			while(anim_ptr->num_frame!=0) {
 				unit = (LBXAnimation_t*)realloc(unit,(j+1)*sizeof(LBXAnimation_t));
 				memcpy(&unit[j],anim_ptr,sizeof(LBXAnimation_t));
@@ -574,8 +571,7 @@ void screen_play(game_t * game)
 	j++;
 
 	/* Main loop */
-	while( end_screen == -1)
-	{
+	while( end_screen == -1) {
 		tile_num = draw_tile(game);
 		city_num = draw_city(game);
 		encounter_num = draw_encounter(game);
@@ -587,7 +583,7 @@ void screen_play(game_t * game)
 		sprintf(gold_buf,"%d GP",game->wiz[0].gold);
 		item_set_string(&item_ui[8],gold_buf);
 		item_set_frame(&item_ui[8],264,71,NULL);
-		
+
 		/* Print mana */
 		item_init(&item_ui[9]);
 		item_set_font(&item_ui[9],font);
@@ -595,8 +591,7 @@ void screen_play(game_t * game)
 		item_set_string(&item_ui[9],mana_buf);
 		item_set_frame(&item_ui[9],300,71,NULL);
 
-		while (SDL_PollEvent(&event))
-		{
+		while (SDL_PollEvent(&event)) {
 			if(event.type==SDL_KEYDOWN && event.key.keysym.sym==SDLK_ESCAPE) {
 				return;
 			}
@@ -605,7 +600,7 @@ void screen_play(game_t * game)
 			if(event.type==SDL_KEYDOWN ) {
 				move_unit(game,event.key.keysym.sym);
 			}
-			
+
 			sdl_screen_manager(&event);
 			sdl_mouse_manager(&event,item_ui,ITM_UI_NUM);
 			sdl_mouse_manager(&event,item_city,city_num);

@@ -50,17 +50,17 @@ int main(int argc, char ** argv)
 	screen_intro();
 	while( (screen=screen_start()) != SCREEN_QUIT) {
 		switch(screen) {
-			case SCREEN_NEW:
-				ret = screen_newgame(&game);
-				if(ret == 1) {
-					screen_play(&game);
-				}
+		case SCREEN_NEW:
+			ret = screen_newgame(&game);
+			if(ret == 1) {
+				screen_play(&game);
+			}
 			break;
-			case SCREEN_LOAD:
+		case SCREEN_LOAD:
 			break;
-			case SCREEN_CONTINUE:
+		case SCREEN_CONTINUE:
 			break;
-			default:
+		default:
 			break;
 		}
 	}

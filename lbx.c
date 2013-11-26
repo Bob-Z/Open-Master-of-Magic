@@ -73,7 +73,8 @@ void lbx_display_header(LBXHeader_t * header)
 	printf("fileType = %d\n",header->fileType);
 }
 
-void lbx_check_header(LBXHeader_t * header){
+void lbx_check_header(LBXHeader_t * header)
+{
 	if( header->magic != 0xfead && header->magic != 0xdeaf ) {
 		printf("Unknown header magic value : %d\n",header->magic);
 	}
@@ -87,7 +88,8 @@ void lbx_check_header(LBXHeader_t * header){
 	}
 }
 
-void lbx_check_gfx_header(LBXGfxHeader_t * h){
+void lbx_check_gfx_header(LBXGfxHeader_t * h)
+{
 	uint16_t f = h->flags;
 
 	if( h->unknown1 != 0 ) {
@@ -236,21 +238,21 @@ void lbx_decode(const char * file_name)
 	type = lbx_guess_type(buf);
 
 	switch(type) {
-		case LBX_T_SOUND:
-			printf("Sound\n");
-			break;
-		case LBX_T_ARRAY:
-			printf("Array of data\n");
-			break;
-		case LBX_T_ANIM:
-			printf("Anim\n");
-			break;
-		case LBX_T_DATA:
-			printf("Data\n");
-			break;
-		default:
-			printf("Error\n");
-			break;
+	case LBX_T_SOUND:
+		printf("Sound\n");
+		break;
+	case LBX_T_ARRAY:
+		printf("Array of data\n");
+		break;
+	case LBX_T_ANIM:
+		printf("Anim\n");
+		break;
+	case LBX_T_DATA:
+		printf("Data\n");
+		break;
+	default:
+		printf("Error\n");
+		break;
 	}
 
 	free(buf);
@@ -269,8 +271,7 @@ int lbx_load_hero_names(const char * path)
 
 	if(path) {
 		sprintf(file_name,"%s/names.lbx",path);
-	}
-	else {
+	} else {
 		sprintf(file_name,"names.lbx");
 	}
 
@@ -296,7 +297,7 @@ int lbx_load_hero_names(const char * path)
 		return -1;
 	}
 
-	for(i=0;i<array->numElements;i++) {
+	for(i=0; i<array->numElements; i++) {
 		hero_names[i] = strdup( array_data + ( i * array->elementSize) );
 		if(hero_names[i]==NULL) {
 			perror(NULL);
@@ -321,12 +322,12 @@ char ** lbx_read_array(const char * filename, int logical_file_num)
 	LBXArrayHeader_t * array_header = NULL;
 	char ** array;
 	int i;
-	
+
 	if(raw_data == NULL) {
 		return NULL;
 	}
 
-        header = (LBXHeader_t *)raw_data;
+	header = (LBXHeader_t *)raw_data;
 	lbx_check_header(header);
 
 	if(header->fileType != LBX_TYPE_STRING) {
@@ -343,7 +344,7 @@ char ** lbx_read_array(const char * filename, int logical_file_num)
 	array_header = (LBXArrayHeader_t *)(raw_data + header->offsets[logical_file_num]);
 
 	array = (char**)malloc( (array_header->numElements+1) * sizeof(char*));
-	for(i=0;i<array_header->numElements;i++) {
+	for(i=0; i<array_header->numElements; i++) {
 		array[i] = strdup(array_header->elements+(i*array_header->elementSize));
 	}
 	array[array_header->numElements] = NULL;
@@ -391,7 +392,7 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 		return NULL;
 	}
 
-        header = (LBXHeader_t *)raw_data;
+	header = (LBXHeader_t *)raw_data;
 	lbx_check_header(header);
 
 	if(header->fileType != LBX_TYPE_UNKNOWN) {
@@ -410,7 +411,7 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 		desc++;
 	}
 
-	for(i=0;i<256;i++) {
+	for(i=0; i<256; i++) {
 		Palette[i].r = default_palette[i].r;
 		Palette[i].g = default_palette[i].g;
 		Palette[i].b = default_palette[i].b;
@@ -455,7 +456,7 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 
 			PaletteColourCount = GfxPaletteInfo->PaletteColourCount;
 			FirstPaletteColourIndex = GfxPaletteInfo->FirstPaletteColourIndex;
-			for(i=0;i<PaletteColourCount;i++) {
+			for(i=0; i<PaletteColourCount; i++) {
 				Palette[i+FirstPaletteColourIndex].r = GfxPaletteEntry[i].r << 2;
 				Palette[i+FirstPaletteColourIndex].g = GfxPaletteEntry[i].g << 2;
 				Palette[i+FirstPaletteColourIndex].b = GfxPaletteEntry[i].b << 2;
@@ -486,15 +487,15 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 			SDL_LockSurface(anim[read_entries].frame[i]);
 
 			// Set transparent background color
-			for(x=0;x<GfxHeader->Width;x++) {
-				for(y=0;y<GfxHeader->Height;y++) {
+			for(x=0; x<GfxHeader->Width; x++) {
+				for(y=0; y<GfxHeader->Height; y++) {
 					sdl_set_pixel(anim[read_entries].frame[i],x,y,0,0,0,SDL_TRANSPARENT);
 				}
 			}
 
 			//Values of at least this indicate run length values
 			RLE_val = FirstPaletteColourIndex +
-					PaletteColourCount;
+					  PaletteColourCount;
 
 			BitmapStart = GfxHeader->BitmapOffsets[i];
 			BitmapEnd = GfxHeader->BitmapOffsets[i+1];
@@ -505,8 +506,8 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 #if 0
 			//Byte 0 tells us whether to reset the image half way through an animation
 			if( ImageBuffer[0]==1 && BitmapNo>0 ) {
-				for(x=0;x<GfxHeader->Width;x++) {
-					for(y=0;y<GfxHeader->Height;y++) {
+				for(x=0; x<GfxHeader->Width; x++) {
+					for(y=0; y<GfxHeader->Height; y++) {
 						sdl_set_pixel(anim[read_entries].[i],x,y,0xff,0,0xff,SDL_OPAQUE);
 					}
 				}
@@ -527,17 +528,14 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 				if(ImageBuffer[BitmapIndex]==0xff) {
 					BitmapIndex++;
 					RLE_val = FirstPaletteColourIndex + PaletteColourCount;
-				}
-				else {
+				} else {
 					long_data = ImageBuffer[BitmapIndex + 2];
 					next_ctl = BitmapIndex + ImageBuffer[BitmapIndex+1]+2;
-					if(ImageBuffer[BitmapIndex] == 0x00){
+					if(ImageBuffer[BitmapIndex] == 0x00) {
 						RLE_val = FirstPaletteColourIndex + PaletteColourCount;
-					}
-					else if(ImageBuffer[BitmapIndex] == 0x80){
+					} else if(ImageBuffer[BitmapIndex] == 0x80) {
 						RLE_val = 0xE0;
-					}
-					else {
+					} else {
 						printf("Unrecognized RLE value\n");
 						return NULL;
 					}
@@ -548,7 +546,7 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 					n_r = BitmapIndex;
 					while(n_r < next_ctl) {
 						while( n_r < BitmapIndex+long_data && x < GfxHeader->Width) {
-							if(ImageBuffer[n_r] >= RLE_val){
+							if(ImageBuffer[n_r] >= RLE_val) {
 								//This value is an run length, the next value is the value to repeat
 								last_pos = n_r+1;
 								RleLength = ImageBuffer[n_r] - RLE_val + 1;
@@ -561,18 +559,16 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 								while( RleCounter < RleLength && y < GfxHeader->Height) {
 									if (x < GfxHeader->Width && y < GfxHeader->Height && x >= 0 && y >= 0) {
 										/* With default pallette, color 232 is shadow */
-										if( own_palette == 0 && ImageBuffer[last_pos] == SHADOW_COLOR ){
+										if( own_palette == 0 && ImageBuffer[last_pos] == SHADOW_COLOR ) {
 											sdl_set_pixel(anim[read_entries].frame[i],x,y,0,0,0,128);
 										}
 										/* With default pallette, color 233 is light */
 										else if( own_palette == 0 && ImageBuffer[last_pos]==LIGHT_COLOR) {
 											sdl_set_pixel(anim[read_entries].frame[i],x,y,255,255,255,128);
-										}
-										else {
+										} else {
 											sdl_set_pixel(anim[read_entries].frame[i],x,y,PAL_TO_RGB(Palette[(int)ImageBuffer[last_pos]]) );
 										}
-									}
-									else {
+									} else {
 										printf("RLE length overrun on output\n");
 										return NULL;
 									}
@@ -580,23 +576,20 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 									RleCounter++;
 								}
 								n_r += 2;
-							}
-							else {
+							} else {
 								// Regular single pixel
 								if( x < GfxHeader->Width && y < GfxHeader->Height && x >= 0 && y >= 0) {
 									/* With default pallette, color 232 is shadow */
-									if( own_palette == 0 && ImageBuffer[n_r] == SHADOW_COLOR ){
+									if( own_palette == 0 && ImageBuffer[n_r] == SHADOW_COLOR ) {
 										sdl_set_pixel(anim[read_entries].frame[i],x,y,0,0,0,128);
 									}
 									/* With default pallette, color 233 is light */
 									else if( own_palette == 0 && ImageBuffer[n_r]==LIGHT_COLOR) {
 										sdl_set_pixel(anim[read_entries].frame[i],x,y,255,255,255,128);
-									}
-									else {
+									} else {
 										sdl_set_pixel(anim[read_entries].frame[i],x,y,PAL_TO_RGB(Palette[(int)ImageBuffer[n_r]]) );
 									}
-								}
-								else {
+								} else {
 									printf("Buffer overrun\n");
 									return anim;
 								}
@@ -645,8 +638,8 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 
 void lbx_reset_anim(LBXAnimation_t * anim)
 {
-        anim->prev_time=0;
-        anim->current_frame=0;
+	anim->prev_time=0;
+	anim->current_frame=0;
 }
 
 int font_get_height(LBXFontFile_t * font, int index)
@@ -661,10 +654,9 @@ int font_get_height(LBXFontFile_t * font, int index)
 		cur_height = 1;
 		while(*ptr != 0x80) {
 			if( *ptr > 0x80 ) {
-				cur_height += (*ptr&0x7f);	
-			}
-			else {
-				cur_height += (*ptr>>4);	
+				cur_height += (*ptr&0x7f);
+			} else {
+				cur_height += (*ptr>>4);
 			}
 			ptr++;
 		}
@@ -696,7 +688,7 @@ LBXFontTemplate_t * lbx_decode_font(const char * filename,int font_num)
 		return NULL;
 	}
 
-        header = (LBXHeader_t *)raw_data;
+	header = (LBXHeader_t *)raw_data;
 	lbx_check_header(header);
 
 	if(header->fileType != LBX_TYPE_FONT) {
@@ -713,7 +705,7 @@ LBXFontTemplate_t * lbx_decode_font(const char * filename,int font_num)
 
 	t->num_col = 0;
 
-	for(index=0,i=font_num*LBX_FONT_CHAR_NUM;i<(font_num+1)*LBX_FONT_CHAR_NUM;i++,index++) {
+	for(index=0,i=font_num*LBX_FONT_CHAR_NUM; i<(font_num+1)*LBX_FONT_CHAR_NUM; i++,index++) {
 		t->w[index]=font->width[i];
 		t->h[index]=font_get_height(font,i);
 		t->data[index]=(uint8_t*)malloc((t->w[index])*(t->h[index]));
@@ -726,26 +718,25 @@ LBXFontTemplate_t * lbx_decode_font(const char * filename,int font_num)
 		/* 0xAB means draw A pixels of color B */
 		width=font->width[i];
 		ptr = (unsigned char *)((char*)font + font->offsets[i]);
-                while(width > 0) {
+		while(width > 0) {
 			y=0;
-                        while(*ptr != 0x80) {
-                                if( *ptr > 0x80 ) {
+			while(*ptr != 0x80) {
+				if( *ptr > 0x80 ) {
 					y+=(*ptr&0x0f);
-                                }
-                                else {
-                                        for(j=0;j<(*ptr>>4);j++) {
+				} else {
+					for(j=0; j<(*ptr>>4); j++) {
 						t->data[index][(font->width[i]-width)+(t->w[index]*y)]=(int)(*ptr)&0x0f;
 						if(((int)(*ptr)&0x0f)>t->num_col) {
 							t->num_col=((int)(*ptr)&0x0f);
 						}
 						y++;
-                                        }
-                                }
-                                ptr++;
-                        }
-                        width--;
-                        ptr++;
-                }
+					}
+				}
+				ptr++;
+			}
+			width--;
+			ptr++;
+		}
 	}
 
 	t->num_col++;
@@ -762,7 +753,7 @@ LBXAnimation_t * lbx_generate_font(LBXFontTemplate_t * font, LBXGfxPaletteEntry_
 	int pal_index;
 	int i,x,y;
 
-	for(i=0;i<LBX_FONT_CHAR_NUM;i++) {
+	for(i=0; i<LBX_FONT_CHAR_NUM; i++) {
 		anim[i].num_frame=1;
 		anim[i].current_frame=0;
 		anim[i].w=font->w[i];
@@ -772,46 +763,46 @@ LBXAnimation_t * lbx_generate_font(LBXFontTemplate_t * font, LBXGfxPaletteEntry_
 		anim[i].flags=0;
 		anim[i].delay=0;
 		anim[i].prev_time=0;
-	
+
 		anim[i].frame=(SDL_Surface**)malloc(sizeof(SDL_Surface *));
 		anim[i].frame[0] = SDL_CreateRGBSurface(SDL_HWSURFACE,anim[i].w,anim[i].h,32,RMASK, GMASK, BMASK, AMASK);
 
-		for(x=0;x<anim[i].w;x++) {
-			for(y=0;y<anim[i].h;y++) {
-					sdl_set_pixel(anim[i].frame[0],x,y,0,0,0,SDL_TRANSPARENT);
+		for(x=0; x<anim[i].w; x++) {
+			for(y=0; y<anim[i].h; y++) {
+				sdl_set_pixel(anim[i].frame[0],x,y,0,0,0,SDL_TRANSPARENT);
 			}
 		}
 
 		SDL_LockSurface(anim[i].frame[0]);
 
-		for(x=0; shadow && (x<font->w[i]) ;x++) {
-			for(y=0;y<font->h[i];y++) {
+		for(x=0; shadow && (x<font->w[i]) ; x++) {
+			for(y=0; y<font->h[i]; y++) {
 				pal_index = (int)font->data[i][x+y*font->w[i]];
 				if(pal_index!=0xff) {
 					sdl_set_pixel(anim[i].frame[0],x+1,y+1,
-							pal[font->num_col].r,
-							pal[font->num_col].g,
-							pal[font->num_col].b,
-							SDL_OPAQUE);
+								  pal[font->num_col].r,
+								  pal[font->num_col].g,
+								  pal[font->num_col].b,
+								  SDL_OPAQUE);
 				}
 			}
 		}
 
-		for(x=0;x<font->w[i];x++) {
-			for(y=0;y<font->h[i];y++) {
+		for(x=0; x<font->w[i]; x++) {
+			for(y=0; y<font->h[i]; y++) {
 				pal_index = (int)font->data[i][x+y*font->w[i]];
 				if(pal_index!=0xff) {
 					sdl_set_pixel(anim[i].frame[0],x,y,
-							pal[pal_index].r,
-							pal[pal_index].g,
-							pal[pal_index].b,
-							SDL_OPAQUE);
+								  pal[pal_index].r,
+								  pal[pal_index].g,
+								  pal[pal_index].b,
+								  SDL_OPAQUE);
 				}
 			}
 		}
 
 		SDL_UnlockSurface(anim[i].frame[0]);
-	
+
 		anim[i].tex=(GLuint*)malloc(sizeof(GLuint));;
 		anim[i].tex[0]=opengl_create_texture(anim[i].frame[0]);
 	}
@@ -844,10 +835,10 @@ LBXAnimation_t * lbx_decode_terrain(const char * filename)
 		return NULL;
 	}
 
-        header = (LBXHeader_t *)raw_data;
+	header = (LBXHeader_t *)raw_data;
 	lbx_check_header(header);
 
-	if(header->fileType != LBX_TYPE_STRING && header->offsets[1]!=0x0a5480){
+	if(header->fileType != LBX_TYPE_STRING && header->offsets[1]!=0x0a5480) {
 		printf("this is not a terrain file\n");
 		return NULL;
 	}
@@ -860,7 +851,7 @@ LBXAnimation_t * lbx_decode_terrain(const char * filename)
 	}
 
 	while(ptr < raw_data+header->offsets[1]) {
-		
+
 		width = *((uint16_t *)ptr);
 		ptr += sizeof(uint16_t);
 		height = *((uint16_t *)ptr);
@@ -895,8 +886,7 @@ LBXAnimation_t * lbx_decode_terrain(const char * filename)
 			index2 = (index2>>8)+(msb);
 
 			current->num_frame=index2-index1;
-		}
-		else {
+		} else {
 			current->num_frame=1;
 		}
 
@@ -908,9 +898,9 @@ LBXAnimation_t * lbx_decode_terrain(const char * filename)
 		current->tex = (GLuint*)malloc( current->num_frame*sizeof(GLuint) );
 		current->flags=0;
 		current->prev_time=0;
-		
 
-		for(i=0;i<current->num_frame;i++) {
+
+		for(i=0; i<current->num_frame; i++) {
 			if(i!=0) {
 				/* Skip the header */
 				ptr+=16;
@@ -918,14 +908,14 @@ LBXAnimation_t * lbx_decode_terrain(const char * filename)
 			current->frame[i] = SDL_CreateRGBSurface(SDL_HWSURFACE,current->w,current->h,32,RMASK, GMASK, BMASK, AMASK);
 			SDL_LockSurface(current->frame[i]);
 
-			for(x=0;x<current->w;x++) {
-				for(y=0;y<current->h;y++) {
+			for(x=0; x<current->w; x++) {
+				for(y=0; y<current->h; y++) {
 					col=(int)(*ptr);
 					sdl_set_pixel(current->frame[i],x,y,
-							default_palette[col].r,
-							default_palette[col].g,
-							default_palette[col].b,
-							SDL_OPAQUE);
+								  default_palette[col].r,
+								  default_palette[col].g,
+								  default_palette[col].b,
+								  SDL_OPAQUE);
 					ptr++;
 				}
 			}
@@ -943,7 +933,7 @@ LBXAnimation_t * lbx_decode_terrain(const char * filename)
 
 	printf("%d terrain tiles\n",anim_num);
 
-	return anim;	
+	return anim;
 }
 
 Mix_Chunk * lbx_decode_sound(const char * filename,int file_num)
@@ -962,7 +952,7 @@ Mix_Chunk * lbx_decode_sound(const char * filename,int file_num)
 		return NULL;
 	}
 
-        header = (LBXHeader_t *)raw_data;
+	header = (LBXHeader_t *)raw_data;
 	lbx_check_header(header);
 
 	printf("file in archive = %d\n",header->numEntries);
@@ -1021,7 +1011,7 @@ Mix_Music * lbx_decode_music(const char * filename,int file_num)
 		return NULL;
 	}
 
-        header = (LBXHeader_t *)raw_data;
+	header = (LBXHeader_t *)raw_data;
 	lbx_check_header(header);
 
 	printf("file in archive = %d\n",header->numEntries);

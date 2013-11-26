@@ -77,17 +77,17 @@ char * exe_read(const char * file_name)
 char * exe_init(const char * filename)
 {
 	char path[2048];
-        char lower_case[2048];
-        int i=0;
+	char lower_case[2048];
+	int i=0;
 
-        while( filename[i] != 0 ) {
-                lower_case[i] = tolower(filename[i]);
-                i++;
-        }
-        lower_case[i]=0;
+	while( filename[i] != 0 ) {
+		lower_case[i] = tolower(filename[i]);
+		i++;
+	}
+	lower_case[i]=0;
 
 	if(data_path != NULL) {
-                sprintf(path,"%s/%s",data_path,filename);
+		sprintf(path,"%s/%s",data_path,filename);
 		exe_data = exe_read(path);
 		if(exe_data != NULL) {
 			goto exe_data_ok;
@@ -107,14 +107,14 @@ char * exe_init(const char * filename)
 		goto exe_data_ok;
 	}
 
-        /* and with lowercase */
-        sprintf(path,"./%s",lower_case);
+	/* and with lowercase */
+	sprintf(path,"./%s",lower_case);
 	exe_data = exe_read(path);
 	if(exe_data != NULL) {
 		goto exe_data_ok;
 	}
 
-        printf("Could not load %s\n",filename);
+	printf("Could not load %s\n",filename);
 
 	return NULL;
 

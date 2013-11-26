@@ -25,28 +25,28 @@ void item_init(item_t * item)
 	item->rect.y=-1;
 	item->rect.w=0;
 	item->rect.h=0;
-        item->anim=NULL;
-        item->anim_start=0;
-        item->anim_end=-1;
-        item->current_frame=0;
-        item->frame_normal=0;
-        item->frame_over=0;
-        item->frame_click=0;
-        item->clicked=0;
-        item->click_left=NULL;
-        item->click_left_arg=NULL;
-        item->click_right=NULL;
-        item->click_right_arg=NULL;
-        item->over=NULL;
-        item->over_arg=NULL;
-        item->font=NULL;
-        item->string=NULL;
+	item->anim=NULL;
+	item->anim_start=0;
+	item->anim_end=-1;
+	item->current_frame=0;
+	item->frame_normal=0;
+	item->frame_over=0;
+	item->frame_click=0;
+	item->clicked=0;
+	item->click_left=NULL;
+	item->click_left_arg=NULL;
+	item->click_right=NULL;
+	item->click_right_arg=NULL;
+	item->over=NULL;
+	item->over_arg=NULL;
+	item->font=NULL;
+	item->string=NULL;
 }
 
 void item_set_frame(item_t * item, int x, int y,LBXAnimation_t * frame)
 {
 	item->rect.x = x;
-        item->rect.y = y;
+	item->rect.y = y;
 	if( frame ) {
 		item->rect.w = frame->w;
 		item->rect.h = frame->h;
@@ -83,17 +83,20 @@ void item_set_frame_click(item_t * item, int num_frame)
 	item->frame_click = num_frame;
 }
 
-void item_set_click_left(item_t * item,void (*click_left)(void * arg),void * click_left_arg) {
+void item_set_click_left(item_t * item,void (*click_left)(void * arg),void * click_left_arg)
+{
 	item->click_left=click_left;
 	item->click_left_arg=click_left_arg;
 }
 
-void item_set_click_right(item_t * item,void (*click_right)(void * arg),void * click_right_arg) {
+void item_set_click_right(item_t * item,void (*click_right)(void * arg),void * click_right_arg)
+{
 	item->click_right=click_right;
 	item->click_right_arg=click_right_arg;
 }
 
-void item_set_over(item_t * item,void (*over)(void * arg),void * over_arg) {
+void item_set_over(item_t * item,void (*over)(void * arg),void * over_arg)
+{
 	item->over=over;
 	item->over_arg=over_arg;
 }

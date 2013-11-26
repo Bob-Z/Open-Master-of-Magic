@@ -66,56 +66,53 @@ int screen_start()
 
 	ret = SCREEN_NUM;
 
-	if(anim==NULL){
+	if(anim==NULL) {
 		anim = load_graphics("MAINSCRN.LBX");
 		if(anim == NULL) {
 			exit(EXIT_FAILURE);
 		}
-	}
-	else {
+	} else {
 		/* Start over the anim */
 		lbx_reset_anim(item[ITM_UP].anim);
 	}
 
 	j=0;
 	item_init(&item[j]);
-        item_set_anim(&item[j],0,0,&anim[ANI_UP]);
-        j++;
+	item_set_anim(&item[j],0,0,&anim[ANI_UP]);
+	j++;
 	item_init(&item[j]);
-        item_set_frame(&item[j],0,item[ITM_UP].rect.h,&anim[ANI_DOWN]);
-        j++;
+	item_set_frame(&item[j],0,item[ITM_UP].rect.h,&anim[ANI_DOWN]);
+	j++;
 	item_init(&item[j]);
-        item_set_frame(&item[j],ORIGINAL_GAME_WIDTH/2-anim[ANI_CONT].w/2,
-                                ORIGINAL_GAME_HEIGHT-16*4,&anim[ANI_CONT]);
-	item_set_frame_over(&item[j],1);
-	item_set_frame_click(&item[j],1);
-        j++;
-	item_init(&item[j]);
-        item_set_frame(&item[j],ORIGINAL_GAME_WIDTH/2-anim[ANI_LOAD].w/2,
-                                ORIGINAL_GAME_HEIGHT-16*3,&anim[ANI_LOAD]);
+	item_set_frame(&item[j],ORIGINAL_GAME_WIDTH/2-anim[ANI_CONT].w/2,
+				   ORIGINAL_GAME_HEIGHT-16*4,&anim[ANI_CONT]);
 	item_set_frame_over(&item[j],1);
 	item_set_frame_click(&item[j],1);
 	j++;
 	item_init(&item[j]);
-        item_set_frame(&item[j],ORIGINAL_GAME_WIDTH/2-anim[ANI_NEW].w/2,
-                                ORIGINAL_GAME_HEIGHT-16*2,&anim[ANI_NEW]);
+	item_set_frame(&item[j],ORIGINAL_GAME_WIDTH/2-anim[ANI_LOAD].w/2,
+				   ORIGINAL_GAME_HEIGHT-16*3,&anim[ANI_LOAD]);
+	item_set_frame_over(&item[j],1);
+	item_set_frame_click(&item[j],1);
+	j++;
+	item_init(&item[j]);
+	item_set_frame(&item[j],ORIGINAL_GAME_WIDTH/2-anim[ANI_NEW].w/2,
+				   ORIGINAL_GAME_HEIGHT-16*2,&anim[ANI_NEW]);
 	item_set_frame_over(&item[j],1);
 	item_set_frame_click(&item[j],1);
 	item_set_click_left(&item[j],cb_new,NULL);
 	j++;
 	item_init(&item[j]);
-        item_set_frame(&item[j],ORIGINAL_GAME_WIDTH/2-anim[ANI_QUIT].w/2,
-                                ORIGINAL_GAME_HEIGHT-16*1,&anim[ANI_QUIT]);
+	item_set_frame(&item[j],ORIGINAL_GAME_WIDTH/2-anim[ANI_QUIT].w/2,
+				   ORIGINAL_GAME_HEIGHT-16*1,&anim[ANI_QUIT]);
 	item_set_frame_over(&item[j],1);
 	item_set_frame_click(&item[j],1);
 	item_set_click_left(&item[j],cb_quit,NULL);
 
 	opengl_clear_fbo();
 
-	while( ret == SCREEN_NUM )
-	{
-		while (SDL_PollEvent(&event))
-		{
+	while( ret == SCREEN_NUM ) {
+		while (SDL_PollEvent(&event)) {
 			if(event.type==SDL_KEYDOWN && event.key.keysym.sym==SDLK_ESCAPE) {
 				return SCREEN_QUIT;
 			}

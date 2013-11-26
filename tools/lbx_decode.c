@@ -29,7 +29,7 @@ extern int window_h;
 
 int display_font(const char * file_name)
 {
-        SDL_Event event;
+	SDL_Event event;
 	int fEnd = 0;
 	LBXAnimation_t * anim;
 	LBXFontTemplate_t * template;
@@ -46,7 +46,7 @@ int display_font(const char * file_name)
 
 	printf("Number of color: %d\n",template->num_col);
 	pal = malloc((template->num_col+1)*sizeof(LBXGfxPaletteEntry_t));
-	for(i=0;i<template->num_col;i++) {
+	for(i=0; i<template->num_col; i++) {
 		pal[i].r=pal[i].g=pal[i].b=(i+1)*(0xff/template->num_col);
 	}
 	pal[template->num_col].r=0xff;
@@ -54,46 +54,42 @@ int display_font(const char * file_name)
 	pal[template->num_col].b=0x00;
 	anim = lbx_generate_font(template,pal,1);
 
-	while ( ! fEnd )
-	{
-		while (SDL_PollEvent(&event))
-		{
-			switch (event.type)
-			{
-				case SDL_KEYDOWN:
-					switch (event.key.keysym.sym)
-					{
-						case SDLK_c:
-							clear_screen = !clear_screen;
-							break;
-						case SDLK_ESCAPE:
-							fEnd = 1;
-							break;
-						case SDLK_SPACE:
-							current_anim++;
-							if(anim[current_anim].frame == NULL) {
-								exit(EXIT_SUCCESS);
-
-							}
-							printf("File %d (%c)\n",current_anim,(current_anim%96)+32);
-							opengl_clear_fbo();
-							break;
-
-
-						default:
-							break;
-					}
+	while ( ! fEnd ) {
+		while (SDL_PollEvent(&event)) {
+			switch (event.type) {
+			case SDL_KEYDOWN:
+				switch (event.key.keysym.sym) {
+				case SDLK_c:
+					clear_screen = !clear_screen;
 					break;
+				case SDLK_ESCAPE:
+					fEnd = 1;
+					break;
+				case SDLK_SPACE:
+					current_anim++;
+					if(anim[current_anim].frame == NULL) {
+						exit(EXIT_SUCCESS);
+
+					}
+					printf("File %d (%c)\n",current_anim,(current_anim%96)+32);
+					opengl_clear_fbo();
+					break;
+
+
 				default:
-					;
+					break;
+				}
+				break;
+			default:
+				;
 			}
 			sdl_screen_manager(&event);
 		}
 
-		rect.x=0;	
-		rect.y=0;	
-		rect.w=anim[current_anim].w*10;	
-		rect.h=anim[current_anim].h*10;	
+		rect.x=0;
+		rect.y=0;
+		rect.w=anim[current_anim].w*10;
+		rect.h=anim[current_anim].h*10;
 
 		if(clear_screen) {
 			opengl_clear_fbo();
@@ -128,7 +124,7 @@ int display_array(const char * file_name)
 
 int display_image(const char * file_name)
 {
-        SDL_Event event;
+	SDL_Event event;
 	int fEnd = 0;
 	LBXAnimation_t * anim;
 	int current_anim = 0;
@@ -142,43 +138,39 @@ int display_image(const char * file_name)
 		return -1;
 	}
 
-	while ( ! fEnd )
-	{
-		while (SDL_PollEvent(&event))
-		{
-			switch (event.type)
-			{
-				case SDL_KEYDOWN:
-					switch (event.key.keysym.sym)
-					{
-						case SDLK_c:
-							clear_screen = !clear_screen;
-							break;
-						case SDLK_ESCAPE:
-							fEnd = 1;
-							break;
-						case SDLK_SPACE:
-							current_anim++;
-							if(anim[current_anim].frame == NULL) {
-								exit(EXIT_SUCCESS);
-							}
-							printf("File %d\n",current_anim);
-							opengl_clear_fbo();
-							break;
-						default:
-							break;
+	while ( ! fEnd ) {
+		while (SDL_PollEvent(&event)) {
+			switch (event.type) {
+			case SDL_KEYDOWN:
+				switch (event.key.keysym.sym) {
+				case SDLK_c:
+					clear_screen = !clear_screen;
+					break;
+				case SDLK_ESCAPE:
+					fEnd = 1;
+					break;
+				case SDLK_SPACE:
+					current_anim++;
+					if(anim[current_anim].frame == NULL) {
+						exit(EXIT_SUCCESS);
 					}
+					printf("File %d\n",current_anim);
+					opengl_clear_fbo();
 					break;
 				default:
-					;
+					break;
+				}
+				break;
+			default:
+				;
 			}
 			sdl_screen_manager(&event);
 		}
 
-		rect.x=0;	
-		rect.y=0;	
-		rect.w=anim[current_anim].w;	
-		rect.h=anim[current_anim].h;	
+		rect.x=0;
+		rect.y=0;
+		rect.w=anim[current_anim].w;
+		rect.h=anim[current_anim].h;
 
 		if(clear_screen) {
 			opengl_clear_fbo();
@@ -193,7 +185,7 @@ int display_image(const char * file_name)
 
 int display_terrain(const char * file_name)
 {
-        SDL_Event event;
+	SDL_Event event;
 	int fEnd = 0;
 	LBXAnimation_t * anim;
 	int current_anim = 0;
@@ -208,85 +200,81 @@ int display_terrain(const char * file_name)
 		return -1;
 	}
 
-	while ( ! fEnd )
-	{
-		while (SDL_PollEvent(&event))
-		{
-			switch (event.type)
-			{
-				case SDL_KEYDOWN:
-					switch (event.key.keysym.sym)
-					{
-						case SDLK_c:
-							clear_screen = !clear_screen;
-							break;
-						case SDLK_ESCAPE:
-							fEnd = 1;
-							break;
-						case SDLK_SPACE:
-							current_anim++;
-							if(anim[current_anim].frame == NULL) {
-								exit(EXIT_SUCCESS);
-
-							}
-							printf("File %d (%02x)\n",current_anim,current_anim);
-							opengl_clear_fbo();
-							break;
-
-						case SDLK_RIGHT:
-							j=0;
-							while(anim[current_anim].frame != NULL && j<11 ) {
-								current_anim++;
-								j++;
-							}
-							current_anim--;
-							printf("File %d (%02x)\n",current_anim,current_anim);
-							opengl_clear_fbo();
-							break;
-
-						case SDLK_LEFT:
-							current_anim-=10;
-							if(current_anim<0){
-								current_anim=0;
-							}
-							printf("File %d (%02x)\n",current_anim,current_anim);
-							opengl_clear_fbo();
-							break;
-
-						case SDLK_UP:
-							j=0;
-							while(anim[current_anim].frame != NULL && j<2 ) {
-								current_anim++;
-								j++;
-							}
-							current_anim--;
-							printf("File %d (%02x)\n",current_anim,current_anim);
-							opengl_clear_fbo();
-							break;
-
-						case SDLK_DOWN:
-							current_anim-=1;
-							if(current_anim<0){
-								current_anim=0;
-							}
-							printf("File %d (%02x)\n",current_anim,current_anim);
-							opengl_clear_fbo();
-							break;
-
-						default:
-							break;
-					}
+	while ( ! fEnd ) {
+		while (SDL_PollEvent(&event)) {
+			switch (event.type) {
+			case SDL_KEYDOWN:
+				switch (event.key.keysym.sym) {
+				case SDLK_c:
+					clear_screen = !clear_screen;
 					break;
+				case SDLK_ESCAPE:
+					fEnd = 1;
+					break;
+				case SDLK_SPACE:
+					current_anim++;
+					if(anim[current_anim].frame == NULL) {
+						exit(EXIT_SUCCESS);
+
+					}
+					printf("File %d (%02x)\n",current_anim,current_anim);
+					opengl_clear_fbo();
+					break;
+
+				case SDLK_RIGHT:
+					j=0;
+					while(anim[current_anim].frame != NULL && j<11 ) {
+						current_anim++;
+						j++;
+					}
+					current_anim--;
+					printf("File %d (%02x)\n",current_anim,current_anim);
+					opengl_clear_fbo();
+					break;
+
+				case SDLK_LEFT:
+					current_anim-=10;
+					if(current_anim<0) {
+						current_anim=0;
+					}
+					printf("File %d (%02x)\n",current_anim,current_anim);
+					opengl_clear_fbo();
+					break;
+
+				case SDLK_UP:
+					j=0;
+					while(anim[current_anim].frame != NULL && j<2 ) {
+						current_anim++;
+						j++;
+					}
+					current_anim--;
+					printf("File %d (%02x)\n",current_anim,current_anim);
+					opengl_clear_fbo();
+					break;
+
+				case SDLK_DOWN:
+					current_anim-=1;
+					if(current_anim<0) {
+						current_anim=0;
+					}
+					printf("File %d (%02x)\n",current_anim,current_anim);
+					opengl_clear_fbo();
+					break;
+
 				default:
-					;
+					break;
+				}
+				break;
+			default:
+				;
 			}
 			sdl_screen_manager(&event);
 		}
 
-		rect.x=0;	
-		rect.y=0;	
-		rect.w=anim[current_anim].w;	
-		rect.h=anim[current_anim].h;	
+		rect.x=0;
+		rect.y=0;
+		rect.w=anim[current_anim].w;
+		rect.h=anim[current_anim].h;
 
 		if(clear_screen) {
 			opengl_clear_fbo();
@@ -303,7 +291,7 @@ int play_sound(const char * file_name)
 	Mix_Chunk * chunk = NULL;
 	Mix_Music * music = NULL;
 	int fEnd = 0;
-        SDL_Event event;
+	SDL_Event event;
 	int file_num = 0;
 	int channel_num = 0;
 
@@ -312,8 +300,7 @@ int play_sound(const char * file_name)
 	chunk = lbx_decode_sound(file_name,file_num);
 	if(chunk != NULL ) {
 		Mix_PlayChannel(channel_num, chunk, -1);
-	}
-	else {
+	} else {
 		music = lbx_decode_music(file_name,file_num);
 		if( music == NULL ) {
 			return -1;
@@ -321,52 +308,47 @@ int play_sound(const char * file_name)
 		Mix_PlayMusic(music,-1);
 	}
 
-	while ( ! fEnd )
-	{
-		while (SDL_PollEvent(&event))
-		{
-			switch (event.type)
-			{
-				case SDL_KEYDOWN:
-					switch (event.key.keysym.sym)
-					{
-						case SDLK_ESCAPE:
+	while ( ! fEnd ) {
+		while (SDL_PollEvent(&event)) {
+			switch (event.type) {
+			case SDL_KEYDOWN:
+				switch (event.key.keysym.sym) {
+				case SDLK_ESCAPE:
+					fEnd = 1;
+					break;
+				case SDLK_SPACE:
+					if(chunk) {
+						Mix_HaltChannel(channel_num);
+					}
+					if(music) {
+						Mix_HaltMusic();
+					}
+
+					file_num++;
+
+					chunk = lbx_decode_sound(file_name,file_num);
+					if(chunk != NULL ) {
+						Mix_PlayChannel(channel_num, chunk, -1);
+					} else {
+						music = lbx_decode_music(file_name,file_num);
+						if( music == NULL ) {
+							printf("Cannot find music or sound resource\n");
 							fEnd = 1;
 							break;
-						case SDLK_SPACE:
-							if(chunk) {
-								Mix_HaltChannel(channel_num);
-							}
-							if(music) {
-								Mix_HaltMusic();
-							}
-							
-							file_num++;
-
-							chunk = lbx_decode_sound(file_name,file_num);
-							if(chunk != NULL ) {
-								Mix_PlayChannel(channel_num, chunk, -1);
-							}
-							else {
-								music = lbx_decode_music(file_name,file_num);
-								if( music == NULL ) {
-									printf("Cannot find music or sound resource\n");
-									fEnd = 1;
-									break;
-								}
-								Mix_PlayMusic(music,-1);
-							}
-
-							printf("Playing resource %d\n",file_num);
-							break;
-
-
-						default:
-							break;
+						}
+						Mix_PlayMusic(music,-1);
 					}
+
+					printf("Playing resource %d\n",file_num);
 					break;
+
+
 				default:
-					;
+					break;
+				}
+				break;
+			default:
+				;
 			}
 		}
 
@@ -390,31 +372,31 @@ int main(int argc, char **argv)
 	type = lbx_guess_type(data);
 
 	switch (type) {
-		case LBX_T_FONT:
-			display_font(argv[1]);
-			exit(EXIT_SUCCESS);
+	case LBX_T_FONT:
+		display_font(argv[1]);
+		exit(EXIT_SUCCESS);
 		break;
 
-		case LBX_T_SOUND:
-			play_sound(argv[1]);
-			exit(EXIT_SUCCESS);
+	case LBX_T_SOUND:
+		play_sound(argv[1]);
+		exit(EXIT_SUCCESS);
 		break;
 
-		case LBX_T_ARRAY:
-			display_array(argv[1]);
-			exit(EXIT_SUCCESS);
+	case LBX_T_ARRAY:
+		display_array(argv[1]);
+		exit(EXIT_SUCCESS);
 		break;
 
-		case LBX_T_TERRAIN:
-			display_terrain(argv[1]);
-			exit(EXIT_SUCCESS);
+	case LBX_T_TERRAIN:
+		display_terrain(argv[1]);
+		exit(EXIT_SUCCESS);
 		break;
 
-		default:
-			if( display_image(argv[1]) == -1) {
-				printf("Raw data file ?\n");
-				exit(EXIT_SUCCESS);
-			}
+	default:
+		if( display_image(argv[1]) == -1) {
+			printf("Raw data file ?\n");
+			exit(EXIT_SUCCESS);
+		}
 		break;
 	}
 

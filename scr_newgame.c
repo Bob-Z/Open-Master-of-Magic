@@ -126,37 +126,43 @@ static void cb_magic(void * noarg)
 	item_set_string(&item_opt[ITM_OPT_B4],magic_text[game->magic]);
 }
 
-void cb_change_wiz_display(void * arg) {
-        intptr_t wiz_num = (intptr_t)arg;
-        display_wiz = &wiz[wiz_num];
-        selected_wiz = &default_wizard[wiz_num];
-        display_wiz_name = selected_wiz->name;
+void cb_change_wiz_display(void * arg)
+{
+	intptr_t wiz_num = (intptr_t)arg;
+	display_wiz = &wiz[wiz_num];
+	selected_wiz = &default_wizard[wiz_num];
+	display_wiz_name = selected_wiz->name;
 }
 
-void cb_display_wizard_selection_screen(void * noarg) {
+void cb_display_wizard_selection_screen(void * noarg)
+{
 	item_cur = item_wiz;
 	num_item = ITM_WIZ_NUM;
 }
 
-void cb_display_race(void * noarg) {
+void cb_display_race(void * noarg)
+{
 	selected_wiz->name = strdup(sdl_keyboard_get_buf());
 	item_cur = item_race;
 	num_item = ITM_RACE_NUM;
 }
 
-void cb_display_wizard_name(void * noarg) {
+void cb_display_wizard_name(void * noarg)
+{
 	item_cur = item_name;
 	num_item = ITM_NAME_NUM;
 	sdl_keyboard_init(display_wiz_name,cb_display_race);
 }
 
-void cb_display_color(void * race) {
+void cb_display_color(void * race)
+{
 	selected_wiz->race = (intptr_t)race;
 	item_cur = item_col;
 	num_item = ITM_COL_NUM;
 }
 
-void cb_choose_color(void * num_color) {
+void cb_choose_color(void * num_color)
+{
 #define UNITS	4
 	int color[5] = {COL_GREEN,COL_BLUE,COL_RED,COL_PURPLE,COL_YELLOW};
 	intptr_t col = (intptr_t)num_color;
@@ -188,7 +194,7 @@ void cb_choose_color(void * num_color) {
 
 	game->wiz[0].group=NULL;
 	/* FIXME create an arbitrary unit here */
-	for(i=0;i<UNITS;i++) {
+	for(i=0; i<UNITS; i++) {
 		unit[i]=new unit_t;
 		unit[i]->type=race_unit[game->wiz[0].race]+i;
 		unit[i]->side=0;
@@ -208,49 +214,49 @@ void cb_choose_color(void * num_color) {
 
 static void load_font()
 {
-        LBXGfxPaletteEntry_t pal[5] = {{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0xa0,0x84,0x68}};
-        LBXGfxPaletteEntry_t name_pal[6] = {{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0xa0,0x84,0x68}};
-        LBXGfxPaletteEntry_t title_pal[14] = {{0,0,0},{0,255,0},{248,200,96},{248,200,32},{232,164,32},{216,148,24},{0,0,255},{200,136,24},{160,108,24},{120,84,32},{96,68,32},{255,0,0},{72,56,32},{0,0,0}};
-        LBXGfxPaletteEntry_t retort_pal[3] = {{136,96,32},{232,164,32},{48,40,24}};
-        LBXGfxPaletteEntry_t edit_pal[4] = {{0xa0,0x84,0x68},{0xa0,0x84,0x68},{0xa0,0x84,0x68},{0xa0,0x84,0x68}};
-        LBXGfxPaletteEntry_t race_world_pal[5] = {{200,136,24},{200,136,24},{200,136,24},{200,136,24},{0,0,0}};
-        LBXGfxPaletteEntry_t race_pal[3] = {{112,84,64},{184,152,112},{8,12,8}};
-        LBXGfxPaletteEntry_t race_grayed_pal[3] = {{112,84,64},{96,72,56},{8,12,8}};
+	LBXGfxPaletteEntry_t pal[5] = {{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0xa0,0x84,0x68}};
+	LBXGfxPaletteEntry_t name_pal[6] = {{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0xa0,0x84,0x68}};
+	LBXGfxPaletteEntry_t title_pal[14] = {{0,0,0},{0,255,0},{248,200,96},{248,200,32},{232,164,32},{216,148,24},{0,0,255},{200,136,24},{160,108,24},{120,84,32},{96,68,32},{255,0,0},{72,56,32},{0,0,0}};
+	LBXGfxPaletteEntry_t retort_pal[3] = {{136,96,32},{232,164,32},{48,40,24}};
+	LBXGfxPaletteEntry_t edit_pal[4] = {{0xa0,0x84,0x68},{0xa0,0x84,0x68},{0xa0,0x84,0x68},{0xa0,0x84,0x68}};
+	LBXGfxPaletteEntry_t race_world_pal[5] = {{200,136,24},{200,136,24},{200,136,24},{200,136,24},{0,0,0}};
+	LBXGfxPaletteEntry_t race_pal[3] = {{112,84,64},{184,152,112},{8,12,8}};
+	LBXGfxPaletteEntry_t race_grayed_pal[3] = {{112,84,64},{96,72,56},{8,12,8}};
 
-        if(font == NULL ) {
-                font = lbx_generate_font(font_template[LBX_FONT_BIG],pal,1);
-        }
-        if(name_font == NULL ) {
-                name_font = lbx_generate_font(font_template[LBX_FONT_BIG_GOTH],name_pal,1);
-        }
-        if(title_font == NULL ) {
-                title_font = lbx_generate_font(font_template[LBX_FONT_HUGE_GOTH],title_pal,1);
-        }
-        if(retort_font == NULL ) {
-                retort_font = lbx_generate_font(font_template[LBX_FONT_TINY],retort_pal,1);
-        }
-        if(edit_font == NULL ) {
-                edit_font = lbx_generate_font(font_template[LBX_FONT_BIG],edit_pal,0);
-        }
-        if(race_world_font == NULL ) {
-                race_world_font = lbx_generate_font(font_template[LBX_FONT_BIG],race_world_pal,1);
-        }
-        if(race_font == NULL ) {
-                race_font = lbx_generate_font(font_template[LBX_FONT_SMALL],race_pal,1);
-        }
-        if(race_grayed_font == NULL ) {
-                race_grayed_font = lbx_generate_font(font_template[LBX_FONT_SMALL],race_grayed_pal,1);
-        }
+	if(font == NULL ) {
+		font = lbx_generate_font(font_template[LBX_FONT_BIG],pal,1);
+	}
+	if(name_font == NULL ) {
+		name_font = lbx_generate_font(font_template[LBX_FONT_BIG_GOTH],name_pal,1);
+	}
+	if(title_font == NULL ) {
+		title_font = lbx_generate_font(font_template[LBX_FONT_HUGE_GOTH],title_pal,1);
+	}
+	if(retort_font == NULL ) {
+		retort_font = lbx_generate_font(font_template[LBX_FONT_TINY],retort_pal,1);
+	}
+	if(edit_font == NULL ) {
+		edit_font = lbx_generate_font(font_template[LBX_FONT_BIG],edit_pal,0);
+	}
+	if(race_world_font == NULL ) {
+		race_world_font = lbx_generate_font(font_template[LBX_FONT_BIG],race_world_pal,1);
+	}
+	if(race_font == NULL ) {
+		race_font = lbx_generate_font(font_template[LBX_FONT_SMALL],race_pal,1);
+	}
+	if(race_grayed_font == NULL ) {
+		race_grayed_font = lbx_generate_font(font_template[LBX_FONT_SMALL],race_grayed_pal,1);
+	}
 }
 
 /* return 0 if conf is aborted, return 1 if conf if OK */
 int screen_newgame(game_t * new_game)
 {
 	SDL_Event event;
-        intptr_t i;
-        int j;
-        int index;
-        SDL_Rect rect;
+	intptr_t i;
+	int j;
+	int index;
+	SDL_Rect rect;
 	char * key_buf;
 
 	game=new_game;
@@ -277,12 +283,12 @@ int screen_newgame(game_t * new_game)
 		}
 	}
 
-        if(wiz==NULL) {
+	if(wiz==NULL) {
 		wiz = load_graphics("WIZARDS.LBX");
-                if(wiz == NULL) {
-                        exit(EXIT_FAILURE);
-                }
-        }
+		if(wiz == NULL) {
+			exit(EXIT_FAILURE);
+		}
+	}
 
 	if(exe_data==NULL) {
 		exe_data=exe_init("WIZARDS.EXE");
@@ -345,27 +351,27 @@ int screen_newgame(game_t * new_game)
 	item_set_frame(&item_wiz[j],165,18,&anim[ANI_WIZ_LAYOUT]);
 	j++;
 
-        for(i=0;i<WIZARD_NUM/2;i++) {
+	for(i=0; i<WIZARD_NUM/2; i++) {
 		item_init(&item_wiz[j]);
 		item_set_frame(&item_wiz[j],169,ALIGN_VERT+(i*22),
-				&anim[ANI_WIZ_B1+i]);
+					   &anim[ANI_WIZ_B1+i]);
 		item_set_click_left(&item_wiz[j],cb_display_wizard_name,NULL);
 		item_set_over(&item_wiz[j],cb_change_wiz_display,(void*)i);
 		item_set_font(&item_wiz[j],font);
 		item_set_string(&item_wiz[j],default_wizard[i].name);
 		j++;
-        }
+	}
 
-        for(i=0;i<WIZARD_NUM/2;i++) {
+	for(i=0; i<WIZARD_NUM/2; i++) {
 		item_init(&item_wiz[j]);
 		item_set_frame(&item_wiz[j],245,ALIGN_VERT+(i*22),
-				&anim[ANI_WIZ_B8+i]);
+					   &anim[ANI_WIZ_B8+i]);
 		item_set_click_left(&item_wiz[j],cb_display_wizard_name,NULL);
 		item_set_over(&item_wiz[j],cb_change_wiz_display,(void*)(i+7));
 		item_set_font(&item_wiz[j],font);
 		item_set_string(&item_wiz[j],default_wizard[i+7].name);
 		j++;
-        }
+	}
 
 	item_init(&item_wiz[j]);
 	item_set_frame(&item_wiz[j],245,ALIGN_VERT+(7*22),&anim[ANI_WIZ_B15]);
@@ -417,7 +423,7 @@ int screen_newgame(game_t * new_game)
 	item_set_font(&item_race[j],race_world_font);
 	item_set_string(&item_race[j],"Myrran Races:");
 	j++;
-	for(i=0;i<ARCANIAN_RACE_NUM;i++) {
+	for(i=0; i<ARCANIAN_RACE_NUM; i++) {
 		item_init(&item_race[j]);
 		item_set_frame(&item_race[j],238,40+i*10,NULL);
 		item_set_font(&item_race[j],race_font);
@@ -427,7 +433,7 @@ int screen_newgame(game_t * new_game)
 		item_set_geometry(&item_race[j],200,35+i*10,80,10);
 		j++;
 	}
-	for(i=0;i<MYRRAN_RACE_NUM;i++) {
+	for(i=0; i<MYRRAN_RACE_NUM; i++) {
 		item_init(&item_race[j]);
 		item_set_frame(&item_race[j],238,150+i*10,NULL);
 		item_set_font(&item_race[j],race_grayed_font);
@@ -451,7 +457,7 @@ int screen_newgame(game_t * new_game)
 	item_set_font(&item_col[j],title_font);
 	item_set_string(&item_col[j],"Select Banner");
 	j++;
-	for(i=0;i<COL_NUM;i++) {
+	for(i=0; i<COL_NUM; i++) {
 		item_init(&item_col[j]);
 		item_set_geometry(&item_col[j],165,22+i*35,150,35);
 		item_set_click_left(&item_col[j],cb_choose_color,(void *)i);
@@ -459,10 +465,8 @@ int screen_newgame(game_t * new_game)
 	}
 
 	/* Main loop */
-	while( end_screen == -1)
-	{
-		while (SDL_PollEvent(&event))
-		{
+	while( end_screen == -1) {
+		while (SDL_PollEvent(&event)) {
 			if(event.type==SDL_KEYDOWN && event.key.keysym.sym==SDLK_ESCAPE) {
 				return 0;
 			}
@@ -474,53 +478,51 @@ int screen_newgame(game_t * new_game)
 		opengl_blit_item_list(item_cur,num_item);
 
 		/* Display wizard and its retort */
-                if( display_wiz != NULL ) {
-                        rect.x = 24;
-                        rect.y = 10;
-                        rect.w = 109;
-                        rect.h = 104;
-                        opengl_blit_anim(display_wiz,&rect,0,-1);
-                        sdl_print_center(name_font,78,125,display_wiz_name);
-			for(i=0;i<RT_NUM;i++) {
+		if( display_wiz != NULL ) {
+			rect.x = 24;
+			rect.y = 10;
+			rect.w = 109;
+			rect.h = 104;
+			opengl_blit_anim(display_wiz,&rect,0,-1);
+			sdl_print_center(name_font,78,125,display_wiz_name);
+			for(i=0; i<RT_NUM; i++) {
 				if( (selected_wiz->retort) & (1<<i) ) {
 					sdl_print(retort_font,10,180,retort_name[i]);
 				}
 			}
-                        rect.x = 36;
-                        rect.y = 135;
-                        for(i=0;i<BOOK_NUM;i++) {
-                                srand(i);
-                                for(j=0;j<selected_wiz->book[i];j++) {
-                                        index = ANI_BOOK_WH1+(i*3)+(rand()%3);
-                                        rect.w=anim[index].w;
-                                        rect.h=anim[index].h;
-                                        opengl_blit_anim(&anim[index],&rect,0,-1);
-                                        rect.x+=rect.w;
-                                }
-                        };
-                }
+			rect.x = 36;
+			rect.y = 135;
+			for(i=0; i<BOOK_NUM; i++) {
+				srand(i);
+				for(j=0; j<selected_wiz->book[i]; j++) {
+					index = ANI_BOOK_WH1+(i*3)+(rand()%3);
+					rect.w=anim[index].w;
+					rect.h=anim[index].h;
+					opengl_blit_anim(&anim[index],&rect,0,-1);
+					rect.x+=rect.w;
+				}
+			};
+		}
 
 		/* Display available races for the selected wizard */
 		if(selected_wiz) {
-			for(i=0,j=6;i<ARCANIAN_RACE_NUM;i++,j++) {
+			for(i=0,j=6; i<ARCANIAN_RACE_NUM; i++,j++) {
 				if((selected_wiz->retort&SET_RT(RT_MYRRAN))==0) {
 					item_set_font(&item_race[j],race_font);
 					j++;
 					item_set_click_left(&item_race[j],cb_display_color,(void *)arcanian_race[i]);
-				}
-				else {
+				} else {
 					item_set_font(&item_race[j],race_grayed_font);
 					j++;
 					item_set_click_left(&item_race[j],NULL,NULL);
 				}
 			}
-			for(i=0,j=6+(ARCANIAN_RACE_NUM*2);i<MYRRAN_RACE_NUM;i++,j++) {
+			for(i=0,j=6+(ARCANIAN_RACE_NUM*2); i<MYRRAN_RACE_NUM; i++,j++) {
 				if((selected_wiz->retort&SET_RT(RT_MYRRAN))!=0) {
 					item_set_font(&item_race[j],race_font);
 					j++;
 					item_set_click_left(&item_race[j],cb_display_color,(void *)myrran_race[i]);
-				}
-				else {
+				} else {
 					item_set_font(&item_race[j],race_grayed_font);
 					j++;
 					item_set_click_left(&item_race[j],NULL,NULL);

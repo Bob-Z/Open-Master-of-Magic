@@ -38,17 +38,17 @@ double cy;
 void opengl_clear_screen()
 {
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-        glClearColor(0, 0, 0, 0);
-        glClear( GL_COLOR_BUFFER_BIT );
-        glClearDepth(0.0f);
+	glClearColor(0, 0, 0, 0);
+	glClear( GL_COLOR_BUFFER_BIT );
+	glClearDepth(0.0f);
 }
 
 void opengl_clear_fbo()
 {
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frame_buf);
-        glClearColor(0, 0, 0, 0);
-        glClear( GL_COLOR_BUFFER_BIT );
-        glClearDepth(0.0f);
+	glClearColor(0, 0, 0, 0);
+	glClear( GL_COLOR_BUFFER_BIT );
+	glClearDepth(0.0f);
 }
 
 void opengl_init(int w, int h)
@@ -56,9 +56,9 @@ void opengl_init(int w, int h)
 	/* Init screen buffer */
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
-        glEnable( GL_TEXTURE_2D );
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable( GL_TEXTURE_2D );
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	opengl_clear_screen();
 
@@ -82,14 +82,13 @@ void opengl_init(int w, int h)
 		/* Does the GPU support current FBO configuration? */
 		GLenum status;
 		status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-		switch(status)
-		{
-			case GL_FRAMEBUFFER_COMPLETE_EXT:
-				//printf("Frame buffer OK\n");
-				break;
-			default:
-				printf("Frame buffer error\n");
-				exit(-1);
+		switch(status) {
+		case GL_FRAMEBUFFER_COMPLETE_EXT:
+			//printf("Frame buffer OK\n");
+			break;
+		default:
+			printf("Frame buffer error\n");
+			exit(-1);
 		}
 
 		glEnable( GL_TEXTURE_2D ); // Need this to display a texture
@@ -105,15 +104,15 @@ void opengl_init(int w, int h)
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
 
-        return;
+	return;
 }
 
 void opengl_cleanup()
 {
-   //Delete resources
-   glDeleteTextures(1, &render_tex);
-   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-   glDeleteFramebuffersEXT(1, &frame_buf);
+	//Delete resources
+	glDeleteTextures(1, &render_tex);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glDeleteFramebuffersEXT(1, &frame_buf);
 }
 
 GLuint opengl_create_texture(SDL_Surface * surf)
@@ -124,18 +123,18 @@ GLuint opengl_create_texture(SDL_Surface * surf)
 
 	// get the number of channels in the SDL surface
 	nOfColors = surf->format->BytesPerPixel;
-	if (nOfColors == 4)     // contains an alpha channel
-	{
-		if (surf->format->Rmask == 0x000000ff)
+	if (nOfColors == 4) {   // contains an alpha channel
+		if (surf->format->Rmask == 0x000000ff) {
 			texture_format = GL_RGBA;
-		else
+		} else {
 			texture_format = GL_BGRA;
-	} else if (nOfColors == 3)     // no alpha channel
-	{
-		if (surf->format->Rmask == 0x000000ff)
+		}
+	} else if (nOfColors == 3) {   // no alpha channel
+		if (surf->format->Rmask == 0x000000ff) {
 			texture_format = GL_RGB;
-		else
+		} else {
 			texture_format = GL_BGR;
+		}
 	} else {
 		printf("Not a true color image\n");
 		return -1;
@@ -148,9 +147,9 @@ GLuint opengl_create_texture(SDL_Surface * surf)
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 	glTexImage2D( GL_TEXTURE_2D, 0, nOfColors, surf->w, surf->h, 0,
-			texture_format, GL_UNSIGNED_BYTE, surf->pixels );
+				  texture_format, GL_UNSIGNED_BYTE, surf->pixels );
 
-        return tex;;
+	return tex;;
 }
 
 void opengl_blit_frame(LBXAnimation_t * anim, SDL_Rect * rect, int frame_num)
@@ -166,36 +165,36 @@ void opengl_blit_frame(LBXAnimation_t * anim, SDL_Rect * rect, int frame_num)
 
 	glViewport( 0, 0, ORIGINAL_GAME_WIDTH, ORIGINAL_GAME_HEIGHT );
 
-	w = (double)rect->w; 
+	w = (double)rect->w;
 	h = (double)rect->h;
 
-        // Bind the texture to which subsequent calls refer to
-        glEnable(GL_TEXTURE_2D);
-        glBindTexture( GL_TEXTURE_2D, anim->tex[frame_num] );
+	// Bind the texture to which subsequent calls refer to
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture( GL_TEXTURE_2D, anim->tex[frame_num] );
 
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
 	glOrtho(0, ORIGINAL_GAME_WIDTH, ORIGINAL_GAME_HEIGHT, 0, 1, -1);
 
-        glTranslatef(rect->x,rect->y, 0.0);
+	glTranslatef(rect->x,rect->y, 0.0);
 
-        glBegin( GL_QUADS );
-        // Top-left vertex (corner)
-        glTexCoord2i( 0, 0 );
-        glVertex3f( 0.0, 0.0, 0.0 );
+	glBegin( GL_QUADS );
+	// Top-left vertex (corner)
+	glTexCoord2i( 0, 0 );
+	glVertex3f( 0.0, 0.0, 0.0 );
 
-        // Bottom-left vertex (corner)
-        glTexCoord2i( 0, 1 );
-        glVertex3f( 0.0, h, 0.0 );
+	// Bottom-left vertex (corner)
+	glTexCoord2i( 0, 1 );
+	glVertex3f( 0.0, h, 0.0 );
 
-        // Bottom-right vertex (corner)
-        glTexCoord2i( 1, 1 );
-        glVertex3f( w, h, 0.0 );
+	// Bottom-right vertex (corner)
+	glTexCoord2i( 1, 1 );
+	glVertex3f( w, h, 0.0 );
 
-        // Top-right vertex (corner)
-        glTexCoord2i( 1, 0 );
-        glVertex3f( w, 0, 0.0 );
-        glEnd();
+	// Top-right vertex (corner)
+	glTexCoord2i( 1, 0 );
+	glVertex3f( w, 0, 0.0 );
+	glEnd();
 
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }
@@ -217,8 +216,7 @@ int opengl_blit_anim(LBXAnimation_t * anim, SDL_Rect * rect, int start, int end)
 				anim->current_frame = start;
 				return 1;
 			}
-		}
-		else {
+		} else {
 			if(anim->current_frame >= anim->num_frame) {
 				anim->current_frame = 0;
 				return 1;
@@ -231,11 +229,10 @@ int opengl_blit_anim(LBXAnimation_t * anim, SDL_Rect * rect, int start, int end)
 
 int opengl_blit_item(item_t * item)
 {
-	
+
 	if( item->frame_normal == -1 ) {
 		return opengl_blit_anim(item->anim,&item->rect,item->anim_start,item->anim_end);
-	}
-	else{
+	} else {
 		opengl_blit_frame(item->anim,&item->rect,item->current_frame);
 	}
 
@@ -273,29 +270,28 @@ void opengl_blit_to_screen()
 	if(cw/ch > DEFAULT_ASPECT_RATIO) {
 		cw = ch * DEFAULT_ASPECT_RATIO;
 		cx = ((double)w-cw) /2.0;
-	}
-	else {
+	} else {
 		ch = cw / DEFAULT_ASPECT_RATIO;
 		cy = ((double)h-ch) /2.0;
 	}
 
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
-        glViewport( cx, cy, cw, ch );
+	glViewport( cx, cy, cw, ch );
 
 	opengl_clear_screen();
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture( GL_TEXTURE_2D, render_tex);
 
-        glMatrixMode( GL_PROJECTION );
-        glLoadIdentity();
-        glOrtho(0, cw, ch, 0, 1, -1);
+	glMatrixMode( GL_PROJECTION );
+	glLoadIdentity();
+	glOrtho(0, cw, ch, 0, 1, -1);
 
 	glTranslatef(0,0, 0.0);
 
 	glBegin( GL_QUADS );
 	glTexCoord2i( 0, 1 );
-        glVertex3f( 0.0, 0.0, 0.0 );
+	glVertex3f( 0.0, 0.0, 0.0 );
 
 	glTexCoord2i( 0, 0 );
 	glVertex3f( 0.0, ch, 0.0 );
@@ -314,7 +310,7 @@ void opengl_blit_item_list(item_t * list, int num)
 {
 	int i;
 
-	for(i=0;i<num;i++) {
+	for(i=0; i<num; i++) {
 		opengl_blit_item(&list[i]);
 	}
 }

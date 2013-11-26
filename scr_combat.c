@@ -63,23 +63,23 @@ extern int mouse_y;
 
 /* Formation of unit made of several figures */
 int formation_x[8][8] = {{0,0,0,0,0,0,0,0}, // x coordinate for 1 figure
-			{-7,7,0,0,0,0,0,0}, // x coordinate for 2 figures...
-			{7,-7,7,0,0,0,0,0},
-			{0,-7,7,0,0,0,0,0},
-			{-7,7,0,-7,7,0,0,0},
-			{0,4,8,-8,-4,0,0,0},
-			{0,0,0,0,0,0,0,0}, // no unit with 7 figures known
-			{0,5,10,-2,-10,2,-5,0},
-			};
+	{-7,7,0,0,0,0,0,0}, // x coordinate for 2 figures...
+	{7,-7,7,0,0,0,0,0},
+	{0,-7,7,0,0,0,0,0},
+	{-7,7,0,-7,7,0,0,0},
+	{0,4,8,-8,-4,0,0,0},
+	{0,0,0,0,0,0,0,0}, // no unit with 7 figures known
+	{0,5,10,-2,-10,2,-5,0},
+};
 int formation_y[8][8] = {{0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0},
-			{4,0,4,0,0,0,0,0},
-			{-4,0,0,4,0,0,0,0},
-			{4,4,0,-4,-4,0,0,0},
-			{-4,-2,0,0,2,4,0,0},
-			{0,0,0,0,0,0,0,0}, // no unit with 7 figures known
-			{-5,-3,-2,-2,-1,1,3,5},
-			};
+	{0,0,0,0,0,0,0,0},
+	{4,0,4,0,0,0,0,0},
+	{-4,0,0,4,0,0,0,0},
+	{4,4,0,-4,-4,0,0,0},
+	{-4,-2,0,0,2,4,0,0},
+	{0,0,0,0,0,0,0,0}, // no unit with 7 figures known
+	{-5,-3,-2,-2,-1,1,3,5},
+};
 
 int grid_ground[GRID_WIDTH][GRID_HEIGHT];
 int grid_unit[GRID_WIDTH][GRID_HEIGHT];
@@ -141,29 +141,29 @@ static int draw_deco(game_t * game,int map_x, int map_y, int side)
 
 	if( (enc=is_encounter_present(game,map_x,map_y,side)) ) {
 		switch(enc->type) {
-			case ENC_TOWER:
-				pic = ANI_TOWER;
+		case ENC_TOWER:
+			pic = ANI_TOWER;
 			break;
-			case ENC_OWNED_TOWER:
-				pic = ANI_TOWER;
+		case ENC_OWNED_TOWER:
+			pic = ANI_TOWER;
 			break;
-			case ENC_MOUND:
-				pic = ANI_MOUND;
+		case ENC_MOUND:
+			pic = ANI_MOUND;
 			break;
-			case ENC_TEMPLE:
-				pic = ANI_TEMPLE;
+		case ENC_TEMPLE:
+			pic = ANI_TEMPLE;
 			break;
-			case ENC_KEEP:
-				pic = ANI_KEEP;
+		case ENC_KEEP:
+			pic = ANI_KEEP;
 			break;
-			case ENC_RUINS:
-				pic = ANI_RUINS;
+		case ENC_RUINS:
+			pic = ANI_RUINS;
 			break;
-			case ENC_FALLEN_TEMPLE:
-				pic = ANI_FALLEN_TEMPLE;
+		case ENC_FALLEN_TEMPLE:
+			pic = ANI_FALLEN_TEMPLE;
 			break;
-			default:
-				exit(EXIT_FAILURE);
+		default:
+			exit(EXIT_FAILURE);
 			break;
 		}
 
@@ -214,7 +214,7 @@ static void cb_tile_highlight(void * arg)
 static int path_cost(int sx,int sy, int tx, int ty)
 {
 	// FIXME: should find the min cost path ant return it
-	// for now just count the number of tile and return the global cost	
+	// for now just count the number of tile and return the global cost
 	int path_x;
 	int path_y;
 
@@ -232,9 +232,9 @@ static int path_cost(int sx,int sy, int tx, int ty)
 static unit_t* get_unit_at_pos(int x, int y)
 {
 	unit_t * unit;
-        unit_list_t * cur_unit;
+	unit_list_t * cur_unit;
 	int i;
-	
+
 	cur_unit = *attack;
 	/* Do it once for attackers, once for the defenders */
 	for( i = 0; i < 2 ; i++) {
@@ -257,19 +257,37 @@ static unit_t* get_unit_at_pos(int x, int y)
 static int get_orient(int x,int y)
 {
 	if(x<=-1) {
-		if(y<=-1) return D_NW;
-		if(y==0) return D_W;
-		if(y>=1) return D_SW;
+		if(y<=-1) {
+			return D_NW;
+		}
+		if(y==0) {
+			return D_W;
+		}
+		if(y>=1) {
+			return D_SW;
+		}
 	}
 	if(x==0) {
-		if(y<=-1) return D_N;
-		if(y==0) return -1;
-		if(y>=1) return D_S;
+		if(y<=-1) {
+			return D_N;
+		}
+		if(y==0) {
+			return -1;
+		}
+		if(y>=1) {
+			return D_S;
+		}
 	}
 	if(x>=1) {
-		if(y<=-1) return D_NE;
-		if(y==0) return D_E;
-		if(y>=1) return D_SE;
+		if(y<=-1) {
+			return D_NE;
+		}
+		if(y==0) {
+			return D_E;
+		}
+		if(y>=1) {
+			return D_SE;
+		}
 	}
 
 	return -1;
@@ -278,9 +296,9 @@ static int get_orient(int x,int y)
 static void check_victory()
 {
 	unit_t * unit;
-        unit_list_t * cur_unit;
+	unit_list_t * cur_unit;
 	int i;
-	
+
 	cur_unit = *attack;
 
 	if(cur_unit == NULL) {
@@ -332,11 +350,11 @@ static void unit_attack(unit_t* attack_unit, unit_t* defense_unit)
 
 	wait_anim = 1;
 
-printf("%s = %d\n",exe_get_unit_name(attack_unit->type),attack_unit->move);
+	printf("%s = %d\n",exe_get_unit_name(attack_unit->type),attack_unit->move);
 	attack_unit->anim_attack = 1;
 	attack_unit->anim_timer = SDL_GetTicks();
 //	attack_unit->move -= 2;
-printf("%s = %d\n",exe_get_unit_name(attack_unit->type),attack_unit->move);
+	printf("%s = %d\n",exe_get_unit_name(attack_unit->type),attack_unit->move);
 
 	defense_unit->anim_attack = 1;
 	defense_unit->anim_timer = SDL_GetTicks();
@@ -345,9 +363,9 @@ printf("%s = %d\n",exe_get_unit_name(attack_unit->type),attack_unit->move);
 	printf("- attack\n");
 	unit_a=attack_unit;
 	unit_b=defense_unit;
-	for(k=0;k<2;k++) {
+	for(k=0; k<2; k++) {
 		/* for each figure in the unit */
-		for(f=0;f<unit_a->fig;f++) {
+		for(f=0; f<unit_a->fig; f++) {
 			printf("Figure %d ",f);
 			/* attack */
 			strength = unit_a->def->melee_attack_str;
@@ -355,7 +373,7 @@ printf("%s = %d\n",exe_get_unit_name(attack_unit->type),attack_unit->move);
 			to_hit = 30 + (10*unit_a->def->plus_to_hit);
 			printf("to hit=%d ",to_hit);
 			hits=0;
-			for(i=0;i<strength;i++) {
+			for(i=0; i<strength; i++) {
 				if( (rand()%100)+1 <= to_hit ) {
 					hits++;
 				}
@@ -367,7 +385,7 @@ printf("%s = %d\n",exe_get_unit_name(attack_unit->type),attack_unit->move);
 				printf("Figure %d defense=%d ",unit_b->fig-1,def);
 				to_block = 30;
 				printf("to block=%d ",to_block);
-				for(i=0;i<def && hits>0;i++) {
+				for(i=0; i<def && hits>0; i++) {
 					if( (rand()%100)+1 <= to_block ) {
 						hits--;
 					}
@@ -414,7 +432,7 @@ static void select_unit(game_t * game)
 	int i;
 
 	unit_list=*attack;
-	for(i=0;i<2;i++) {
+	for(i=0; i<2; i++) {
 		while(unit_list!=NULL) {
 			unit = (unit_t*)unit_list->data;
 			if(unit->move > 0 && unit->owner == game->wiz) {
@@ -438,7 +456,7 @@ static void select_next_unit(game_t * game)
 	int found=0; //Wait until we found the current selected unit in the list
 
 	unit_list=*attack;
-	for(i=0;i<2;i++) {
+	for(i=0; i<2; i++) {
 		while(unit_list!=NULL) {
 			unit = (unit_t*)unit_list->data;
 			if(found == 1 && unit->move > 0 && unit->owner == game->wiz) {
@@ -489,10 +507,10 @@ static void cb_move_unit(void * arg)
 	else {
 		/* check if it is a foe */
 		if(unit->owner != selected_unit->owner) {
-		/* test is we are close to the target */
+			/* test is we are close to the target */
 			if( abs(unit->gx - selected_unit->gx) < 2 &&
-				abs(unit->gy - selected_unit->gy) < 2 ) {
-		/* test if we have still move point for this turn */
+					abs(unit->gy - selected_unit->gy) < 2 ) {
+				/* test if we have still move point for this turn */
 				if( selected_unit->move > 0 ) {
 					selected_unit->orient = get_orient(cur_gx-selected_unit->gx, cur_gy-selected_unit->gy);
 					unit->orient = get_orient(selected_unit->gx-cur_gx, selected_unit->gy-cur_gy);
@@ -512,12 +530,12 @@ static int draw_ground()
 	int screen_x;
 	int screen_y;
 
-	for(i=0;i<GRID_WIDTH;i++) {
-		for(j=0;j<GRID_HEIGHT;j++) {
+	for(i=0; i<GRID_WIDTH; i++) {
+		for(j=0; j<GRID_HEIGHT; j++) {
 			item_init(&item_ground[num_item]);
 			grid_to_screen(i, j, &screen_x, &screen_y);
 			item_set_frame(&item_ground[num_item],screen_x,screen_y,
-				&grass[0]);
+						   &grass[0]);
 			item_set_over(&item_ground[num_item],cb_tile_highlight,&item_ground[num_item]);
 			item_set_click_left(&item_ground[num_item],cb_move_unit,NULL);
 			num_item++;
@@ -531,9 +549,9 @@ static int draw_ground()
 static void unit_move_init()
 {
 	unit_t * unit;
-        unit_list_t * cur_unit;
+	unit_list_t * cur_unit;
 	int i;
-	
+
 	cur_unit = *attack;
 	/* Do it once for attackers, once for the defenders */
 	for( i = 0; i < 2 ; i++) {
@@ -642,8 +660,7 @@ static int draw_unit(game_t * game)
 								item_set_anim(&item_unit[num_item],screen_x,screen_y,&fig[unit->type*D_NUM+unit->orient]);
 								item_set_anim_start(&item_unit[num_item],0);
 								item_set_anim_end(&item_unit[num_item],2);
-							}
-							else {
+							} else {
 								item_set_frame(&item_unit[num_item],screen_x,screen_y,&fig[unit->type*D_NUM+unit->orient]);
 								item_set_frame_normal(&item_unit[num_item],0);
 
@@ -673,8 +690,8 @@ static void ai_play()
 {
 	unit_t * unit;
 	unit_t * enemy;
-        unit_list_t * cur_unit;
-        unit_list_t * opp_unit;
+	unit_list_t * cur_unit;
+	unit_list_t * opp_unit;
 	int i;
 	int gx;
 	int gy;
@@ -701,13 +718,12 @@ static void ai_play()
 				gx=unit->gx;
 				gy=unit->gy;
 				unit->move-=2;
-printf("%s = %d\n",exe_get_unit_name(unit->type),unit->move);
+				printf("%s = %d\n",exe_get_unit_name(unit->type),unit->move);
 
 				if( abs(enemy->gx- unit->gx) > 0 ) {
 					if( enemy->gx < unit->gx ) {
 						gx = unit->gx-1;
-					}
-					else {
+					} else {
 						gx = unit->gx+1;
 					}
 				}
@@ -715,8 +731,7 @@ printf("%s = %d\n",exe_get_unit_name(unit->type),unit->move);
 				if( abs(enemy->gy- unit->gy) > 0 ) {
 					if( enemy->gy < unit->gy ) {
 						gy = unit->gy-1;
-					}
-					else {
+					} else {
 						gy = unit->gy+1;
 					}
 				}
@@ -725,7 +740,7 @@ printf("%s = %d\n",exe_get_unit_name(unit->type),unit->move);
 
 				enemy = get_unit_at_pos(gx,gy);
 				if( enemy != NULL ) {
-					if( enemy->owner != unit->owner ) {	
+					if( enemy->owner != unit->owner ) {
 						unit_attack(unit,enemy);
 					}
 					return;
@@ -750,14 +765,14 @@ printf("%s = %d\n",exe_get_unit_name(unit->type),unit->move);
 static void anim_unit(game_t* game)
 {
 	unit_t * unit;
-        unit_list_t * cur_unit;
+	unit_list_t * cur_unit;
 	int i;
 	int x;
 	int y;
 	int dx;
 	int dy;
 	int timer;
-	
+
 	cur_unit = *attack;
 	/* Do it once for attackers, once for defenders */
 	for( i = 0; i < 2 ; i++) {
@@ -775,7 +790,7 @@ static void anim_unit(game_t* game)
 			if( unit->anim_attack == 0 ) {
 				grid_to_screen(unit->gx,unit->gy,&x,&y);
 				grid_to_screen(unit->dest_gx,unit->dest_gy,&dx,&dy);
-				timer = SDL_GetTicks() - unit->anim_timer;	
+				timer = SDL_GetTicks() - unit->anim_timer;
 				/* End of animation */
 				if( timer > ANIM_DURATION) {
 					unit->gx=unit->dest_gx;
@@ -794,15 +809,15 @@ static void anim_unit(game_t* game)
 			}
 			/* Attack animation: */
 			else {
-				timer = SDL_GetTicks() - unit->anim_timer;	
+				timer = SDL_GetTicks() - unit->anim_timer;
 				/* End of animation */
 				if( timer > ANIM_DURATION) {
-				/* let draw_unit choose the right animation */
+					/* let draw_unit choose the right animation */
 					unit->anim_attack = 0;
 					select_unit(game);
 					wait_anim = 0;
-		/* Beware: cur_unit may be deleted by check_victory()
-		So we set the next unit before the call to check_victory() */
+					/* Beware: cur_unit may be deleted by check_victory()
+					So we set the next unit before the call to check_victory() */
 					cur_unit = cur_unit->next;
 					check_victory();
 					continue;
@@ -832,8 +847,8 @@ static void cb_button_wait(void * arg)
 void screen_combat(game_t * game, unit_list_t ** list_attack, unit_list_t ** list_defense, int x, int y, int side)
 {
 	SDL_Event event;
-        int i;
-        int j;
+	int i;
+	int j;
 	int num_grd;
 	int num_deco;
 	int num_unit;
@@ -884,14 +899,14 @@ void screen_combat(game_t * game, unit_list_t ** list_attack, unit_list_t ** lis
 	}
 
 	if(fig==NULL) {
-		for(j=0;j<9;j++) {
+		for(j=0; j<9; j++) {
 			sprintf(filename,"FIGURES%d.LBX",j+1);
 			figure[j]= load_graphics(filename);
 			if(figure[j] == NULL) {
 				exit(EXIT_FAILURE);
 			}
 		}
-		for(j=9;j<16;j++) {
+		for(j=9; j<16; j++) {
 			sprintf(filename,"FIGURE%d.LBX",j+1);
 			figure[j]= load_graphics(filename);
 			if(figure[j] == NULL) {
@@ -901,15 +916,15 @@ void screen_combat(game_t * game, unit_list_t ** list_attack, unit_list_t ** lis
 
 		/* Copy all figure in the same array */
 		j=0;
-                for(i=0;i<16;i++) {
+		for(i=0; i<16; i++) {
 			anim_ptr = figure[i];
-                        while(anim_ptr->num_frame!=0) {
-                                fig = (LBXAnimation_t*)realloc(fig,(j+1)*sizeof(LBXAnimation_t));
-                                memcpy(&fig[j],anim_ptr,sizeof(LBXAnimation_t));
-                                anim_ptr++;
-                                j++;
-                        }
-                }
+			while(anim_ptr->num_frame!=0) {
+				fig = (LBXAnimation_t*)realloc(fig,(j+1)*sizeof(LBXAnimation_t));
+				memcpy(&fig[j],anim_ptr,sizeof(LBXAnimation_t));
+				anim_ptr++;
+				j++;
+			}
+		}
 	}
 
 	j=0;
@@ -935,8 +950,7 @@ void screen_combat(game_t * game, unit_list_t ** list_attack, unit_list_t ** lis
 	init_unit();
 
 	/* Main loop */
-	while( end_screen == -1)
-	{
+	while( end_screen == -1) {
 		if(redraw_unit) {
 			num_unit = draw_unit(game);
 			redraw_unit=0;
@@ -946,8 +960,7 @@ void screen_combat(game_t * game, unit_list_t ** list_attack, unit_list_t ** lis
 			rest_unit=0;
 		}
 
-		while (SDL_PollEvent(&event))
-		{
+		while (SDL_PollEvent(&event)) {
 			if(event.type==SDL_KEYDOWN && event.key.keysym.sym==SDLK_ESCAPE) {
 				end_screen = 1;
 			}

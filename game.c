@@ -21,27 +21,28 @@
 
 extern const char * data_path;
 
-char * retort_name[RT_NUM]={
-			"Alchemy",
-			"Warlord",
-			"Channeler",
-			"Archmage",
-			"Artificier",
-			"Conjurer",
-			"Sage Master",
-			"Myrran",
-			"Divine Power",
-			"Infernal Power",
-			"Famous",
-			"Runemaster",
-			"Charismatic",
-			"Chaos Mastery",
-			"Nature Mastery",
-			"Sorcery Mastery",
-			"Mana Focusing",
-			"Node Mastery"};
+char * retort_name[RT_NUM]= {
+	"Alchemy",
+	"Warlord",
+	"Channeler",
+	"Archmage",
+	"Artificier",
+	"Conjurer",
+	"Sage Master",
+	"Myrran",
+	"Divine Power",
+	"Infernal Power",
+	"Famous",
+	"Runemaster",
+	"Charismatic",
+	"Chaos Mastery",
+	"Nature Mastery",
+	"Sorcery Mastery",
+	"Mana Focusing",
+	"Node Mastery"
+};
 
-wizard_t default_wizard[WIZARD_NUM]={
+wizard_t default_wizard[WIZARD_NUM]= {
 	{"Merlin",{5,0,5,0,0},SET_RT(RT_SAGE_MASTER),0},
 	{"Raven",{0,6,5,0,0},0,0},
 	{"Sharee",{0,0,0,5,5},SET_RT(RT_CONJURER),0},
@@ -63,7 +64,8 @@ intptr_t myrran_race[MYRRAN_RACE_NUM] = {R_BEASTMAN,R_DARK_ELF,R_DRACONIAN,R_DWA
 
 int race_unit[R_NUM] = {BARBARIAN_UNIT,BEASTMAN_UNIT,DARK_ELF_UNIT,DRACONIAN_UNIT,DWARVEN_UNIT,GNOLL_UNIT,HALFLING_UNIT,HIGH_ELF_UNIT,HIGH_MAN_UNIT,KLACKON_UNIT,LIZARDMAN_UNIT,NOMAD_UNIT,ORC_UNIT,TROLL_UNIT,0,0,0,0,0,0,0};
 
-LBXAnimation_t * load_graphics(const char * filename) {
+LBXAnimation_t * load_graphics(const char * filename)
+{
 	char path[2048];
 	char lower_case[2048];
 	int i=0;
@@ -146,7 +148,7 @@ group_t * add_group(group_t * group, unit_t * unit)
 group_t * del_group(group_t * first, group_t * group, unit_list_t * unit)
 {
 	llist_t* first_unit_list;
-	
+
 	first_unit_list = (llist_t*)group->data;
 	first_unit_list = del_llist(first_unit_list,unit);
 

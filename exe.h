@@ -31,44 +31,44 @@
 #define MOVE_SAIL	0x02
 #define MOVE_CAVALRY	0x01
 
-typedef struct { __attribute__((__packed__))
-        uint16_t name_ptr;
-        uint8_t melee_attack_str;
-        uint8_t ranged_attack_str;
-        uint8_t ranged_attack_type;
-        uint8_t ranged_attack_num_shot;
-        uint8_t plus_to_hit; // to hit=30 + plus_to_hit*10
-        uint8_t defense;
-        uint8_t resistance;
-        uint8_t move; // in 1/2 MP      
-        uint16_t cost;
-        uint8_t summon_upkeep;
-        uint8_t race;
-        uint16_t extra;
-        uint8_t hero_type;
-        uint8_t zero1;
-        uint8_t hp;
-        uint8_t scout_range;
-        uint8_t transport_capacity;
-        uint8_t num_figures;
-        uint8_t build_capability;
-        uint8_t special_attack;
-        uint8_t move_flag;
-        uint8_t zero2;
-        uint8_t immunity_flag;
-        uint8_t attribute_flag1;
-        uint8_t attribute_flag2;
-        uint8_t zero3;
-        uint8_t attribute_flag3;
-        uint8_t attribute_flag4;
-        uint8_t special_attack_flag_1;
-        uint8_t special_attack_flag_2;
-        uint8_t zero4;
-        uint8_t zero5;
+typedef struct {
+	__attribute__((__packed__))
+	uint16_t name_ptr;
+	uint8_t melee_attack_str;
+	uint8_t ranged_attack_str;
+	uint8_t ranged_attack_type;
+	uint8_t ranged_attack_num_shot;
+	uint8_t plus_to_hit; // to hit=30 + plus_to_hit*10
+	uint8_t defense;
+	uint8_t resistance;
+	uint8_t move; // in 1/2 MP
+	uint16_t cost;
+	uint8_t summon_upkeep;
+	uint8_t race;
+	uint16_t extra;
+	uint8_t hero_type;
+	uint8_t zero1;
+	uint8_t hp;
+	uint8_t scout_range;
+	uint8_t transport_capacity;
+	uint8_t num_figures;
+	uint8_t build_capability;
+	uint8_t special_attack;
+	uint8_t move_flag;
+	uint8_t zero2;
+	uint8_t immunity_flag;
+	uint8_t attribute_flag1;
+	uint8_t attribute_flag2;
+	uint8_t zero3;
+	uint8_t attribute_flag3;
+	uint8_t attribute_flag4;
+	uint8_t special_attack_flag_1;
+	uint8_t special_attack_flag_2;
+	uint8_t zero4;
+	uint8_t zero5;
 } def_unit_t;
 
-typedef struct __attribute__((__packed__))
-{
+typedef struct __attribute__((__packed__)) {
 	uint16_t name_ptr;
 	uint16_t num_prohibited_buildings;
 	uint16_t prohibited_buildings[7];

@@ -76,61 +76,54 @@ typedef enum res_type {
 	LBX_T_TERRAIN
 } res_type_t;
 
-typedef struct __attribute__((__packed__)) 
-{
-  uint16_t numEntries;
-  uint16_t magic;
-  uint16_t reserved;
-  uint16_t fileType;
-  uint32_t offsets[];
+typedef struct __attribute__((__packed__)) {
+	uint16_t numEntries;
+	uint16_t magic;
+	uint16_t reserved;
+	uint16_t fileType;
+	uint32_t offsets[];
 } LBXHeader_t;
 
-typedef struct __attribute__((__packed__))
-{
- uint16_t magic;
- uint16_t type;
- uint16_t reserved[6];
- uint8_t data;
-} LBXSoundHeader_t; 
+typedef struct __attribute__((__packed__)) {
+	uint16_t magic;
+	uint16_t type;
+	uint16_t reserved[6];
+	uint8_t data;
+} LBXSoundHeader_t;
 
-typedef struct __attribute__((__packed__))
-{
- uint16_t numElements;
- uint16_t elementSize;
- char elements[];
-} LBXArrayHeader_t; 
+typedef struct __attribute__((__packed__)) {
+	uint16_t numElements;
+	uint16_t elementSize;
+	char elements[];
+} LBXArrayHeader_t;
 
-typedef struct __attribute__((__packed__))
-{
- uint16_t Width;
- uint16_t Height;
- uint16_t unknown1;  // always =0?
- uint16_t BitmapCount;
- uint16_t unknown2;   // Bitmap count - 1 
- uint16_t unknown3;
- uint16_t unknown4;
- uint16_t PaletteInfoOffset;
- uint16_t flags;
- uint32_t BitmapOffsets[];
+typedef struct __attribute__((__packed__)) {
+	uint16_t Width;
+	uint16_t Height;
+	uint16_t unknown1;  // always =0?
+	uint16_t BitmapCount;
+	uint16_t unknown2;   // Bitmap count - 1
+	uint16_t unknown3;
+	uint16_t unknown4;
+	uint16_t PaletteInfoOffset;
+	uint16_t flags;
+	uint32_t BitmapOffsets[];
 } LBXGfxHeader_t;
 
-typedef struct __attribute__((__packed__))
-{
- uint16_t PaletteOffset;
- uint16_t FirstPaletteColourIndex;
- uint16_t PaletteColourCount;
- uint16_t Unknown;
+typedef struct __attribute__((__packed__)) {
+	uint16_t PaletteOffset;
+	uint16_t FirstPaletteColourIndex;
+	uint16_t PaletteColourCount;
+	uint16_t Unknown;
 } LBXGfxPaletteInfo_t;
 
-typedef struct __attribute__((__packed__))
-{
- uint8_t r;
- uint8_t g;
- uint8_t b;
+typedef struct __attribute__((__packed__)) {
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
 } LBXGfxPaletteEntry_t;
 
-typedef struct
-{
+typedef struct {
 	int num_frame;
 	SDL_Surface ** frame;
 	uint16_t flags;
@@ -142,21 +135,19 @@ typedef struct
 	Uint32 prev_time; //time when the previous anim frame was displayed
 } LBXAnimation_t;
 
-typedef struct __attribute__((__packed__))
-{
- uint8_t unknown1[362];
- uint16_t unknown2[24];
- uint8_t width[8*LBX_FONT_CHAR_NUM];
- uint16_t offsets[8*LBX_FONT_CHAR_NUM];
- unsigned char data[];
+typedef struct __attribute__((__packed__)) {
+	uint8_t unknown1[362];
+	uint16_t unknown2[24];
+	uint8_t width[8*LBX_FONT_CHAR_NUM];
+	uint16_t offsets[8*LBX_FONT_CHAR_NUM];
+	unsigned char data[];
 } LBXFontFile_t;
 
-typedef struct
-{
- int num_col;
- int w[LBX_FONT_CHAR_NUM];
- int h[LBX_FONT_CHAR_NUM];
- uint8_t * data[LBX_FONT_CHAR_NUM];
+typedef struct {
+	int num_col;
+	int w[LBX_FONT_CHAR_NUM];
+	int h[LBX_FONT_CHAR_NUM];
+	uint8_t * data[LBX_FONT_CHAR_NUM];
 } LBXFontTemplate_t;
 
 int lbx_load_hero_names(const char * path);
