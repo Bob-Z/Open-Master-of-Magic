@@ -35,19 +35,21 @@
 //#define PAL_TO_RGB(x) x.r<<2,x.g<<2,x.b<<2,SDL_OPAQUE
 #define PAL_TO_RGB(x) x.r,x.g,x.b,SDL_OPAQUE
 
-void sdl_init(const char * data_path,LBXFontTemplate_t ** font_template);
+SDL_Renderer * sdl_init(const char * data_path,LBXFontTemplate_t ** font_template);
 void sdl_cleanup(void);
 void sdl_set_pixel(SDL_Surface *surface, int x, int y, Uint32 R, Uint32 G, Uint32 B, Uint32 A);
 void sdl_mouse_manager(SDL_Event * event, item_t * item, int item_num);
 void sdl_screen_manager(SDL_Event * event);
-int sdl_get_win_w();
-int sdl_get_win_h();
 void sdl_loop_manager();
+void sdl_blit_frame(LBXAnimation_t * anim, SDL_Rect * rect, int frame_num);
+int sdl_blit_anim(LBXAnimation_t * anim, SDL_Rect * rect, int start, int end);
 void sdl_print(LBXAnimation_t * anim,int x, int y, const char * string);
 void sdl_print_center(LBXAnimation_t * anim,int x, int y, const char * string);
 void sdl_print_center_x(LBXAnimation_t * anim,int x, int y, const char * string);
 void sdl_print_item(item_t * item,LBXAnimation_t * font,const char * string);
+int sdl_blit_item(item_t * item);
+void sdl_blit_item_list(item_t * list, int num);
 void sdl_keyboard_init(char * string, void (*cb)(void*arg));
 char * sdl_keyboard_get_buf();
 void sdl_keyboard_manager(SDL_Event * event);
-
+void sdl_blit_to_screen(void);

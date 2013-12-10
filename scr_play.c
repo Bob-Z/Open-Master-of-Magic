@@ -22,7 +22,6 @@
 #include "item.h"
 #include "game.h"
 #include "sdl.h"
-#include "opengl.h"
 #include "terrain.h"
 #include "screen.h"
 
@@ -31,6 +30,8 @@
 #define CITY_NOWALL	21
 
 extern LBXFontTemplate_t *font_template[];
+
+static SDL_Renderer * local_render;
 
 static LBXAnimation_t * anim=NULL;
 static LBXAnimation_t * tile=NULL;
@@ -216,7 +217,7 @@ static int draw_unit(game_t * game)
 
 static void cb_city_screen(void * arg)
 {
-	screen_city((city_t *) arg);
+	screen_city(local_render,(city_t *) arg);
 }
 
 static int draw_city(game_t * game)
@@ -349,31 +350,31 @@ static void move_unit(game_t * game,int key)
 	switch( key ) {
 	case SDLK_ESCAPE:
 		return;
-	case SDLK_KP1:
+	case SDLK_KP_1:
 		new_x--;
 		new_y++;
 		break;
-	case SDLK_KP2:
+	case SDLK_KP_2:
 		new_y++;
 		break;
-	case SDLK_KP3:
+	case SDLK_KP_3:
 		new_x++;
 		new_y++;
 		break;
-	case SDLK_KP4:
+	case SDLK_KP_4:
 		new_x--;
 		break;
-	case SDLK_KP6:
+	case SDLK_KP_6:
 		new_x++;
 		break;
-	case SDLK_KP7:
+	case SDLK_KP_7:
 		new_x--;
 		new_y--;
 		break;
-	case SDLK_KP8:
+	case SDLK_KP_8:
 		new_y--;
 		break;
-	case SDLK_KP9:
+	case SDLK_KP_9:
 		new_x++;
 		new_y--;
 		break;
@@ -424,7 +425,7 @@ static void move_unit(game_t * game,int key)
 	/* Encounter ? */
 	if( (enc=is_encounter_present(game,new_x,new_y,unit->side)) ) {
 		if(enc->unit) {
-			screen_combat(game,(unit_list_t **)&selected_group->data,&enc->unit,new_x,new_y,unit->side);
+			screen_combat(local_render,game,(unit_list_t **)&selected_group->data,&enc->unit,new_x,new_y,unit->side);
 		}
 	}
 
@@ -441,7 +442,7 @@ static void load_font()
 	LBXGfxPaletteEntry_t pal[3] = {{136,132,128},{248,252,248},{0,0,0}};
 
 	if(font == NULL ) {
-		font = lbx_generate_font(font_template[LBX_FONT_TINY],pal,1);
+		font = lbx_generate_font(local_render,font_template[LBX_FONT_TINY],pal,1);
 	}
 }
 
@@ -450,7 +451,7 @@ static void cb_plane(void * arg)
 	cur_side = (cur_side+1)%2;
 }
 
-void screen_play(game_t * game)
+void screen_play(SDL_Renderer * render,game_t * game)
 {
 	char gold_buf[128];
 	char mana_buf[128];
@@ -465,6 +466,8 @@ void screen_play(game_t * game)
 	LBXAnimation_t * anim_ptr;
 	city_t * city;
 
+	local_render = render;
+
 	end_screen = -1;
 
 	selected_group = NULL;
@@ -477,7 +480,7 @@ void screen_play(game_t * game)
 
 	/* Load resource */
 	if(anim==NULL) {
-		anim = load_graphics("MAIN.LBX");
+		anim = load_graphics(render,"MAIN.LBX");
 		if(anim == NULL) {
 			exit(EXIT_FAILURE);
 		}
@@ -485,7 +488,7 @@ void screen_play(game_t * game)
 
 	/* Load tiles */
 	if(tile==NULL) {
-		tile = load_graphics("TERRAIN.LBX");
+		tile = load_graphics(render,"TERRAIN.LBX");
 		if(tile == NULL) {
 			exit(EXIT_FAILURE);
 		}
@@ -493,14 +496,14 @@ void screen_play(game_t * game)
 
 	/* Load unit */
 	if(unit1==NULL) {
-		unit1 = load_graphics("UNITS1.LBX");
+		unit1 = load_graphics(render,"UNITS1.LBX");
 		if(unit1 == NULL) {
 			exit(EXIT_FAILURE);
 		}
 	}
 
 	if(unit2==NULL) {
-		unit2 = load_graphics("UNITS2.LBX");
+		unit2 = load_graphics(render,"UNITS2.LBX");
 		if(unit2 == NULL) {
 			exit(EXIT_FAILURE);
 		}
@@ -523,7 +526,7 @@ void screen_play(game_t * game)
 
 	/* Load back */
 	if(back==NULL) {
-		back = load_graphics("MAPBACK.LBX");
+		back = load_graphics(render,"MAPBACK.LBX");
 		if(back == NULL) {
 			exit(EXIT_FAILURE);
 		}
@@ -610,16 +613,16 @@ void screen_play(game_t * game)
 			sdl_keyboard_manager(&event);
 		}
 
-		opengl_clear_fbo();
+		SDL_RenderClear(render);
 
-		opengl_blit_item_list(item_tile,tile_num);
-		opengl_blit_item_list(item_city,city_num);
-		opengl_blit_item_list(item_encounter,encounter_num);
-		opengl_blit_item_list(item_back,unit_num);
-		opengl_blit_item_list(item_unit,unit_num);
-		opengl_blit_item_list(item_ui,ITM_UI_NUM);
+		sdl_blit_item_list(item_tile,tile_num);
+		sdl_blit_item_list(item_city,city_num);
+		sdl_blit_item_list(item_encounter,encounter_num);
+		sdl_blit_item_list(item_back,unit_num);
+		sdl_blit_item_list(item_unit,unit_num);
+		sdl_blit_item_list(item_ui,ITM_UI_NUM);
 
-		opengl_blit_to_screen();
+		sdl_blit_to_screen();
 
 		sdl_loop_manager();
 	}

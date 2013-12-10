@@ -22,7 +22,6 @@
 #include "lbx.h"
 #include <SDL.h>
 #include "sdl.h"
-#include "opengl.h"
 #include "game.h"
 #include "item.h"
 #include "screen.h"
@@ -844,7 +843,7 @@ static void cb_button_wait(void * arg)
 	redraw_unit = 1;
 }
 
-void screen_combat(game_t * game, unit_list_t ** list_attack, unit_list_t ** list_defense, int x, int y, int side)
+void screen_combat(SDL_Renderer * render,game_t * game, unit_list_t ** list_attack, unit_list_t ** list_defense, int x, int y, int side)
 {
 	SDL_Event event;
 	int i;
@@ -870,7 +869,7 @@ void screen_combat(game_t * game, unit_list_t ** list_attack, unit_list_t ** lis
 
 	/* Load resource */
 	if(anim==NULL) {
-		anim = load_graphics("BACKGRND.LBX");
+		anim = load_graphics(render,"BACKGRND.LBX");
 		if(anim == NULL) {
 			exit(EXIT_FAILURE);
 		}
@@ -878,21 +877,21 @@ void screen_combat(game_t * game, unit_list_t ** list_attack, unit_list_t ** lis
 
 	/* Load resource */
 	if(grass==NULL) {
-		grass = load_graphics("CMBGRASS.LBX");
+		grass = load_graphics(render,"CMBGRASS.LBX");
 		if(grass == NULL) {
 			exit(EXIT_FAILURE);
 		}
 	}
 
 	if(city==NULL) {
-		city= load_graphics("CMBTCITY.LBX");
+		city= load_graphics(render,"CMBTCITY.LBX");
 		if(city == NULL) {
 			exit(EXIT_FAILURE);
 		}
 	}
 
 	if(pix==NULL) {
-		pix= load_graphics("COMPIX.LBX");
+		pix= load_graphics(render,"COMPIX.LBX");
 		if(pix == NULL) {
 			exit(EXIT_FAILURE);
 		}
@@ -901,14 +900,14 @@ void screen_combat(game_t * game, unit_list_t ** list_attack, unit_list_t ** lis
 	if(fig==NULL) {
 		for(j=0; j<9; j++) {
 			sprintf(filename,"FIGURES%d.LBX",j+1);
-			figure[j]= load_graphics(filename);
+			figure[j]= load_graphics(render,filename);
 			if(figure[j] == NULL) {
 				exit(EXIT_FAILURE);
 			}
 		}
 		for(j=9; j<16; j++) {
 			sprintf(filename,"FIGURE%d.LBX",j+1);
-			figure[j]= load_graphics(filename);
+			figure[j]= load_graphics(render,filename);
 			if(figure[j] == NULL) {
 				exit(EXIT_FAILURE);
 			}
@@ -970,14 +969,14 @@ void screen_combat(game_t * game, unit_list_t ** list_attack, unit_list_t ** lis
 			sdl_keyboard_manager(&event);
 		}
 
-		opengl_blit_item_list(item_ground,num_grd);
-		opengl_blit_item_list(item_deco,num_deco);
-		opengl_blit_item_list(&item_highlight_tile,1);
-		opengl_blit_item_list(&item_highlight_unit,1);
-		opengl_blit_item_list(item_unit,num_unit);
-		opengl_blit_item_list(item,ITM_NUM);
+		sdl_blit_item_list(item_ground,num_grd);
+		sdl_blit_item_list(item_deco,num_deco);
+		sdl_blit_item_list(&item_highlight_tile,1);
+		sdl_blit_item_list(&item_highlight_unit,1);
+		sdl_blit_item_list(item_unit,num_unit);
+		sdl_blit_item_list(item,ITM_NUM);
 
-		opengl_blit_to_screen();
+		sdl_blit_to_screen();
 
 		sdl_loop_manager();
 

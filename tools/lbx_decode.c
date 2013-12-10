@@ -21,7 +21,6 @@
 #include <stdlib.h>
 #include "../lbx.h"
 #include "../sdl.h"
-#include "../opengl.h"
 #include "../game.h"
 
 extern int window_w;
@@ -38,8 +37,9 @@ int display_font(const char * file_name)
 	int clear_screen = 0;
 	LBXGfxPaletteEntry_t * pal;
 	int i;
+	SDL_Renderer * render;
 
-	sdl_init(NULL,NULL);
+	render = sdl_init(NULL,NULL);
 
 //	template = lbx_decode_font(file_name,LBX_FONT_BIG_GOTH);
 	template = lbx_decode_font(file_name,LBX_FONT_SMALL);
@@ -52,7 +52,7 @@ int display_font(const char * file_name)
 	pal[template->num_col].r=0xff;
 	pal[template->num_col].g=0x00;
 	pal[template->num_col].b=0x00;
-	anim = lbx_generate_font(template,pal,1);
+	anim = lbx_generate_font(render,template,pal,1);
 
 	while ( ! fEnd ) {
 		while (SDL_PollEvent(&event)) {
@@ -72,7 +72,7 @@ int display_font(const char * file_name)
 
 					}
 					printf("File %d (%c)\n",current_anim,(current_anim%96)+32);
-					opengl_clear_fbo();
+					SDL_RenderClear(render);
 					break;
 
 
@@ -92,10 +92,10 @@ int display_font(const char * file_name)
 		rect.h=anim[current_anim].h*10;
 
 		if(clear_screen) {
-			opengl_clear_fbo();
+			SDL_RenderClear(render);
 		}
-		opengl_blit_anim(&anim[current_anim],&rect,0,-1);
-		opengl_blit_to_screen();
+		sdl_blit_anim(&anim[current_anim],&rect,0,-1);
+		sdl_blit_to_screen();
 		SDL_Delay(ANIM_DELAY);
 	}
 
@@ -130,10 +130,11 @@ int display_image(const char * file_name)
 	int current_anim = 0;
 	SDL_Rect rect;
 	int clear_screen = 0;
+	SDL_Renderer * render;
 
-	sdl_init(NULL,NULL);
+	render = sdl_init(NULL,NULL);
 
-	anim = lbx_decode_image(file_name);
+	anim = lbx_decode_image(render,file_name);
 	if(  anim == NULL) {
 		return -1;
 	}
@@ -155,7 +156,7 @@ int display_image(const char * file_name)
 						exit(EXIT_SUCCESS);
 					}
 					printf("File %d\n",current_anim);
-					opengl_clear_fbo();
+					SDL_RenderClear(render);
 					break;
 				default:
 					break;
@@ -173,10 +174,10 @@ int display_image(const char * file_name)
 		rect.h=anim[current_anim].h;
 
 		if(clear_screen) {
-			opengl_clear_fbo();
+			SDL_RenderClear(render);
 		}
-		opengl_blit_anim(&anim[current_anim],&rect,0,-1);
-		opengl_blit_to_screen();
+		sdl_blit_anim(&anim[current_anim],&rect,0,-1);
+		sdl_blit_to_screen();
 //		SDL_Delay(ANIM_DELAY);
 	}
 
@@ -192,10 +193,11 @@ int display_terrain(const char * file_name)
 	SDL_Rect rect;
 	int clear_screen = 0;
 	int j;
+	SDL_Renderer * render;
 
-	sdl_init(NULL,NULL);
+	render = sdl_init(NULL,NULL);
 
-	anim = lbx_decode_terrain(file_name);
+	anim = lbx_decode_terrain(render,file_name);
 	if(  anim == NULL) {
 		return -1;
 	}
@@ -218,7 +220,7 @@ int display_terrain(const char * file_name)
 
 					}
 					printf("File %d (%02x)\n",current_anim,current_anim);
-					opengl_clear_fbo();
+					SDL_RenderClear(render);
 					break;
 
 				case SDLK_RIGHT:
@@ -229,7 +231,7 @@ int display_terrain(const char * file_name)
 					}
 					current_anim--;
 					printf("File %d (%02x)\n",current_anim,current_anim);
-					opengl_clear_fbo();
+					SDL_RenderClear(render);
 					break;
 
 				case SDLK_LEFT:
@@ -238,7 +240,7 @@ int display_terrain(const char * file_name)
 						current_anim=0;
 					}
 					printf("File %d (%02x)\n",current_anim,current_anim);
-					opengl_clear_fbo();
+					SDL_RenderClear(render);
 					break;
 
 				case SDLK_UP:
@@ -249,7 +251,7 @@ int display_terrain(const char * file_name)
 					}
 					current_anim--;
 					printf("File %d (%02x)\n",current_anim,current_anim);
-					opengl_clear_fbo();
+					SDL_RenderClear(render);
 					break;
 
 				case SDLK_DOWN:
@@ -258,7 +260,7 @@ int display_terrain(const char * file_name)
 						current_anim=0;
 					}
 					printf("File %d (%02x)\n",current_anim,current_anim);
-					opengl_clear_fbo();
+					SDL_RenderClear(render);
 					break;
 
 				default:
@@ -277,10 +279,10 @@ int display_terrain(const char * file_name)
 		rect.h=anim[current_anim].h;
 
 		if(clear_screen) {
-			opengl_clear_fbo();
+			SDL_RenderClear(render);
 		}
-		opengl_blit_anim(&anim[current_anim],&rect,0,-1);
-		opengl_blit_to_screen();
+		sdl_blit_anim(&anim[current_anim],&rect,0,-1);
+		sdl_blit_to_screen();
 	}
 
 	return 0;

@@ -22,7 +22,6 @@
 #include "lbx.h"
 #include <SDL.h>
 #include "sdl.h"
-#include "opengl.h"
 #include "game.h"
 #include "item.h"
 #include "screen.h"
@@ -59,7 +58,7 @@ void cb_quit(void * noarg)
 	ret = SCREEN_QUIT;
 }
 
-int screen_start()
+int screen_start(SDL_Renderer * render)
 {
 	SDL_Event event;
 	int j;
@@ -67,7 +66,7 @@ int screen_start()
 	ret = SCREEN_NUM;
 
 	if(anim==NULL) {
-		anim = load_graphics("MAINSCRN.LBX");
+		anim = load_graphics(render,"MAINSCRN.LBX");
 		if(anim == NULL) {
 			exit(EXIT_FAILURE);
 		}
@@ -109,7 +108,7 @@ int screen_start()
 	item_set_frame_click(&item[j],1);
 	item_set_click_left(&item[j],cb_quit,NULL);
 
-	opengl_clear_fbo();
+	SDL_RenderClear(render);
 
 	while( ret == SCREEN_NUM ) {
 		while (SDL_PollEvent(&event)) {
@@ -120,9 +119,9 @@ int screen_start()
 			sdl_mouse_manager(&event,item,ITM_NUM);
 		}
 
-		opengl_blit_item_list(item,ITM_NUM);
+		sdl_blit_item_list(item,ITM_NUM);
 
-		opengl_blit_to_screen();
+		sdl_blit_to_screen();
 
 		sdl_loop_manager();
 	}

@@ -64,7 +64,7 @@ intptr_t myrran_race[MYRRAN_RACE_NUM] = {R_BEASTMAN,R_DARK_ELF,R_DRACONIAN,R_DWA
 
 int race_unit[R_NUM] = {BARBARIAN_UNIT,BEASTMAN_UNIT,DARK_ELF_UNIT,DRACONIAN_UNIT,DWARVEN_UNIT,GNOLL_UNIT,HALFLING_UNIT,HIGH_ELF_UNIT,HIGH_MAN_UNIT,KLACKON_UNIT,LIZARDMAN_UNIT,NOMAD_UNIT,ORC_UNIT,TROLL_UNIT,0,0,0,0,0,0,0};
 
-LBXAnimation_t * load_graphics(const char * filename)
+LBXAnimation_t * load_graphics(SDL_Renderer * render,const char * filename)
 {
 	char path[2048];
 	char lower_case[2048];
@@ -79,22 +79,22 @@ LBXAnimation_t * load_graphics(const char * filename)
 
 	if(data_path != NULL) {
 		sprintf(path,"%s/%s",data_path,filename);
-		anim = lbx_decode_image(path);
+		anim = lbx_decode_image(render,path);
 		if(anim != NULL) {
 			return anim;
 		}
-		anim = lbx_decode_terrain(path);
+		anim = lbx_decode_terrain(render,path);
 		if(anim != NULL) {
 			return anim;
 		}
 
 		/* try lower case */
 		sprintf(path,"%s/%s",data_path,lower_case);
-		anim = lbx_decode_image(path);
+		anim = lbx_decode_image(render,path);
 		if(anim != NULL) {
 			return anim;
 		}
-		anim = lbx_decode_terrain(path);
+		anim = lbx_decode_terrain(render,path);
 		if(anim != NULL) {
 			return anim;
 		}
@@ -103,21 +103,21 @@ LBXAnimation_t * load_graphics(const char * filename)
 
 	/* Try local data */
 	sprintf(path,"./%s",filename);
-	anim = lbx_decode_image(path);
+	anim = lbx_decode_image(render,path);
 	if(anim != NULL) {
 		return anim;
 	}
-	anim = lbx_decode_terrain(path);
+	anim = lbx_decode_terrain(render,path);
 	if(anim != NULL) {
 		return anim;
 	}
 	/* and with lowercase */
 	sprintf(path,"./%s",lower_case);
-	anim = lbx_decode_image(path);
+	anim = lbx_decode_image(render,path);
 	if(anim != NULL) {
 		return anim;
 	}
-	anim = lbx_decode_terrain(path);
+	anim = lbx_decode_terrain(render,path);
 	if(anim != NULL) {
 		return anim;
 	}

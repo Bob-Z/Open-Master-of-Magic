@@ -22,7 +22,6 @@
 #include "lbx.h"
 #include <SDL.h>
 #include "sdl.h"
-#include "opengl.h"
 #include "game.h"
 #include "item.h"
 #include "screen.h"
@@ -212,7 +211,7 @@ void cb_choose_color(void * num_color)
 	end_screen=1;
 }
 
-static void load_font()
+static void load_font(SDL_Renderer * render)
 {
 	LBXGfxPaletteEntry_t pal[5] = {{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0xa0,0x84,0x68}};
 	LBXGfxPaletteEntry_t name_pal[6] = {{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0x30,0x28,0x18},{0xa0,0x84,0x68}};
@@ -224,33 +223,33 @@ static void load_font()
 	LBXGfxPaletteEntry_t race_grayed_pal[3] = {{112,84,64},{96,72,56},{8,12,8}};
 
 	if(font == NULL ) {
-		font = lbx_generate_font(font_template[LBX_FONT_BIG],pal,1);
+		font = lbx_generate_font(render,font_template[LBX_FONT_BIG],pal,1);
 	}
 	if(name_font == NULL ) {
-		name_font = lbx_generate_font(font_template[LBX_FONT_BIG_GOTH],name_pal,1);
+		name_font = lbx_generate_font(render,font_template[LBX_FONT_BIG_GOTH],name_pal,1);
 	}
 	if(title_font == NULL ) {
-		title_font = lbx_generate_font(font_template[LBX_FONT_HUGE_GOTH],title_pal,1);
+		title_font = lbx_generate_font(render,font_template[LBX_FONT_HUGE_GOTH],title_pal,1);
 	}
 	if(retort_font == NULL ) {
-		retort_font = lbx_generate_font(font_template[LBX_FONT_TINY],retort_pal,1);
+		retort_font = lbx_generate_font(render,font_template[LBX_FONT_TINY],retort_pal,1);
 	}
 	if(edit_font == NULL ) {
-		edit_font = lbx_generate_font(font_template[LBX_FONT_BIG],edit_pal,0);
+		edit_font = lbx_generate_font(render,font_template[LBX_FONT_BIG],edit_pal,0);
 	}
 	if(race_world_font == NULL ) {
-		race_world_font = lbx_generate_font(font_template[LBX_FONT_BIG],race_world_pal,1);
+		race_world_font = lbx_generate_font(render,font_template[LBX_FONT_BIG],race_world_pal,1);
 	}
 	if(race_font == NULL ) {
-		race_font = lbx_generate_font(font_template[LBX_FONT_SMALL],race_pal,1);
+		race_font = lbx_generate_font(render,font_template[LBX_FONT_SMALL],race_pal,1);
 	}
 	if(race_grayed_font == NULL ) {
-		race_grayed_font = lbx_generate_font(font_template[LBX_FONT_SMALL],race_grayed_pal,1);
+		race_grayed_font = lbx_generate_font(render,font_template[LBX_FONT_SMALL],race_grayed_pal,1);
 	}
 }
 
 /* return 0 if conf is aborted, return 1 if conf if OK */
-int screen_newgame(game_t * new_game)
+int screen_newgame(SDL_Renderer * render,game_t * new_game)
 {
 	SDL_Event event;
 	intptr_t i;
@@ -277,14 +276,14 @@ int screen_newgame(game_t * new_game)
 
 	/* Load resource */
 	if(anim==NULL) {
-		anim = load_graphics("NEWGAME.LBX");
+		anim = load_graphics(render,"NEWGAME.LBX");
 		if(anim == NULL) {
 			exit(EXIT_FAILURE);
 		}
 	}
 
 	if(wiz==NULL) {
-		wiz = load_graphics("WIZARDS.LBX");
+		wiz = load_graphics(render,"WIZARDS.LBX");
 		if(wiz == NULL) {
 			exit(EXIT_FAILURE);
 		}
@@ -297,7 +296,7 @@ int screen_newgame(game_t * new_game)
 		}
 	}
 
-	load_font();
+	load_font(render);
 
 	/* Option screen */
 	/* We use first 8 files in the LBX */
@@ -475,7 +474,7 @@ int screen_newgame(game_t * new_game)
 			sdl_keyboard_manager(&event);
 		}
 
-		opengl_blit_item_list(item_cur,num_item);
+		sdl_blit_item_list(item_cur,num_item);
 
 		/* Display wizard and its retort */
 		if( display_wiz != NULL ) {
@@ -483,7 +482,7 @@ int screen_newgame(game_t * new_game)
 			rect.y = 10;
 			rect.w = 109;
 			rect.h = 104;
-			opengl_blit_anim(display_wiz,&rect,0,-1);
+			sdl_blit_anim(display_wiz,&rect,0,-1);
 			sdl_print_center(name_font,78,125,display_wiz_name);
 			for(i=0; i<RT_NUM; i++) {
 				if( (selected_wiz->retort) & (1<<i) ) {
@@ -498,7 +497,7 @@ int screen_newgame(game_t * new_game)
 					index = ANI_BOOK_WH1+(i*3)+(rand()%3);
 					rect.w=anim[index].w;
 					rect.h=anim[index].h;
-					opengl_blit_anim(&anim[index],&rect,0,-1);
+					sdl_blit_anim(&anim[index],&rect,0,-1);
 					rect.x+=rect.w;
 				}
 			};
@@ -535,7 +534,7 @@ int screen_newgame(game_t * new_game)
 			sdl_print(edit_font,193,37,key_buf);
 		}
 
-		opengl_blit_to_screen();
+		sdl_blit_to_screen();
 
 		sdl_loop_manager();
 	}

@@ -21,9 +21,9 @@
 
 enum screen { SCREEN_QUIT,SCREEN_NEW,SCREEN_LOAD,SCREEN_CONTINUE,SCREEN_NUM};
 
-void screen_intro();
-int screen_start();
-int screen_newgame(game_t * new_game);
-void screen_play(game_t * game);
-void screen_city(city_t * city);
-void screen_combat(game_t * game,unit_list_t ** attack, unit_list_t ** defense, int x, int y, int side);
+void screen_intro(SDL_Renderer * render);
+int screen_start(SDL_Renderer * render);
+int screen_newgame(SDL_Renderer * render,game_t * new_game);
+void screen_play(SDL_Renderer * render,game_t * game);
+void screen_city(SDL_Renderer * render,city_t * city);
+void screen_combat(SDL_Renderer * render,game_t * game,unit_list_t ** attack, unit_list_t ** defense, int x, int y, int side);

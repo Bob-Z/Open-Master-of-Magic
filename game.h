@@ -190,7 +190,7 @@ typedef struct game_struct {
 #define T_HILL          0xab
 #define T_MOV_WATER     0x259 //601
 
-LBXAnimation_t * load_graphics(const char * filename);
+LBXAnimation_t * load_graphics(SDL_Renderer * render,const char * filename);
 group_t * add_group(group_t * group, unit_t * unit);
 group_t * del_group(group_t * first, group_t * group, unit_list_t * unit);
 #endif

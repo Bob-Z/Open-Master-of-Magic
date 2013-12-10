@@ -36,6 +36,7 @@ int main(int argc, char ** argv)
 	char config_path[2048];
 	int screen;
 	int ret;
+	SDL_Renderer * render;
 
 	srand( (unsigned)time(NULL) );
 
@@ -45,15 +46,15 @@ int main(int argc, char ** argv)
 	config_read_file(&config,config_path);
 	config_lookup_string(&config,"data_path", &data_path);
 
-	sdl_init(data_path,font_template);
+	render = sdl_init(data_path,font_template);
 
-	screen_intro();
-	while( (screen=screen_start()) != SCREEN_QUIT) {
+	screen_intro(render);
+	while( (screen=screen_start(render)) != SCREEN_QUIT) {
 		switch(screen) {
 		case SCREEN_NEW:
-			ret = screen_newgame(&game);
+			ret = screen_newgame(render,&game);
 			if(ret == 1) {
-				screen_play(&game);
+				screen_play(render,&game);
 			}
 			break;
 		case SCREEN_LOAD:

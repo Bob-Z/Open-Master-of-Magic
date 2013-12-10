@@ -25,10 +25,9 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-#include <SDL.h>
-#include <SDL_mixer.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include "sdl.h"
-#include "opengl.h"
 #include "lbx.h"
 #include "game.h"
 
@@ -352,7 +351,7 @@ char ** lbx_read_array(const char * filename, int logical_file_num)
 	return array;
 }
 
-LBXAnimation_t * lbx_decode_image(const char * filename)
+LBXAnimation_t * lbx_decode_image(SDL_Renderer * render, const char * filename)
 {
 	char * raw_data;
 	int RLE_val;
@@ -467,7 +466,7 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 		printf("BitmapCount = %d\n",GfxHeader->BitmapCount);
 
 		anim[read_entries].frame = (SDL_Surface**)malloc( (GfxHeader->BitmapCount+1) * sizeof(SDL_Surface*) );
-		anim[read_entries].tex = (GLuint*)malloc( GfxHeader->BitmapCount * sizeof(GLuint) );
+		anim[read_entries].tex = (SDL_Texture**)malloc( GfxHeader->BitmapCount * sizeof(SDL_Texture*));
 		anim[read_entries].num_frame = GfxHeader->BitmapCount;
 		anim[read_entries].current_frame = 0;
 		anim[read_entries].flags = GfxHeader->flags;
@@ -478,7 +477,7 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 
 		for( i=0; i<GfxHeader->BitmapCount; i++) {
 			anim[read_entries].frame[i+1]=NULL;
-			anim[read_entries].frame[i]=SDL_CreateRGBSurface(SDL_HWSURFACE, GfxHeader->Width, GfxHeader->Height, 32, RMASK, GMASK, BMASK, AMASK);
+			anim[read_entries].frame[i]=SDL_CreateRGBSurface(0, GfxHeader->Width, GfxHeader->Height, 32, RMASK, GMASK, BMASK, AMASK);
 			if(anim[read_entries].frame[i]==NULL) {
 				printf("Error creating surface\n");
 				return NULL;
@@ -616,7 +615,7 @@ LBXAnimation_t * lbx_decode_image(const char * filename)
 			}
 			SDL_UnlockSurface(anim[read_entries].frame[i]);
 
-			anim[read_entries].tex[i]=opengl_create_texture(anim[read_entries].frame[i]);
+			anim[read_entries].tex[i]=SDL_CreateTextureFromSurface(render,anim[read_entries].frame[i]);
 		}
 
 		old_offset = header->offsets[j];
@@ -746,7 +745,7 @@ LBXFontTemplate_t * lbx_decode_font(const char * filename,int font_num)
 
 /* if shadow != 0, draw a shadow below the letter.
 The color entry after the last needed color entry is the shadow color ( = num_col) */
-LBXAnimation_t * lbx_generate_font(LBXFontTemplate_t * font, LBXGfxPaletteEntry_t * pal,int shadow)
+LBXAnimation_t * lbx_generate_font(SDL_Renderer * render, LBXFontTemplate_t * font, LBXGfxPaletteEntry_t * pal,int shadow)
 {
 	LBXAnimation_t * anim;
 	anim = (LBXAnimation_t*)malloc(LBX_FONT_CHAR_NUM*sizeof(LBXAnimation_t));
@@ -765,7 +764,7 @@ LBXAnimation_t * lbx_generate_font(LBXFontTemplate_t * font, LBXGfxPaletteEntry_
 		anim[i].prev_time=0;
 
 		anim[i].frame=(SDL_Surface**)malloc(sizeof(SDL_Surface *));
-		anim[i].frame[0] = SDL_CreateRGBSurface(SDL_HWSURFACE,anim[i].w,anim[i].h,32,RMASK, GMASK, BMASK, AMASK);
+		anim[i].frame[0] = SDL_CreateRGBSurface(0,anim[i].w,anim[i].h,32,RMASK, GMASK, BMASK, AMASK);
 
 		for(x=0; x<anim[i].w; x++) {
 			for(y=0; y<anim[i].h; y++) {
@@ -803,14 +802,14 @@ LBXAnimation_t * lbx_generate_font(LBXFontTemplate_t * font, LBXGfxPaletteEntry_
 
 		SDL_UnlockSurface(anim[i].frame[0]);
 
-		anim[i].tex=(GLuint*)malloc(sizeof(GLuint));;
-		anim[i].tex[0]=opengl_create_texture(anim[i].frame[0]);
+		anim[i].tex=(SDL_Texture **)malloc(sizeof(SDL_Texture *));;
+		anim[i].tex[0]=SDL_CreateTextureFromSurface(render,anim[i].frame[0]);
 	}
 
 	return anim;
 }
 
-LBXAnimation_t * lbx_decode_terrain(const char * filename)
+LBXAnimation_t * lbx_decode_terrain(SDL_Renderer * render, const char * filename)
 {
 	uint8_t * raw_data;
 	LBXHeader_t * header = NULL;
@@ -895,7 +894,7 @@ LBXAnimation_t * lbx_decode_terrain(const char * filename)
 		current->h=height;
 		current->delay=200;
 		current->frame=(SDL_Surface**)malloc(current->num_frame*sizeof(SDL_Surface *));
-		current->tex = (GLuint*)malloc( current->num_frame*sizeof(GLuint) );
+		current->tex = (SDL_Texture **)malloc( current->num_frame*sizeof(SDL_Texture *) );
 		current->flags=0;
 		current->prev_time=0;
 
@@ -905,7 +904,7 @@ LBXAnimation_t * lbx_decode_terrain(const char * filename)
 				/* Skip the header */
 				ptr+=16;
 			}
-			current->frame[i] = SDL_CreateRGBSurface(SDL_HWSURFACE,current->w,current->h,32,RMASK, GMASK, BMASK, AMASK);
+			current->frame[i] = SDL_CreateRGBSurface(0,current->w,current->h,32,RMASK, GMASK, BMASK, AMASK);
 			SDL_LockSurface(current->frame[i]);
 
 			for(x=0; x<current->w; x++) {
@@ -921,7 +920,7 @@ LBXAnimation_t * lbx_decode_terrain(const char * filename)
 			}
 
 			SDL_UnlockSurface(current->frame[i]);
-			current->tex[i]=opengl_create_texture(current->frame[i]);
+			current->tex[i]=SDL_CreateTextureFromSurface(render,current->frame[i]);
 
 			/* Skip the footer */
 			ptr+=8;

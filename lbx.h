@@ -23,10 +23,9 @@
 // http://rewiki.regengedanken.de/wiki/.LBX
 //http://www.dragonsword.com/magic/eljay/SaveGam.html
 #define GL_GLEXT_PROTOTYPES
-#include <SDL.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include <inttypes.h>
-#include <SDL_opengl.h>
-#include <SDL_mixer.h>
 
 #define ORIGINAL_GAME_WIDTH 320
 #define ORIGINAL_GAME_HEIGHT 200
@@ -127,7 +126,7 @@ typedef struct {
 	int num_frame;
 	SDL_Surface ** frame;
 	uint16_t flags;
-	GLuint * tex;
+	SDL_Texture ** tex;
 	int current_frame;
 	int w; // width
 	int h; // height
@@ -151,14 +150,14 @@ typedef struct {
 } LBXFontTemplate_t;
 
 int lbx_load_hero_names(const char * path);
-LBXAnimation_t * lbx_decode_image(const char * filename);
+LBXAnimation_t * lbx_decode_image(SDL_Renderer * render,const char * filename);
 void lbx_reset_anim(LBXAnimation_t * anim);
 res_type_t lbx_guess_type(const char * lbx_data);
 char * lbx_read(const char * file_name);
 char ** lbx_read_array(const char * filename, int logical_file_num);
 LBXFontTemplate_t * lbx_decode_font(const char * filename,int font_num);
-LBXAnimation_t * lbx_generate_font(LBXFontTemplate_t * font, LBXGfxPaletteEntry_t * pal,int shadow);
-LBXAnimation_t * lbx_decode_terrain(const char * filename);
+LBXAnimation_t * lbx_generate_font(SDL_Renderer * render,LBXFontTemplate_t * font, LBXGfxPaletteEntry_t * pal,int shadow);
+LBXAnimation_t * lbx_decode_terrain(SDL_Renderer * render,const char * filename);
 Mix_Chunk * lbx_decode_sound(const char * filename,int file_num);
 Mix_Music * lbx_decode_music(const char * filename,int file_num);
 

@@ -22,7 +22,6 @@
 #include "lbx.h"
 #include <SDL.h>
 #include "sdl.h"
-#include "opengl.h"
 #include "game.h"
 #include "item.h"
 #include "screen.h"
@@ -40,7 +39,7 @@ static item_t item[ITM_NUM];
 
 static int end_screen;
 
-void screen_city(city_t * city)
+void screen_city(SDL_Renderer * render,city_t * city)
 {
 	SDL_Event event;
 	int j;
@@ -52,7 +51,7 @@ void screen_city(city_t * city)
 
 	/* Load resource */
 	if(anim==NULL) {
-		anim = load_graphics("BACKGRND.LBX");
+		anim = load_graphics(render,"BACKGRND.LBX");
 		if(anim == NULL) {
 			exit(EXIT_FAILURE);
 		}
@@ -73,9 +72,9 @@ void screen_city(city_t * city)
 			sdl_keyboard_manager(&event);
 		}
 
-		opengl_blit_item_list(item,ITM_NUM);
+		sdl_blit_item_list(item,ITM_NUM);
 
-		opengl_blit_to_screen();
+		sdl_blit_to_screen();
 
 		sdl_loop_manager();
 	}

@@ -22,12 +22,11 @@
 #include "lbx.h"
 #include <SDL.h>
 #include "sdl.h"
-#include "opengl.h"
 #include "game.h"
 
 static LBXAnimation_t * anim = NULL;
 
-void screen_intro()
+void screen_intro(SDL_Renderer * render)
 {
 	int end_anim;
 	int current_anim = 0;
@@ -35,7 +34,7 @@ void screen_intro()
 	SDL_Rect rect;
 
 	if(anim==NULL) {
-		anim = load_graphics("INTRO.LBX");
+		anim = load_graphics(render,"INTRO.LBX");
 		if(anim == NULL) {
 			exit(EXIT_FAILURE);
 		}
@@ -46,7 +45,7 @@ void screen_intro()
 	rect.w = anim[0].w;
 	rect.h = anim[0].h;
 
-	opengl_clear_fbo();
+	SDL_RenderClear(render);
 
 	while( anim[current_anim].num_frame != 0 ) {
 		while (SDL_PollEvent(&event)) {
@@ -56,16 +55,16 @@ void screen_intro()
 			sdl_screen_manager(&event);
 		}
 
-		end_anim = opengl_blit_anim(&anim[current_anim],&rect,0,-1);
+		end_anim = sdl_blit_anim(&anim[current_anim],&rect,0,-1);
 
-		opengl_blit_to_screen();
+		sdl_blit_to_screen();
 
 		sdl_loop_manager();
 
 		if(end_anim) {
 			current_anim++;
 			printf("current_anim = %d\n",current_anim);
-			opengl_clear_fbo();
+			SDL_RenderClear(render);
 		}
 	}
 

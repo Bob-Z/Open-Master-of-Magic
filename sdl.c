@@ -18,22 +18,16 @@
 */
 
 #include "sdl.h"
-#include "opengl.h"
 #include "item.h"
 #include "game.h"
 
-int window_w = DEFAULT_SCREEN_W;
-int window_h = DEFAULT_SCREEN_H;
-int windowed_w = DEFAULT_SCREEN_W;
-int windowed_h = DEFAULT_SCREEN_H;
-int fullscreen_w = 0;
-int fullscreen_h = 0;
 int fullscreen = 0;
 
 int mouse_x = 0;
 int mouse_y = 0;
 
-const SDL_VideoInfo* video_info;
+SDL_Window * sdlWindow;
+SDL_Renderer * render;
 
 static char keyboard_buf[2048];
 static unsigned int keyboard_index = 0;
@@ -47,7 +41,7 @@ void sdl_set_pixel(SDL_Surface *surface, int x, int y, Uint32 R, Uint32 G, Uint3
 	*(Uint32 *)target_pixel = color;
 }
 
-void sdl_init(const char * data_path,LBXFontTemplate_t ** font_template)
+SDL_Renderer *  sdl_init(const char * data_path,LBXFontTemplate_t ** font_template)
 {
 	int i;
 	char path[2048];
@@ -55,7 +49,7 @@ void sdl_init(const char * data_path,LBXFontTemplate_t ** font_template)
 	const char filename[] = LBX_FONT_FILE_NAME;
 
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) < 0) {
-		printf("Echec d'initialisation de SDL.\n");
+		printf("SDL init failed.\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -64,18 +58,23 @@ void sdl_init(const char * data_path,LBXFontTemplate_t ** font_template)
 		exit(EXIT_FAILURE);
 	}
 
-	video_info = SDL_GetVideoInfo();
-	fullscreen_w = video_info->current_w;
-	fullscreen_h = video_info->current_h;
-
-	if(fullscreen) {
-		window_w=fullscreen_w;
-		window_h=fullscreen_h;
+	sdlWindow = SDL_CreateWindow("Open Master of Magic",
+								 SDL_WINDOWPOS_UNDEFINED,
+								 SDL_WINDOWPOS_UNDEFINED,
+								 DEFAULT_SCREEN_W, DEFAULT_SCREEN_H,
+								 SDL_WINDOW_RESIZABLE);
+	if( sdlWindow == NULL) {
+		printf("SDL window init failed.\n");
+		exit(EXIT_FAILURE);
 	}
 
-	SDL_SetVideoMode(window_w, window_h, 32, SDL_OPENGL | SDL_GL_DOUBLEBUFFER | SDL_RESIZABLE | fullscreen);
-
-	opengl_init(window_w,window_h);
+	render = SDL_CreateRenderer(sdlWindow, -1, 0);
+	if( render == NULL) {
+		printf("SDL renderer init failed: %s\n",SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	SDL_RenderSetLogicalSize(render,ORIGINAL_GAME_WIDTH,ORIGINAL_GAME_HEIGHT);
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
 	atexit(sdl_cleanup);
 
@@ -97,7 +96,7 @@ void sdl_init(const char * data_path,LBXFontTemplate_t ** font_template)
 				}
 			}
 			if(font_template[LBX_FONT_NUM-1] != NULL) {
-				return;
+				return render;
 			}
 			/* Try lower case */
 			sprintf(path,"%s/%s",data_path,lower_case);
@@ -108,7 +107,7 @@ void sdl_init(const char * data_path,LBXFontTemplate_t ** font_template)
 				}
 			}
 			if(font_template[LBX_FONT_NUM-1] != NULL) {
-				return;
+				return render;
 			}
 		}
 
@@ -121,7 +120,7 @@ void sdl_init(const char * data_path,LBXFontTemplate_t ** font_template)
 			}
 		}
 		if(font_template[LBX_FONT_NUM-1] != NULL) {
-			return;
+			return render;
 		}
 
 		/* and with lowercase */
@@ -133,17 +132,18 @@ void sdl_init(const char * data_path,LBXFontTemplate_t ** font_template)
 			}
 		}
 		if(font_template[LBX_FONT_NUM-1] != NULL) {
-			return;
+			return render;
 		}
 
 		printf("Could not load fonts\n");
 		exit(EXIT_FAILURE);
 	}
+
+	return render;
 }
 
 void sdl_cleanup()
 {
-	opengl_cleanup();
 	SDL_Quit();
 }
 
@@ -161,7 +161,6 @@ void sdl_mouse_manager(SDL_Event * event, item_t * item, int item_num)
 #endif
 		rect.x = event->motion.x;
 		rect.y = event->motion.y;
-		opengl_screen_coord(&rect);
 		mouse_x = rect.x;
 		mouse_y = rect.y;
 //			printf("orig coord = %d,%d \n",rect.x,rect.y);
@@ -189,7 +188,6 @@ void sdl_mouse_manager(SDL_Event * event, item_t * item, int item_num)
 #endif
 		rect.x = event->button.x;
 		rect.y = event->button.y;
-		opengl_screen_coord(&rect);
 //			printf("orig coord = %d,%d \n",rect.x,rect.y);
 		for(i=0; i<item_num; i++) {
 			if( (item[i].rect.x < rect.x) &&
@@ -211,7 +209,6 @@ void sdl_mouse_manager(SDL_Event * event, item_t * item, int item_num)
 	case SDL_MOUSEBUTTONUP:
 		rect.x = event->button.x;
 		rect.y = event->button.y;
-		opengl_screen_coord(&rect);
 		for(i=0; i<item_num; i++) {
 			item[i].clicked=0;
 			item[i].current_frame = item[i].frame_normal;
@@ -235,33 +232,21 @@ void sdl_mouse_manager(SDL_Event * event, item_t * item, int item_num)
 /* Take care of system's windowing event */
 void sdl_screen_manager(SDL_Event * event)
 {
-	Uint8 *keystate;
+	const Uint8 *keystate;
 
 	switch (event->type) {
-	case SDL_VIDEORESIZE:
-		window_w = event->resize.w;
-		window_h = event->resize.h;
-		windowed_w = window_w;
-		windowed_h = window_h;
-		SDL_SetVideoMode(window_w, window_h, 32, SDL_OPENGL | SDL_GL_DOUBLEBUFFER | SDL_RESIZABLE | fullscreen);
-
-		break;
 	case SDL_KEYDOWN:
 		switch (event->key.keysym.sym) {
 		case SDLK_RETURN:
-			keystate = SDL_GetKeyState(NULL);
+			keystate = SDL_GetKeyboardState(NULL);
 
-			if( keystate[SDLK_RALT] || keystate[SDLK_LALT] ) {
+			if( keystate[SDL_SCANCODE_RALT] || keystate[SDL_SCANCODE_LALT] ) {
 				if(!fullscreen) {
-					fullscreen = SDL_FULLSCREEN;
-					window_w=fullscreen_w;
-					window_h=fullscreen_h;
+					fullscreen = SDL_WINDOW_FULLSCREEN_DESKTOP;
 				} else {
 					fullscreen = 0;
-					window_w=windowed_w;
-					window_h=windowed_h;
 				}
-				SDL_SetVideoMode(window_w, window_h, 32, SDL_OPENGL | SDL_GL_DOUBLEBUFFER | SDL_RESIZABLE | fullscreen);
+				SDL_SetWindowFullscreen(sdlWindow,fullscreen);
 				break;
 			}
 			break;
@@ -275,16 +260,6 @@ void sdl_screen_manager(SDL_Event * event)
 	default:
 		break;
 	}
-}
-
-int sdl_get_win_w()
-{
-	return window_w;
-}
-
-int sdl_get_win_h()
-{
-	return window_h;
 }
 
 void sdl_loop_manager()
@@ -303,6 +278,41 @@ void sdl_loop_manager()
 	}
 }
 
+void sdl_blit_frame(LBXAnimation_t * anim, SDL_Rect * rect, int frame_num)
+{
+	if( anim ) {
+		SDL_RenderCopy(render,anim->tex[frame_num],NULL,rect);
+	}
+}
+
+int sdl_blit_anim(LBXAnimation_t * anim, SDL_Rect * rect, int start, int end)
+{
+	Uint32 time = SDL_GetTicks();
+
+	sdl_blit_frame(anim,rect,anim->current_frame);
+
+	if( anim->prev_time == 0 ) {
+		anim->prev_time = time;
+	}
+	if( time >= anim->prev_time + anim->delay) {
+		(anim->current_frame)++;
+		anim->prev_time = time;
+		if( end != -1 ) {
+			if(anim->current_frame >= end) {
+				anim->current_frame = start;
+				return 1;
+			}
+		} else {
+			if(anim->current_frame >= anim->num_frame) {
+				anim->current_frame = 0;
+				return 1;
+			}
+		}
+	}
+
+	return 0;
+}
+
 void sdl_print(LBXAnimation_t * anim,int x, int y, const char * string)
 {
 	size_t i;
@@ -319,7 +329,7 @@ void sdl_print(LBXAnimation_t * anim,int x, int y, const char * string)
 		index = string[i]-32;
 		rect.w = anim[index].w;
 		rect.h = anim[index].h;
-		opengl_blit_anim(&anim[index],&rect,0,-1);
+		sdl_blit_anim(&anim[index],&rect,0,-1);
 		rect.x += anim[index].w;
 	}
 }
@@ -373,6 +383,31 @@ void sdl_print_item(item_t * item,LBXAnimation_t * font,const char * string)
 	sdl_print_center(font,x,y,string);
 }
 
+int sdl_blit_item(item_t * item)
+{
+
+	if( item->frame_normal == -1 ) {
+		return sdl_blit_anim(item->anim,&item->rect,item->anim_start,item->anim_end);
+	} else {
+		sdl_blit_frame(item->anim,&item->rect,item->current_frame);
+	}
+
+	if( item->font != NULL && item->string != NULL ) {
+		sdl_print_item(item,item->font,item->string);
+	}
+
+	return 0;
+}
+
+void sdl_blit_item_list(item_t * list, int num)
+{
+	int i;
+
+	for(i=0; i<num; i++) {
+		sdl_blit_item(&list[i]);
+	}
+}
+
 void sdl_keyboard_init(char * string, void (*cb)(void*arg))
 {
 	keyboard_index=0;
@@ -395,7 +430,7 @@ char * sdl_keyboard_get_buf()
 
 void sdl_keyboard_manager(SDL_Event * event)
 {
-	Uint8 *keystate;
+	const Uint8 *keystate;
 
 	switch (event->type) {
 	case SDL_KEYDOWN:
@@ -418,12 +453,12 @@ void sdl_keyboard_manager(SDL_Event * event)
 				event->key.keysym.sym < SDLK_DELETE ) {
 
 			/* Uppercase */
-			keystate = SDL_GetKeyState(NULL);
-			if( (keystate[SDLK_RSHIFT] ||
-					keystate[SDLK_LSHIFT] ) &&
-					(event->key.keysym.sym >=SDLK_a &&
-					 event->key.keysym.sym <=SDLK_z) ) {
-				event->key.keysym.sym = (SDLKey)(event->key.keysym.sym-32);
+			keystate = SDL_GetKeyboardState(NULL);
+			if( (keystate[SDL_SCANCODE_RSHIFT] ||
+					keystate[SDL_SCANCODE_LSHIFT] ) &&
+					(event->key.keysym.sym >=SDL_SCANCODE_A &&
+					 event->key.keysym.sym <=SDL_SCANCODE_Z) ) {
+				event->key.keysym.sym = (SDL_Scancode)(event->key.keysym.sym-32);
 			}
 			keyboard_buf[keyboard_index]=event->key.keysym.sym;
 			if( keyboard_index < sizeof(keyboard_buf)) {
@@ -435,4 +470,9 @@ void sdl_keyboard_manager(SDL_Event * event)
 	default:
 		break;
 	}
+}
+
+void sdl_blit_to_screen()
+{
+	SDL_RenderPresent(render);
 }
