@@ -75,28 +75,35 @@ typedef enum res_type {
 	LBX_T_TERRAIN
 } res_type_t;
 
-typedef struct __attribute__((__packed__)) {
+typedef struct __attribute__((__packed__))
+{
 	uint16_t numEntries;
 	uint16_t magic;
 	uint16_t reserved;
 	uint16_t fileType;
 	uint32_t offsets[];
-} LBXHeader_t;
+}
+LBXHeader_t;
 
-typedef struct __attribute__((__packed__)) {
+typedef struct __attribute__((__packed__))
+{
 	uint16_t magic;
 	uint16_t type;
 	uint16_t reserved[6];
 	uint8_t data;
-} LBXSoundHeader_t;
+}
+LBXSoundHeader_t;
 
-typedef struct __attribute__((__packed__)) {
+typedef struct __attribute__((__packed__))
+{
 	uint16_t numElements;
 	uint16_t elementSize;
 	char elements[];
-} LBXArrayHeader_t;
+}
+LBXArrayHeader_t;
 
-typedef struct __attribute__((__packed__)) {
+typedef struct __attribute__((__packed__))
+{
 	uint16_t Width;
 	uint16_t Height;
 	uint16_t unknown1;  // always =0?
@@ -107,20 +114,25 @@ typedef struct __attribute__((__packed__)) {
 	uint16_t PaletteInfoOffset;
 	uint16_t flags;
 	uint32_t BitmapOffsets[];
-} LBXGfxHeader_t;
+}
+LBXGfxHeader_t;
 
-typedef struct __attribute__((__packed__)) {
+typedef struct __attribute__((__packed__))
+{
 	uint16_t PaletteOffset;
 	uint16_t FirstPaletteColourIndex;
 	uint16_t PaletteColourCount;
 	uint16_t Unknown;
-} LBXGfxPaletteInfo_t;
+}
+LBXGfxPaletteInfo_t;
 
-typedef struct __attribute__((__packed__)) {
+typedef struct __attribute__((__packed__))
+{
 	uint8_t r;
 	uint8_t g;
 	uint8_t b;
-} LBXGfxPaletteEntry_t;
+}
+LBXGfxPaletteEntry_t;
 
 typedef struct {
 	int num_frame;
@@ -134,13 +146,15 @@ typedef struct {
 	Uint32 prev_time; //time when the previous anim frame was displayed
 } LBXAnimation_t;
 
-typedef struct __attribute__((__packed__)) {
+typedef struct __attribute__((__packed__))
+{
 	uint8_t unknown1[362];
 	uint16_t unknown2[24];
 	uint8_t width[8*LBX_FONT_CHAR_NUM];
 	uint16_t offsets[8*LBX_FONT_CHAR_NUM];
 	unsigned char data[];
-} LBXFontFile_t;
+}
+LBXFontFile_t;
 
 typedef struct {
 	int num_col;

@@ -68,14 +68,16 @@ typedef struct {
 	uint8_t zero5;
 } def_unit_t;
 
-typedef struct __attribute__((__packed__)) {
+typedef struct __attribute__((__packed__))
+{
 	uint16_t name_ptr;
 	uint16_t num_prohibited_buildings;
 	uint16_t prohibited_buildings[7];
 	uint16_t outpost_growth_proba; //percent chance to grow in each turn
 	uint16_t population_growth_modifier; //in units of 10 people per turn
 	uint16_t house_picture; // (0 wood frame house, 1 tree house, 2 mud hut
-} race_t;
+}
+race_t;
 
 char * exe_init(const char * file_name);
 const char * exe_get_race_name(int index);
