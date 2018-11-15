@@ -1035,7 +1035,7 @@ Mix_Music * lbx_decode_music(const char * filename,int file_num)
 		return NULL;
 	}
 
-	size = write(fd,&sound_header->data ,header->offsets[file_num+1]-header->offsets[file_num]);
+	size = write(fd,&sound_header->data,header->offsets[file_num+1]-header->offsets[file_num]);
 
 	close(fd);
 	if( size != header->offsets[file_num+1]-header->offsets[file_num] ) {
