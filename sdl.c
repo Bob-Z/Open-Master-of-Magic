@@ -84,11 +84,13 @@ SDL_Renderer *  sdl_init(const char * data_path,LBXFontTemplate_t ** font_templa
 			lower_case[i] = tolower(filename[i]);
 			i++;
 		}
+		lower_case[i] = '\0';
 
 		font_template[LBX_FONT_NUM-1] = NULL;
 
 		if(data_path != NULL ) {
 			sprintf(path,"%s/%s",data_path,filename);
+			printf("Trying %s\n",path);
 			for(i=0; i<LBX_FONT_NUM; i++) {
 				font_template[i] = lbx_decode_font(path,i);
 				if(font_template[i]==NULL) {
@@ -100,6 +102,7 @@ SDL_Renderer *  sdl_init(const char * data_path,LBXFontTemplate_t ** font_templa
 			}
 			/* Try lower case */
 			sprintf(path,"%s/%s",data_path,lower_case);
+			printf("Trying %s\n",path);
 			for(i=0; i<LBX_FONT_NUM; i++) {
 				font_template[i] = lbx_decode_font(path,i);
 				if(font_template[i]==NULL) {
@@ -113,6 +116,7 @@ SDL_Renderer *  sdl_init(const char * data_path,LBXFontTemplate_t ** font_templa
 
 		/* Try local data */
 		sprintf(path,"./%s",filename);
+		printf("Trying %s\n",path);
 		for(i=0; i<LBX_FONT_NUM; i++) {
 			font_template[i] = lbx_decode_font(path,i);
 			if(font_template[i]==NULL) {
@@ -125,6 +129,7 @@ SDL_Renderer *  sdl_init(const char * data_path,LBXFontTemplate_t ** font_templa
 
 		/* and with lowercase */
 		sprintf(path,"./%s",lower_case);
+		printf("Trying %s\n",path);
 		for(i=0; i<LBX_FONT_NUM; i++) {
 			font_template[i] = lbx_decode_font(path,i);
 			if(font_template[i]==NULL) {
